@@ -1,0 +1,13 @@
+nom de l'encadrant: Vincent Barichard
+
+Il s'agit de développer un logiciel permettant
+de déterminer automatiquement des chemins sur un fond de carte
+donné sous forme d'image. L'utilisateur endossera le rôle d'un
+randonneur voulant construire une randonnée passant par des chemins
+balisés. Après s'être procuré la carte IGN de la zone géographique
+de la région de sa randonnée, il utilise le logiciel qui tracera
+une route sur les chemins balisés qu'il a sélectionné sur la carte.
+Le résultat sera exporté au format GPX, format libre et exploitable par
+un grand nombre de GPS et logiciels de cartographie.
+
+Langage : C++, Qt
