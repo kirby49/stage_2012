@@ -2,5 +2,5 @@ HEADERS += \
     fenetre.h
 
 SOURCES += \
-    fenetre.cpp \
-    main.cpp
+    main.cpp \
+    fenetre.cpp
