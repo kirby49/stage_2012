@@ -1,7 +1,10 @@
 #ifndef FENETRE_H
 #define FENETRE_H
 
-class FENETRE
+#include <QApplication>
+#include <QtGui>
+
+class FENETRE : public QWidget
 {
 public:
     FENETRE();

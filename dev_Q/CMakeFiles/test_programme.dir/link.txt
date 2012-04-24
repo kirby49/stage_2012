@@ -1,1 +1,0 @@
-/usr/bin/c++   -g    CMakeFiles/test_programme.dir/test_programme.cpp.o CMakeFiles/test_programme.dir/main.cpp.o  -o test_programme -rdynamic -lQtCore 
