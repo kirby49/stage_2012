@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QtGui>
 
-class FENETRE : public QWidget
+class FENETRE : public QMainWindow
 {
 public:
     FENETRE();
