@@ -1,5 +1,5 @@
 #include "fenetre.h"
 
-Fenetre::Fenetre()
+FENETRE::FENETRE()
 {
 }
