@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+4724d73a0ae71f6318506d0b89e1b0b7 test_programme.moc
+3de3265054ede2c82db8115f19efa807 tests/test_programmeTest.moc
