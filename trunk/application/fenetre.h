@@ -8,6 +8,7 @@ class FENETRE : public QMainWindow
 {
 public:
     FENETRE();
+   // void fenetre_droite();
 };
 
 #endif // FENETRE_H
