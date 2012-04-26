@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "fenetre.h"
-#include <QPushButton>
+#include <QtGui>
 
 int main(int argc, char *argv[])
 {
@@ -8,7 +8,6 @@ int main(int argc, char *argv[])
 
     FENETRE fenetre;
     fenetre.show();
-
 
     return app.exec();
 }

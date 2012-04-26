@@ -1,6 +1,8 @@
 HEADERS += \
-    fenetre.h
+    fenetre.h \
+    sousfenetreg.h
 
 SOURCES += \
     main.cpp \
-    fenetre.cpp
+    fenetre.cpp \
+    sousfenetreg.cpp

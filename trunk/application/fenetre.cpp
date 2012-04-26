@@ -1,29 +1,39 @@
 #include "fenetre.h"
 
+
 FENETRE::FENETRE()
 {
     QMenu *menuFichier = menuBar()->addMenu("&Fichier");
+    //this.setWindowTitle("Le Programme du Zéro v0.0");
+    QAction *actionQuitter = menuFichier->addAction("&Quitter");
 
-        QAction *actionQuitter = menuFichier->addAction("&Quitter");
+    QMenu *menuEdition = menuBar()->addMenu("&Edition");
+    QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
 
-        QMenu *menuEdition = menuBar()->addMenu("&Edition");
-        QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
+    connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 
-        connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+        zoneCentrale = new QMdiArea;
 
-   /* QMdiArea *zoneCentrale = new QMdiArea;
+        zoneTexte2 = new QWidget;
 
-       QTextEdit *zoneTexte1 = new QTextEdit;
-       QTextEdit *zoneTexte2 = new QTextEdit;
+        zone= new SOUSFENETREG;
 
-       QMdiSubWindow *sousFenetre1 = zoneCentrale->addSubWindow(zoneTexte1);
-       QMdiSubWindow *sousFenetre2 = zoneCentrale->addSubWindow(zoneTexte2);
+        sousFenetre1 = zoneCentrale->addSubWindow(zone);
+       // sousFenetre2 = zoneCentrale->addSubWindow(zoneTexte2);
 
-       setCentralWidget(zoneCentrale);*/
+        setCentralWidget(zoneCentrale);
+
 }
 
-/*FENETRE::fenetre_droite()
+/*FENETRE::MenuFenetre()
 {
+    QMenu *menuFichier = menuBar()->addMenu("&Fichier");
+    //this.setWindowTitle("Le Programme du Zéro v0.0");
+    QAction *actionQuitter = menuFichier->addAction("&Quitter");
 
+    QMenu *menuEdition = menuBar()->addMenu("&Edition");
+    QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
+
+    connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 }*/
