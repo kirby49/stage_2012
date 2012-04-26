@@ -25,15 +25,4 @@ FENETRE::FENETRE()
 
 }
 
-/*FENETRE::MenuFenetre()
-{
-    QMenu *menuFichier = menuBar()->addMenu("&Fichier");
-    //this.setWindowTitle("Le Programme du Zéro v0.0");
-    QAction *actionQuitter = menuFichier->addAction("&Quitter");
 
-    QMenu *menuEdition = menuBar()->addMenu("&Edition");
-    QMenu *menuAffichage = menuBar()->addMenu("&Affichage");
-
-    connect(actionQuitter, SIGNAL(triggered()), qApp, SLOT(quit()));
-
-}*/
