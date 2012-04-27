@@ -13,8 +13,8 @@ public:
 
 public slots:
   //void repository(const QString & str);
-  void updateNom(QString v);
-
+  void updateNom(QString str);
+  void updateChemin (QString str);
 signals :
     void changeRes(int v);
 
@@ -23,6 +23,8 @@ private:
 
     QComboBox *liste;
     QLineEdit *nom;
+
+    QString cheminDuRepertoire;
     QString name;
 };
 
