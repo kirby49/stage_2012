@@ -14,11 +14,20 @@ private :
  QSpinBox *g;
  QSpinBox *d;
  QPushButton *bouton;
- QLineEdit *res;
+ QLabel *labelRes;
+
+ int gauche;
+ int droite;
+ char op;
 
 public slots:
-  int calculer(int x, QString c, int y);
+  void calculer();
+  void updateOp1(int v);
+  void updateOp2(int v);
+  void updateOperateur(const QString & str);
 
+signals :
+    void changeRes(int v);
 };
 
 #endif // CALCUL_H
