@@ -1,4 +1,5 @@
 #include "tableur.h"
+
 #include <QApplication>
 
 int main (int argc, char* argv[])
@@ -6,7 +7,7 @@ int main (int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-    tableur tab;
+    tableur tab(0,0);
 
     tab.show();
 
