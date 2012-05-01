@@ -15,8 +15,8 @@ QDir repertoire(cheminDuRepertoire);
 QStringList strOp(repertoire.entryList());
 liste->insertItems(0,strOp);
 
-QObject::connect(nom, SIGNAL( changeEvent(QString) ), this, SLOT( updateNom(QString) ));
-QObject::connect(this, SIGNAL( changeRes(int) ), , SLOT( setNum(int) ));
+QObject::connect(liste, SIGNAL( currentText(QString) ), this, SLOT( updateNom(QString) ));
+
 
 for (int i = 0; i < strOp.size(); ++i) {
      if (strOp.at(i) == name )
@@ -24,7 +24,7 @@ for (int i = 0; i < strOp.size(); ++i) {
 
  }
 
-
+QObject::connect(this, SIGNAL( ChangeRes(QString) ),liste, SLOT( insertItems(0,name)));
 }
 
 
@@ -36,10 +36,8 @@ void directory::updateNom(QString str)
 
 void directory::updateChemin(QString str)
 {
-    for (int i = 0; i < strOp.size(); ++i) {
-         if (strOp.at(i) == name )
-             cheminDuRepertoire = str;
+    cheminDuRepertoire = str;
+    emit ChangeRes (cheminDuRepertoire);
 
-     }
 
 }

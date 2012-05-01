@@ -16,7 +16,7 @@ public slots:
   void updateNom(QString str);
   void updateChemin (QString str);
 signals :
-    void changeRes(int v);
+    void ChangeRes(QString str);
 
 
 private:

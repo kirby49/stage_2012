@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'directory.h'
 **
-** Created: Fri Apr 27 15:21:59 2012
+** Created: Sat Apr 28 14:09:57 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,17 +31,17 @@ static const uint qt_meta_data_directory[] = {
        1,       // signalCount
 
  // signals: signature, parameters, type, tag, flags
-      13,   11,   10,   10, 0x05,
+      15,   11,   10,   10, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      28,   11,   10,   10, 0x0a,
-      47,   11,   10,   10, 0x0a,
+      34,   11,   10,   10, 0x0a,
+      53,   11,   10,   10, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_directory[] = {
-    "directory\0\0v\0changeRes(int)\0"
+    "directory\0\0str\0ChangeRes(QString)\0"
     "updateNom(QString)\0updateChemin(QString)\0"
 };
 
@@ -74,7 +74,7 @@ int directory::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: changeRes((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: ChangeRes((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: updateNom((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 2: updateChemin((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
@@ -85,7 +85,7 @@ int directory::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void directory::changeRes(int _t1)
+void directory::ChangeRes(QString _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
