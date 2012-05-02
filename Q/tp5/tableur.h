@@ -10,7 +10,8 @@ class tableur : public QMainWindow
 private :
     int nbcolonne;
     int nbligne;
-    QFrame *frame;
+
+
     QWidget *w;
     QGridLayout *layout;
     QVBoxLayout *vbox;
@@ -25,9 +26,6 @@ public slots:
     void ajoutligne();
     void ajoutcol();
 
-
-signals :
-    void changeRes(QGridLayout * layout);
 
 };
 

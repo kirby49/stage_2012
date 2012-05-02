@@ -8,49 +8,52 @@ tableur::tableur(int l, int c)
 
     nbcolonne=0;
     nbligne=0;
-    std::cout<<" affichage :"<<nbligne<<" "<<nbcolonne<<std::endl;
+    std::cout<<" affichage : "<<nbligne<<" "<<nbcolonne<<std::endl;
     w=new QWidget;
     setCentralWidget(w);
-
+    QHBoxLayout *hbox = new QHBoxLayout(w);
     layout = new QGridLayout;
-    frame = new QFrame(this);
 
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setGeometry(100, 100, 500, 500);
 
     if (l!=nbligne)
             for (int i =nbligne;i<l;i++)
+                for(int j=0;j<nbcolonne;j++)
                     {
                         cellule *cel=new cellule;
-                        layout->addWidget(cel,nbligne+1,nbcolonne);
+                        layout->addWidget(cel,nbligne,nbcolonne);
                     }
     else if (c!=nbcolonne)
-        for (int i=nbligne;i<c;i++)
+          for (int j =0;j<nbligne;j++)
+                for (int i=nbcolonne;i<c;i++)
+
                     {
                         cellule *cel=new cellule;
-                        layout->addWidget(cel,nbligne,nbcolonne+1);
+                        layout->addWidget(cel,nbligne,nbcolonne);
                     }
 
 
     layout->setHorizontalSpacing(0);
     layout->setVerticalSpacing(0);
-    frame->setLayout(layout);
-
-
-    vbox = new QVBoxLayout(w);
-    vbox->addLayout(layout);
-    box1 = new QPushButton("Inserer une ligne");
-    box2 = new QPushButton("Inserer une colonne");
-
-    vbox->addWidget(box1);
-    vbox->addWidget(box2);
-
-
     //frame->setLayout(layout);
 
+
+    vbox = new QVBoxLayout;
+    vbox->setSpacing(0);
+
+
+    box1 = new QPushButton("Inserer une ligne");
     QObject::connect(box1, SIGNAL( clicked() ), this, SLOT( ajoutligne() ));
+    vbox->addWidget(box1);
+
+    box2 = new QPushButton("Inserer une colonne");
     QObject::connect(box2, SIGNAL( clicked() ), this, SLOT( ajoutcol() ));
-    QObject::connect(this, SIGNAL( changeRes(QGridLayout) ), layout, SLOT( setLayout(QGridLayout) ));
+    vbox->addWidget(box2);
+
+    hbox->setSpacing(0);
+    hbox->addLayout(layout);
+    hbox->addLayout(vbox);
+
+    //QObject::connect(this, SIGNAL( changeRes(QGridLayout) ), layout, SLOT( setLayout(QGridLayout) ));
 
 }
 
@@ -58,9 +61,8 @@ tableur::tableur(int l, int c)
 void tableur::ajoutligne()
 {
     cellule *cel=new cellule;
-    std::cout<<"ajoutligne"<<nbligne<<" "<<nbcolonne<<std::endl;
-    layout->setHorizontalSpacing(0);
-    layout->setVerticalSpacing(0);
+    std::cout<<"ajoutligne: "<<nbligne<<" "<<nbcolonne<<std::endl;
+
     emit layout->addWidget(cel,nbligne,nbcolonne);
 
     nbligne ++;
@@ -71,10 +73,10 @@ void tableur::ajoutligne()
 void tableur::ajoutcol()
 {
     cellule *cel=new cellule;
-    std::cout<<"ajoutcol"<<nbligne<<" "<<nbcolonne<<std::endl;
-    layout->setHorizontalSpacing(0);
-    layout->setVerticalSpacing(0);
-    emit layout->addWidget(cel,nbligne,nbcolonne+1);
+    std::cout<<"ajoutcol: "<<nbligne<<" "<<nbcolonne<<std::endl;
+
+    emit layout->addWidget(cel,nbligne,nbcolonne);
+
     nbcolonne ++;
 }
 
