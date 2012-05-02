@@ -1,0 +1,7 @@
+En haut de chaque fichier que j'ai écris se trouve mon nom et mon prénom en commentaire.
+
+instructions pour la compilation et pour la création des MOCs :
+
+	moc mainWindow.h -o moc_mainWindow.cpp
+	moc myWidget.h -o moc_myWidget.cpp
+	g++ -g -Wall -I /usr/include/qt4 -I /usr/include/qt4/QtGui -I /usr/include/qt4/QtCore -lQtCore -lQtGui myWidget.cpp mainWindow.cpp main.cpp moc_myWidget.cpp moc_mainWindow.cpp ./a.out
