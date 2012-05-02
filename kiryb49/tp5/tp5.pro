@@ -1,7 +1,9 @@
 
 HEADERS += \
-    fenetre.h
+    fenetre.h \
+    cellule.h
 
 SOURCES += \
     main.cpp \
-    fenetre.cpp
+    fenetre.cpp \
+    cellule.cpp
