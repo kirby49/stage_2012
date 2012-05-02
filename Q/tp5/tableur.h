@@ -13,7 +13,7 @@ private :
     QFrame *frame;
     QWidget *w;
     QGridLayout *layout;
-    QHBoxLayout *vbox;
+    QVBoxLayout *vbox;
     QPushButton *box1;
     QPushButton *box2;
 
@@ -22,8 +22,12 @@ public:
 
 
 public slots:
-    void ajoutligne ();
+    void ajoutligne();
     void ajoutcol();
+
+
+signals :
+    void changeRes(QGridLayout * layout);
 
 };
 

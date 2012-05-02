@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'tableur.h'
 **
-** Created: Tue May 1 18:48:25 2012
+** Created: Wed May 2 10:59:19 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.4)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,22 +23,26 @@ static const uint qt_meta_data_tableur[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+      16,    9,    8,    8, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-       9,    8,    8,    8, 0x0a,
-      22,    8,    8,    8, 0x0a,
+      40,    8,    8,    8, 0x0a,
+      53,    8,    8,    8, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_tableur[] = {
-    "tableur\0\0ajoutligne()\0ajoutcol()\0"
+    "tableur\0\0layout\0changeRes(QGridLayout*)\0"
+    "ajoutligne()\0ajoutcol()\0"
 };
 
 const QMetaObject tableur::staticMetaObject = {
@@ -70,12 +74,20 @@ int tableur::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: ajoutligne(); break;
-        case 1: ajoutcol(); break;
+        case 0: changeRes((*reinterpret_cast< QGridLayout*(*)>(_a[1]))); break;
+        case 1: ajoutligne(); break;
+        case 2: ajoutcol(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
+}
+
+// SIGNAL 0
+void tableur::changeRes(QGridLayout * _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

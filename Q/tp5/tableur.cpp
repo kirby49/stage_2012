@@ -1,12 +1,14 @@
 #include "tableur.h"
 #include "cellule.h"
+#include "iostream"
+
 
 tableur::tableur(int l, int c)
 {
 
     nbcolonne=0;
     nbligne=0;
-
+    std::cout<<" affichage :"<<nbligne<<" "<<nbcolonne<<std::endl;
     w=new QWidget;
     setCentralWidget(w);
 
@@ -30,51 +32,50 @@ tableur::tableur(int l, int c)
                     }
 
 
-
-
     layout->setHorizontalSpacing(0);
     layout->setVerticalSpacing(0);
     frame->setLayout(layout);
 
 
-    vbox = new QHBoxLayout(w);
+    vbox = new QVBoxLayout(w);
+    vbox->addLayout(layout);
     box1 = new QPushButton("Inserer une ligne");
     box2 = new QPushButton("Inserer une colonne");
 
     vbox->addWidget(box1);
     vbox->addWidget(box2);
-    vbox->addLayout(layout);
 
+
+    //frame->setLayout(layout);
 
     QObject::connect(box1, SIGNAL( clicked() ), this, SLOT( ajoutligne() ));
     QObject::connect(box2, SIGNAL( clicked() ), this, SLOT( ajoutcol() ));
+    QObject::connect(this, SIGNAL( changeRes(QGridLayout) ), layout, SLOT( setLayout(QGridLayout) ));
 
 }
 
 
 void tableur::ajoutligne()
 {
-    delete w;
-    delete layout;
-    delete frame;
-    delete vbox;
-    delete box1;
-    delete box2;
+    cellule *cel=new cellule;
+    std::cout<<"ajoutligne"<<nbligne<<" "<<nbcolonne<<std::endl;
+    layout->setHorizontalSpacing(0);
+    layout->setVerticalSpacing(0);
+    emit layout->addWidget(cel,nbligne,nbcolonne);
+
     nbligne ++;
-    tableur tab(nbligne,nbcolonne);
+
 }
 
 
 void tableur::ajoutcol()
 {
-
-    delete w;
-    delete layout;
-    delete frame;
-    delete vbox;
-    delete box1;
-    delete box2;
+    cellule *cel=new cellule;
+    std::cout<<"ajoutcol"<<nbligne<<" "<<nbcolonne<<std::endl;
+    layout->setHorizontalSpacing(0);
+    layout->setVerticalSpacing(0);
+    emit layout->addWidget(cel,nbligne,nbcolonne+1);
     nbcolonne ++;
-    tableur tab(nbligne,nbcolonne);
-
 }
+
+
