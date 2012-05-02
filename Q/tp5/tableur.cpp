@@ -1,13 +1,13 @@
 #include "tableur.h"
 #include "cellule.h"
-#include "iostream"
 
+#include "iostream"
 
 tableur::tableur(int l, int c)
 {
 
-    nbcolonne=0;
-    nbligne=0;
+    nbcolonne=l;
+    nbligne=c;
     std::cout<<" affichage : "<<nbligne<<" "<<nbcolonne<<std::endl;
     w=new QWidget;
     setCentralWidget(w);
@@ -16,7 +16,7 @@ tableur::tableur(int l, int c)
 
 
     if (l!=nbligne)
-            for (int i =nbligne;i<l;i++)
+            for (int i =0;i<nbligne;i++)
                 for(int j=0;j<nbcolonne;j++)
                     {
                         cellule *cel=new cellule;
@@ -24,7 +24,7 @@ tableur::tableur(int l, int c)
                     }
     else if (c!=nbcolonne)
           for (int j =0;j<nbligne;j++)
-                for (int i=nbcolonne;i<c;i++)
+                for (int i=0;i<nbcolonne;i++)
 
                     {
                         cellule *cel=new cellule;
@@ -61,23 +61,35 @@ tableur::tableur(int l, int c)
 void tableur::ajoutligne()
 {
     cellule *cel=new cellule;
+
     std::cout<<"ajoutligne: "<<nbligne<<" "<<nbcolonne<<std::endl;
 
-    emit layout->addWidget(cel,nbligne,nbcolonne);
+        for(int j=0;j<nbcolonne;j++)
+            {
+            layout->addWidget(cel,nbligne,j);
+            }
+
 
     nbligne ++;
+
 
 }
 
 
 void tableur::ajoutcol()
 {
-    cellule *cel=new cellule;
-    std::cout<<"ajoutcol: "<<nbligne<<" "<<nbcolonne<<std::endl;
 
-    emit layout->addWidget(cel,nbligne,nbcolonne);
+    cellule *cel=new cellule;
+
+    std::cout<<"ajoutcol: "<<nbligne<<" "<<nbcolonne<<std::endl;
+    for (int j =0;j<nbligne;j++)
+
+              {
+              layout->addWidget(cel,j,nbcolonne);
+              }
 
     nbcolonne ++;
+
 }
 
 
