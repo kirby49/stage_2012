@@ -16,6 +16,7 @@ private:
     //MENU *menu;
     QMenu *menuFichier;
     QMenu *menuEdition;
+    QMenu *menuAffichage;
 
 public:
     fenetre();

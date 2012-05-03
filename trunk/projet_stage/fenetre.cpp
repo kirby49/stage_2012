@@ -6,9 +6,10 @@ fenetre::fenetre()
     QWidget * w = new QWidget;
     setCentralWidget(w);
 
+
+
     //menuBar
     menuFichier = menuBar()->addMenu("&Fichier");
-    menuEdition = menuBar()->addMenu("&Edition");
 
     //ouvrir
     QAction *ouvrir = menuFichier->addAction("Ouvrir");
@@ -19,6 +20,24 @@ fenetre::fenetre()
      QAction *quitter = menuFichier->addAction("&Quitter");
      quitter->setShortcut(QKeySequence("Ctrl+Q"));
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+     menuEdition = menuBar()->addMenu("&Edition");
+
+     //export
+     QAction *exp = menuEdition->addAction("Export aux format GPX");
+     exp->setShortcut(QKeySequence("Ctrl+E"));
+
+     menuAffichage = menuBar()->addMenu("&Affichage");
+
+     //zoom avant
+     QAction *zoom_in = menuAffichage->addAction("Zoom avant");
+     //zoom_in->setShortcut(QKeySequence(""));// a definir
+
+     //zoom arriere
+     QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
+     zoom_out->setShortcut(QKeySequence("-"));
+
+
 
 
     //layouts
