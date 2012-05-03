@@ -10,11 +10,15 @@ fenetre::fenetre()
     menuFichier = menuBar()->addMenu("&Fichier");
     menuEdition = menuBar()->addMenu("&Edition");
 
-
+    //ouvrir
     QAction *ouvrir = menuFichier->addAction("Ouvrir");
     ouvrir->setShortcut(QKeySequence("Ctrl+o"));
-
     QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
+
+    //quitter
+     QAction *quitter = menuFichier->addAction("&Quitter");
+     quitter->setShortcut(QKeySequence("Ctrl+Q"));
+     QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 
 
     //layouts
