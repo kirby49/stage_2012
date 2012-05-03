@@ -28,7 +28,7 @@ void carte::afficherImage(QString chemin){
     scroll= new QScrollArea;
     scroll->setBackgroundRole(QPalette::Dark);
     scroll->setWidget(label);
-    global->addWidget(label);
+    global->addWidget(scroll);
    // scaleFactor = 1.0;
     //label->show();
 
