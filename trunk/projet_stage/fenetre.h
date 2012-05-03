@@ -1,6 +1,6 @@
 #ifndef FENETRE_H
 #define FENETRE_H
-#include <QtGui>
+#include <QtGui/QtGui>
 #include "carte.h"
 #include "menu.h"
 
@@ -10,7 +10,7 @@ class fenetre : public QMainWindow
 
 private:
     QHBoxLayout* mainLayout;
-   // carte* image;
+    carte* image;
     QPushButton* telecharger;
     MENU * menu;
 
