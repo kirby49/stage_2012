@@ -4,6 +4,7 @@
 #include "carte.h"
 #include "menu.h"
 
+
 class fenetre : public QMainWindow
 {
      Q_OBJECT
@@ -12,8 +13,7 @@ private:
     QHBoxLayout* mainLayout;
     carte* image;
     QPushButton* telecharger;
-    MENU * menu;
-
+    MENU *menu;
 
 public:
     fenetre();

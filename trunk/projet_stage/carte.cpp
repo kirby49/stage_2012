@@ -4,7 +4,6 @@
 carte::carte()
 
 {
-
     global= new QVBoxLayout(this);
 
     this->setMinimumSize(500,500);
@@ -28,10 +27,9 @@ void carte::afficherImage(QString chemin){
     label= new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
     global->addWidget(label);
-    //scaleFactor = 1.0;
+   // scaleFactor = 1.0;
     //label->show();
     //scroll= new QScrollArea;
     //scroll->setWidget(label);
-
 
 }

@@ -2,7 +2,6 @@
 
 fenetre::fenetre()
 {
-
     //widget central
     QWidget * w = new QWidget;
     setCentralWidget(w);
@@ -13,17 +12,20 @@ fenetre::fenetre()
     //carte
     image = new carte();
 
+
     //menu
     menu=new MENU(this);
+
 
     //bouttons
     telecharger= new QPushButton("telecharger");
     QObject::connect(telecharger, SIGNAL(clicked()), this, SLOT(telechargerImage()));
 
     //mise en page
-    //mainLayout->addWidget(image);
+    mainLayout->addWidget(image);
     mainLayout->addWidget(telecharger);
-   // mainLayout->addWidget(menu);
+    mainLayout->addWidget(menu);
+
 
 }
 
