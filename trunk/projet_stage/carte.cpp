@@ -20,16 +20,17 @@ carte::~carte(){
 void carte::afficherImage(QString chemin){
    // b= new QPushButton("ibibi");
     //global->addWidget(b);
+    if (!chemin.isNull()) {
 
     image= new QImage(chemin);
-
-
     label= new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
+    scroll= new QScrollArea;
+    scroll->setBackgroundRole(QPalette::Dark);
+    scroll->setWidget(label);
     global->addWidget(label);
    // scaleFactor = 1.0;
     //label->show();
-    //scroll= new QScrollArea;
-    //scroll->setWidget(label);
 
+}
 }

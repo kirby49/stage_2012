@@ -33,6 +33,6 @@ fenetre::fenetre()
 void fenetre::telechargerImage()
 {
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-       QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
+       //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
        image->afficherImage(fichier);
 }
