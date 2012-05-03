@@ -1,6 +1,7 @@
 #ifndef CARTE_H
 #define CARTE_H
-#include "fenetre.h"
+
+#include "QWidget"
 
 class carte: public QWidget
 {

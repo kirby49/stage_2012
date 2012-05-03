@@ -3,6 +3,5 @@
 
 carte::carte()
 {
-    this->setMinimumSize(100,100);
 
 }
