@@ -6,20 +6,17 @@ fenetre::fenetre()
     QWidget * w = new QWidget;
     setCentralWidget(w);
 
-
-
     //menuBar
+
     menuFichier = menuBar()->addMenu("&Fichier");
 
     //ouvrir
     QAction *ouvrir = menuFichier->addAction("Ouvrir");
     ouvrir->setShortcut(QKeySequence("Ctrl+o"));
-    QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
     //quitter
      QAction *quitter = menuFichier->addAction("&Quitter");
      quitter->setShortcut(QKeySequence("Ctrl+Q"));
-     QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
 
      menuEdition = menuBar()->addMenu("&Edition");
 
@@ -37,7 +34,16 @@ fenetre::fenetre()
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("-"));
 
+     //TOOLBAR
+     toolbar = addToolBar("Fichier");
+     toolbar->addAction(ouvrir);
+     toolbar->addSeparator();
+     toolbar->addAction(quitter);
 
+
+     //connect
+     QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
+     QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
 
     //layouts

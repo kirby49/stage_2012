@@ -14,10 +14,13 @@ private:
     carte* image;
     QPushButton* telecharger;
     //MENU *menu;
+    //menubar
     QMenu *menuFichier;
     QMenu *menuEdition;
     QMenu *menuAffichage;
 
+    //toolbar
+    QToolBar *toolbar;
 public:
     fenetre();
 
