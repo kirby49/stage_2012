@@ -13,7 +13,9 @@ private:
     QHBoxLayout* mainLayout;
     carte* image;
     QPushButton* telecharger;
-    MENU *menu;
+    //MENU *menu;
+    QMenu *menuFichier;
+    QMenu *menuEdition;
 
 public:
     fenetre();
