@@ -25,11 +25,13 @@ void carte::afficherImage(QString chemin){
     image= new QImage(chemin);
     label= new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
+    label->adjustSize();
+
     scroll= new QScrollArea;
     scroll->setBackgroundRole(QPalette::Dark);
     scroll->setWidget(label);
     global->addWidget(scroll);
-   // scaleFactor = 1.0;
+    zoom= 1.0;
     //label->show();
 
 }

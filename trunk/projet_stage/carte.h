@@ -13,6 +13,7 @@ private:
     QImage* image;
     QLabel* label;
     QScrollArea* scroll;
+    double zoom;
    // QPushButton* b;
 public:
     carte();
