@@ -7,7 +7,7 @@ int main (int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-    tableur tab(0,0);
+    tableur tab(2,2);
 
     tab.show();
 

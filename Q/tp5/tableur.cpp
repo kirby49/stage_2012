@@ -34,7 +34,7 @@ tableur::tableur(int l, int c)
 
     layout->setHorizontalSpacing(0);
     layout->setVerticalSpacing(0);
-    //frame->setLayout(layout);
+
 
 
     vbox = new QVBoxLayout;
