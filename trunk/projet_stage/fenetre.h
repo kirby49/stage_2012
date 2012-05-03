@@ -1,6 +1,6 @@
 #ifndef FENETRE_H
 #define FENETRE_H
-#include <QtGui>
+#include <QtGui/QtGui>
 #include "carte.h"
 
 class fenetre : public QMainWindow

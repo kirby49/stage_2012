@@ -8,6 +8,8 @@ fenetre::fenetre()
 
     //layouts
     mainLayout= new QHBoxLayout(w);
+
+    //carte
     image = new carte();
 
     //bouttons
@@ -19,12 +21,13 @@ fenetre::fenetre()
     mainLayout->addWidget(telecharger);
 
 
+
 }
 
 
 void fenetre::telechargerImage()
 {
     QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-       QMessageBox::information(this, "Fichier", "Vous avez sélectionné :\n" + fichier);
-
+       QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
+       image->afficherImage(fichier);
 }
