@@ -6,7 +6,6 @@ fenetre::fenetre()
     //widget central
     QWidget * w = new QWidget;
     setCentralWidget(w);
-    menu = new MENU(this);
 
     //layouts
     mainLayout= new QHBoxLayout(w);
@@ -14,6 +13,8 @@ fenetre::fenetre()
     //carte
     image = new carte();
 
+    //menu
+    menu=new MENU(this);
 
     //bouttons
     telecharger= new QPushButton("telecharger");
@@ -22,7 +23,7 @@ fenetre::fenetre()
     //mise en page
     //mainLayout->addWidget(image);
     mainLayout->addWidget(telecharger);
-
+   // mainLayout->addWidget(menu);
 
 }
 

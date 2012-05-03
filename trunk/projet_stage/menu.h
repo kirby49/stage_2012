@@ -4,7 +4,7 @@
 #include "QMenu"
 #include "QMainWindow"
 
-class MENU : public QMainWindow
+class MENU : public QMenu
 {
 private :
     QMenu *menuFichier;
@@ -13,7 +13,7 @@ private :
 
 
 public:
-    MENU();
+    MENU(QWidget * parent = 0);
 
 };
 

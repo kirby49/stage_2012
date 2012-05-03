@@ -1,11 +1,11 @@
 #include "menu.h"
 
-MENU::MENU()
+MENU::MENU(QWidget * parent):QMenu(parent)
 {
 
-    menuFichier = menuBar()->addMenu("&Fichier");
-    menuEdition = menuBar()->addMenu("&Edition");
-    menuAffichage = menuBar()->addMenu("&Affichage");
+    menuFichier = this->addMenu("&Fichier");
+    menuEdition = this->addMenu("&Edition");
+    menuAffichage = this->addMenu("&Affichage");
 
 
     QMenu *fichiersRecents = menuFichier->addMenu("Fichiers &récents");
