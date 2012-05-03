@@ -1,10 +1,8 @@
 #ifndef CARTE_H
 #define CARTE_H
 
-
 #include <QtGui/QtGui>
 #include <QtCore/QtCore>
-
 
 class carte: public QWidget
 {
