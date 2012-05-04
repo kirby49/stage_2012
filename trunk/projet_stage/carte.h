@@ -16,8 +16,8 @@ private:
     QPushButton* zom;
     QPushButton* dezoom;
     QLabel* valeurZoom;
-    float largeur;
-    float longueur;
+    //float largeur;
+    //float longueur;
     float echelle;
 
 public:
