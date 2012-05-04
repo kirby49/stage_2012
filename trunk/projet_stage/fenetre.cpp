@@ -8,13 +8,22 @@ fenetre::fenetre()
 
 
 
-    //MENUBAR
+                     //MENUBAR
 
     menuFichier = menuBar()->addMenu("&Fichier");
 
     //ouvrir
     QAction *ouvrir = menuFichier->addAction("Ouvrir");
-    ouvrir->setShortcut(QKeySequence("Ctrl+o"));
+    ouvrir->setShortcut(QKeySequence("Ctrl+O"));
+
+    //Enregistrer sous
+    QAction *save_as = menuFichier->addAction("Sauvegarder le projet sous");
+
+
+    //Enregistrer
+    QAction *save = menuFichier->addAction("Sauvegarder le projet");
+    save->setShortcut(QKeySequence("Ctrl+S"));
+
 
     //quitter
      QAction *quitter = menuFichier->addAction("&Quitter");
@@ -36,11 +45,22 @@ fenetre::fenetre()
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("-"));
 
-     //TOOLBAR
+
+
+                     //TOOLBAR
      toolbar = addToolBar("Barre d'outils");
+
+     //ouvrir //prenser a mettre les icones
      toolbar->addAction(ouvrir);
      toolbar->addSeparator();
-     toolbar->addAction(quitter);
+
+     //enregistrer
+     toolbar->addAction(save);
+     toolbar->addSeparator();
+
+     //Effacer
+     QAction *effacer = toolbar->addAction("Fermer le projet");
+     toolbar->addAction(effacer);
 
      //zone de sélection de couleur
 
@@ -79,7 +99,7 @@ fenetre::fenetre()
 
 
 
-     //connect
+                     //CONNECT
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
