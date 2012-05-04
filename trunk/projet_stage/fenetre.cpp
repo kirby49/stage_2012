@@ -49,6 +49,7 @@ fenetre::fenetre()
      couleur->setStyleSheet("QLabel { background-color : red; }");
      couleur->setFixedWidth(15);
      couleur->setFixedHeight(15);
+     couleur->setToolTip("Couleur du chemin sélectionné");
      toolbar->addWidget(couleur);
      toolbar->addSeparator();
      // penser a faire le connecte et les fonctions de modifications ...
@@ -61,6 +62,8 @@ fenetre::fenetre()
      toolbar->addWidget(la);
      la->setFixedHeight(20);
      la->setFixedWidth(150);
+     la->setToolTip("Entrez la lattitude du point remarquable");
+
 
      //longitude
      toolbar->addSeparator();
@@ -70,10 +73,19 @@ fenetre::fenetre()
      toolbar->addWidget(lo);
      lo->setFixedHeight(20);
      lo->setFixedWidth(150);
+     lo->setToolTip("Entrez la longitude du point remarquable");
+
+
+
+
 
      //connect
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
+
+
+
+
 
 
     //layouts
