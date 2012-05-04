@@ -23,7 +23,8 @@ private:
     //toolbar
     QToolBar *toolbar;
     QLabel * couleur;
-    QTextEdit *gps;
+    QTextEdit *la;
+    QTextEdit *lo;
 
 
 

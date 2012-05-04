@@ -53,9 +53,23 @@ fenetre::fenetre()
      toolbar->addSeparator();
      // penser a faire le connecte et les fonctions de modifications ...
 
-     //zone coordonnée gps
-     QString str = "Longitude :";
-     toolbar->addAction(str);
+     //zone coordonnée
+     //Lattitude
+     QString lat = "Lattitude :";
+     toolbar->addAction(lat);
+     la = new QTextEdit(toolbar);
+     toolbar->addWidget(la);
+     la->setFixedHeight(20);
+     la->setFixedWidth(150);
+
+     //longitude
+     toolbar->addSeparator();
+     QString lon = "Longitude :";
+     toolbar->addAction(lon);
+     lo = new QTextEdit(toolbar);
+     toolbar->addWidget(lo);
+     lo->setFixedHeight(20);
+     lo->setFixedWidth(150);
 
      //connect
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
