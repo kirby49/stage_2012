@@ -24,18 +24,18 @@ void carte::afficherImage(QString chemin){
     image= new QImage(chemin);
     label= new QLabel();
     label->setPixmap(QPixmap::fromImage(*image));
+    scaleValue= 1.0;
     //SizePolicy ignored permet de mettre à n'importe quelle échelle l'image quand FIt to Window (pas encore implémenté) est mis  sur on
     label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    //Scaled contents à true permet de zoomer le QLabel et l'image
+    //Scaled contents à true permet de zoomer le QLabel et l'image ensemble et pas uniquement le QLabel
     label->setScaledContents(true);
-    label->resize(label->pixmap()->size());
-    //label->adjustSize();
+    label->adjustSize();
 
     scroll= new QScrollArea;
     scroll->setBackgroundRole(QPalette::Dark);
     scroll->setWidget(label);
     global->addWidget(scroll);
-    scaleValue= 1.0;
+
     zom= new QPushButton("zoom");
     dezoom=new QPushButton("dezoom");
     global->addWidget(zom);
