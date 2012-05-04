@@ -6,6 +6,8 @@ fenetre::fenetre()
     QWidget * w = new QWidget;
     setCentralWidget(w);
 
+
+
     //menuBar
 
     menuFichier = menuBar()->addMenu("&Fichier");
@@ -35,11 +37,19 @@ fenetre::fenetre()
      zoom_out->setShortcut(QKeySequence("-"));
 
      //TOOLBAR
-     toolbar = addToolBar("Fichier");
+     toolbar = addToolBar("Barre d'outils");
      toolbar->addAction(ouvrir);
      toolbar->addSeparator();
      toolbar->addAction(quitter);
 
+     //zone de sélection de couleur
+
+     toolbar->addSeparator();
+     zone = new QTextEdit();
+     QAction * couleur = new QAction (toolbar);
+     zone->addAction(couleur);
+     toolbar->addAction(couleur);
+     toolbar->addSeparator();
 
      //connect
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));

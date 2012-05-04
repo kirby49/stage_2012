@@ -19,8 +19,14 @@ private:
     QMenu *menuEdition;
     QMenu *menuAffichage;
 
+
     //toolbar
     QToolBar *toolbar;
+    QTextEdit *zone;
+
+
+
+
 public:
     fenetre();
 
