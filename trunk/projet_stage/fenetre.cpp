@@ -45,11 +45,11 @@ fenetre::fenetre()
      //zone de sélection de couleur
 
      toolbar->addSeparator();
-     zone = new QTextEdit();
-     QAction * couleur = new QAction (toolbar);
-     zone->addAction(couleur);
-     toolbar->addAction(couleur);
+     couleur = new QLabel (toolbar);
+     couleur->setStyleSheet("QLabel { background-color : red; color : blue; }");
+     toolbar->addWidget(couleur);
      toolbar->addSeparator();
+
 
      //connect
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
