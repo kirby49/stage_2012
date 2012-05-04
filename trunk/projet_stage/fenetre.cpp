@@ -56,8 +56,8 @@ fenetre::fenetre()
 
      //zone coordonnée
      //Lattitude
-     QString lat = "Lattitude :";
-     toolbar->addAction(lat);
+     QLabel *lat = new QLabel ("Lattitude : ");
+     toolbar->addWidget(lat);
      la = new QTextEdit(toolbar);
      toolbar->addWidget(la);
      la->setFixedHeight(20);
@@ -67,8 +67,8 @@ fenetre::fenetre()
 
      //longitude
      toolbar->addSeparator();
-     QString lon = "Longitude :";
-     toolbar->addAction(lon);
+     QLabel *lon = new QLabel ("Longitude : ");
+     toolbar->addWidget(lon);
      lo = new QTextEdit(toolbar);
      toolbar->addWidget(lo);
      lo->setFixedHeight(20);
