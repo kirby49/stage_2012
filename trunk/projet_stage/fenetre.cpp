@@ -1,5 +1,8 @@
 #include "fenetre.h"
 
+
+
+
 fenetre::fenetre()
 {
     //widget central
@@ -7,8 +10,8 @@ fenetre::fenetre()
     setCentralWidget(w);
 
 
-
-                     //MENUBAR
+    /********************************************************************/
+                                 //MENUBAR
 
     menuFichier = menuBar()->addMenu("&Fichier");
 
@@ -46,8 +49,9 @@ fenetre::fenetre()
      zoom_out->setShortcut(QKeySequence("-"));
 
 
+    /********************************************************************/
+                                 //TOOLBAR
 
-                     //TOOLBAR
      toolbar = addToolBar("Barre d'outils");
 
      //ouvrir //prenser a mettre les icones
@@ -98,8 +102,9 @@ fenetre::fenetre()
 
 
 
+    /********************************************************************/
+                                 //CONNECT
 
-                     //CONNECT
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
@@ -130,6 +135,11 @@ fenetre::fenetre()
 
 
 }
+
+
+/********************************************************************/
+                    // FONCTIONS
+
 
 
 void fenetre::telechargerImage()
