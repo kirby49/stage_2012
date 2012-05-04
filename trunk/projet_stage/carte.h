@@ -13,15 +13,18 @@ private:
     QImage* image;
     QLabel* label;
     QScrollArea* scroll;
-    double echelle;
     QPushButton* zom;
     QPushButton* dezoom;
+    QLabel* valeurZoom;
+    float largeur;
+    float longueur;
+    float echelle;
 
 public:
     carte();
     ~carte();
     void afficherImage(QString chemin);
-    void zoom(double valeur);
+    void zoom(float valeur);
 
 public slots:
     void augmenter_zoom();
