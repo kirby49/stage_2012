@@ -1,5 +1,5 @@
 #include "fenetre.h"
-
+#include "iostream"
 
 
 
@@ -118,6 +118,7 @@ fenetre::fenetre()
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
+     QObject::connect(image, SIGNAL(triggered()),this, SLOT( setCouleur(QRgb) ));
 
 }
 
@@ -140,5 +141,6 @@ void fenetre::telechargerImage()
 
 void fenetre::setCouleur(QRgb c)
 {
+    std::cout<<"couleur : "<<c<<std::endl;
     coul=c;
 }

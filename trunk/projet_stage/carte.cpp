@@ -1,5 +1,5 @@
 #include "carte.h"
-
+#include "iostream"
 
 carte::carte():point(0,0),point_click(0,0)
 {
@@ -113,18 +113,19 @@ void carte::setCouleur(QRgb coul)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-
+    std::cout<<"ouverture de l event click"<<std::endl;
     if (event->button() == Qt::LeftButton)
         {
          setPoint_click(event->pos());
         }
-
+    std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
 }
 
 
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
+
     QPoint p=getPoint_click();
     QRgb pt ;
     if (event->button() == Qt::LeftButton)
@@ -132,4 +133,6 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
          pt = image->pixel(p);
         }
     setCouleur(pt);
+    std::cout<<"couleur : "<<pt<<std::endl;
+    std::cout<<"fermeture de l event click"<<std::endl;
 }
