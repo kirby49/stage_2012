@@ -1,8 +1,7 @@
 #include "carte.h"
 
 
-carte::carte()
-
+carte::carte():point(0,0),point_click(0,0)
 {
     global= new QVBoxLayout(this);
 

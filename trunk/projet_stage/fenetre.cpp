@@ -101,33 +101,23 @@ fenetre::fenetre()
 
 
 
+    /********************************************************************/
+                                 //CARTE
+    image = new carte();
+    setCouleur(image->getCouleur());
+
+
+    /********************************************************************/
+                                //LAYOUTS
+    mainLayout= new QHBoxLayout(w);
+    mainLayout->addWidget(image);
+
 
     /********************************************************************/
                                  //CONNECT
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
-
-
-
-
-
-
-    //layouts
-    mainLayout= new QHBoxLayout(w);
-
-    //carte
-    image = new carte();
-
-
-    //MENU
-    //menu=new MENU(this);
-
-    //mise en page
-    mainLayout->addWidget(image);
-   // mainLayout->addWidget(telecharger);
-
-
 
 }
 
@@ -146,4 +136,9 @@ void fenetre::telechargerImage()
        // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
        image->afficherImage(fichier);
+}
+
+void fenetre::setCouleur(QRgb c)
+{
+    coul=c;
 }

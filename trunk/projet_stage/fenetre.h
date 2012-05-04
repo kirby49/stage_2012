@@ -11,31 +11,30 @@ class fenetre : public QMainWindow
 
 private:
     QHBoxLayout* mainLayout;
-    carte* image;
     QPushButton* telecharger;
     //MENU *menu;
     //menubar
     QMenu *menuFichier;
     QMenu *menuEdition;
     QMenu *menuAffichage;
-
-
     //toolbar
     QToolBar *toolbar;
     QLabel * couleur;
     QTextEdit *la;
     QTextEdit *lo;
-
+    //carte
+    carte* image;
+    QRgb coul;
 
 
 
 public:
     fenetre();
-
+    void setCouleur(QRgb c);
 
 
 public slots:
-void telechargerImage();
+    void telechargerImage();
 
 
 };
