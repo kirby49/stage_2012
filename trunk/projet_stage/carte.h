@@ -16,6 +16,10 @@ private:
     double echelle;
     QPushButton* zom;
     QPushButton* dezoom;
+    QMouseEvent *event;
+    QPoint point;
+    QPoint point_click;
+    QRgb couleur;
 
 public:
     carte();
@@ -23,9 +27,21 @@ public:
     void afficherImage(QString chemin);
     void zoom(double valeur);
 
+    QPoint getPoint();
+    QPoint getPoint_click();
+    void setPoint(QPoint p);
+    void setPoint_click(QPoint p);
+
+
+
+
 public slots:
     void augmenter_zoom();
     void diminuer_zoom();
+
+
+protected:
+    void mouseReleaseEvent(QMouseEvent *event);
 
 };
 

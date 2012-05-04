@@ -59,3 +59,35 @@ void carte::zoom(double valeur){
     echelle = (valeur * echelle);
     label->resize(echelle * label->pixmap()->size());
 }
+
+QPoint carte::getPoint_click()
+{
+    return point_click;
+}
+
+QPoint carte::getPoint()
+{
+    return point;
+}
+
+void carte::setPoint_click(QPoint p)
+{
+    point_click = p;
+}
+
+
+void carte::setPoint(QPoint p)
+{
+    point = p;
+}
+
+
+void carte::mouseReleaseEvent(QMouseEvent *event)
+{
+    QPoint p=getPoint_click();
+    if (event->button() == Qt::LeftButton)
+        {
+        QRgb pt = image->pixel(p);
+        }
+    setPoint(pt);
+}
