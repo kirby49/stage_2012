@@ -8,7 +8,7 @@ fenetre::fenetre()
 
 
 
-    //menuBar
+    //MENUBAR
 
     menuFichier = menuBar()->addMenu("&Fichier");
 
@@ -46,10 +46,16 @@ fenetre::fenetre()
 
      toolbar->addSeparator();
      couleur = new QLabel (toolbar);
-     couleur->setStyleSheet("QLabel { background-color : red; color : blue; }");
+     couleur->setStyleSheet("QLabel { background-color : red; }");
+     couleur->setFixedWidth(15);
+     couleur->setFixedHeight(15);
      toolbar->addWidget(couleur);
      toolbar->addSeparator();
+     // penser a faire le connecte et les fonctions de modifications ...
 
+     //zone coordonnée gps
+     QString str = "Longitude :";
+     toolbar->addAction(str);
 
      //connect
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -63,7 +69,7 @@ fenetre::fenetre()
     image = new carte();
 
 
-    //menu
+    //MENU
     //menu=new MENU(this);
 
 
