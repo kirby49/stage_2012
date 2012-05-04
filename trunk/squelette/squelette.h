@@ -17,7 +17,7 @@ public:
         void resizeEvent(QResizeEvent *event);
        // void grabMouse();// attention pas virutel !! agit qd le bouton de la souris est maintenu il agit sur cursor (type QCursor) setcursor permet de le modifié
         void mouseReleaseEvent(QMouseEvent * event );// agit qd le bouton de la souris est relaché
-        void mouseMoveEvent ( QMouseEvent * event );//est appelé chaque fois que la souris se déplace avec l'un de ses boutons maintenu enfoncé
+        void mouseMoveEvent ( QMoveEvent * event );//est appelé chaque fois que la souris se déplace avec l'un de ses boutons maintenu enfoncé
         void wheelEvent ( QWheelEvent * event );//utiliser pour la molette de la souris
         void moveEvent(QMoveEvent * event); // est appelé quand le widget a été déplacé, relativement à son parent ;
         //QPoint QWidget::mapFromGlobal ( const QPoint & pos ) const// permet de recupéré les coordonné de la souris dans le widget

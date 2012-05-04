@@ -13,25 +13,33 @@ private:
     QImage* image;
     QLabel* label;
     QScrollArea* scroll;
-    double echelle;
     QPushButton* zom;
     QPushButton* dezoom;
+
     QMouseEvent *event;
     QPoint point;
     QPoint point_click;
     QRgb couleur;
 
+    QLabel* valeurZoom;
+    float largeur;
+    float longueur;
+    float echelle;
+
+
 public:
     carte();
     ~carte();
     void afficherImage(QString chemin);
-    void zoom(double valeur);
+    void zoom(float valeur);
 
     QPoint getPoint();
     QPoint getPoint_click();
     void setPoint(QPoint p);
     void setPoint_click(QPoint p);
 
+    QRgb getCouleur();
+    void setCouleur(QRgb coul);
 
 
 
@@ -40,7 +48,9 @@ public slots:
     void diminuer_zoom();
 
 
+
 protected:
+    void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
 };

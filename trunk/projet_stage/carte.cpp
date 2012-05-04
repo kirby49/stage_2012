@@ -29,7 +29,8 @@ void carte::afficherImage(QString chemin){
     label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     //Scaled contents à true permet de zoomer le QLabel et l'image ensemble et pas uniquement le QLabel
     label->setScaledContents(true);
-    label->adjustSize();
+    label->adjustSize();   // label->adjustSize();
+
 
     scroll= new QScrollArea;
     scroll->setBackgroundRole(QPalette::Dark);
@@ -40,8 +41,13 @@ void carte::afficherImage(QString chemin){
     QObject::connect(zom, SIGNAL(clicked()), this, SLOT(augmenter_zoom()));
     dezoom=new QPushButton("dezoom");
     QObject::connect(zom, SIGNAL(clicked()), this, SLOT(diminuer_zoom()));
+    valeurZoom= new QLabel("valeur: ");
+    valeurZoom->setText(QString::number(echelle) );
+    global->addWidget(valeurZoom);
     global->addWidget(zom);
     global->addWidget(dezoom);
+
+
 
 }
 }
@@ -55,11 +61,18 @@ void carte::diminuer_zoom(){
     zoom(0.8);
 }
 
-void carte::zoom(double valeur){
+//zoom traitement au niveau du QLabel et non de l'image
+void carte::zoom(float valeur){
     echelle = (valeur * echelle);
-    label->resize(echelle * label->pixmap()->size());
+    valeurZoom->setText(QString::number(echelle+1) );
+    largeur= image->width();
+    longueur= image->height();
+    image->scaledToWidth(echelle*largeur);
+    image->scaledToHeight(echelle*longueur);
+    label->adjustSize();
 }
 
+// gestion de points de cliques et de couleurs
 QPoint carte::getPoint_click()
 {
     return point_click;
@@ -81,13 +94,40 @@ void carte::setPoint(QPoint p)
     point = p;
 }
 
+QRgb carte::getCouleur()
+{
+    return couleur;
+}
+
+void carte::setCouleur(QRgb coul)
+{
+    couleur = coul;
+}
+
+
+
+
+//gestion des évènements
+
+void carte::mousePressEvent(QMouseEvent *event)
+{
+
+    if (event->button() == Qt::LeftButton)
+        {
+         setPoint_click(event->pos());
+        }
+
+}
+
+
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
     QPoint p=getPoint_click();
+    QRgb pt ;
     if (event->button() == Qt::LeftButton)
         {
-        QRgb pt = image->pixel(p);
+         pt = image->pixel(p);
         }
-    setPoint(pt);
+    setCouleur(pt);
 }
