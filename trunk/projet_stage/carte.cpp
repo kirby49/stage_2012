@@ -40,7 +40,7 @@ void carte::afficherImage(QString chemin){
     zom= new QPushButton("zoom");
     QObject::connect(zom, SIGNAL(clicked()), this, SLOT(augmenter_zoom()));
     dezoom=new QPushButton("dezoom");
-    QObject::connect(zom, SIGNAL(clicked()), this, SLOT(diminuer_zoom()));
+    QObject::connect(dezoom, SIGNAL(clicked()), this, SLOT(diminuer_zoom()));
     valeurZoom= new QLabel("valeur: ");
     valeurZoom->setText(QString::number(echelle) );
     global->addWidget(valeurZoom);
@@ -64,12 +64,15 @@ void carte::diminuer_zoom(){
 //zoom traitement au niveau du QLabel et non de l'image
 void carte::zoom(float valeur){
     echelle = (valeur * echelle);
-    valeurZoom->setText(QString::number(echelle+1) );
-    largeur= image->width();
-    longueur= image->height();
-    image->scaledToWidth(echelle*largeur);
-    image->scaledToHeight(echelle*longueur);
-    label->adjustSize();
+    valeurZoom->setText(QString::number(echelle) );
+   // largeur= image->width();
+   //longueur= image->height();
+    label->resize(echelle*label->pixmap()->size());
+   // image->scaledToWidth(echelle*largeur);
+   // image->scaledToHeight(echelle*longueur);
+   // largeur = image->width();
+   // longueur = image->height();
+    //label->adjustSize();
 }
 
 // gestion de points de cliques et de couleurs

@@ -22,8 +22,8 @@ private:
     QRgb couleur;
 
     QLabel* valeurZoom;
-    float largeur;
-    float longueur;
+    //float largeur;
+    //float longueur;
     float echelle;
 
 
