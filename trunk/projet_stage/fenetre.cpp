@@ -98,11 +98,6 @@ fenetre::fenetre()
     //MENU
     //menu=new MENU(this);
 
-
-    //bouttons
-    //telecharger= new QPushButton("telecharger");
-    // QObject::connect(telecharger, SIGNAL(clicked()), this, SLOT(telechargerImage()));
-
     //mise en page
     mainLayout->addWidget(image);
    // mainLayout->addWidget(telecharger);
