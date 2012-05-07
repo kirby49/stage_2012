@@ -19,7 +19,7 @@ private:
     QMouseEvent *event;
     QPoint point;
     QPoint point_click;
-    QRgb couleur;
+    //QRgb couleur;
     QColor coul;
 
     QLabel* valeurZoom;
@@ -39,9 +39,9 @@ public:
     void setPoint(QPoint p);
     void setPoint_click(QPoint p);
 
-    QRgb getCouleur();
+    QColor getCouleur();
     void setCoul(QRgb c);// pour encode le rgb sans l'alpha
-
+    void coultostring();
 
 
 public slots:
