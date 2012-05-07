@@ -40,8 +40,9 @@ public:
     void setPoint_click(QPoint p);
 
     QColor getCouleur();
-    void setCoul(QRgb c);// pour encode le rgb sans l'alpha
-    void coultostring();
+    void setCouleur(QRgb c);// pour encode le rgb sans l'alpha
+
+signals:
 
 
 public slots:

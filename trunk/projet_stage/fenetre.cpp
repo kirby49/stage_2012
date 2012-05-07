@@ -9,6 +9,10 @@ fenetre::fenetre()
     QWidget * w = new QWidget;
     setCentralWidget(w);
 
+    /********************************************************************/
+                                 //CARTE
+    image = new carte();
+    //setCoul(image->getCouleur());
 
     /********************************************************************/
                                  //MENUBAR
@@ -69,12 +73,17 @@ fenetre::fenetre()
      //zone de sélection de couleur
 
      toolbar->addSeparator();
-     couleur = new QLabel (toolbar);
-     couleur->setStyleSheet("QLabel { background-color : red; }");
-     couleur->setFixedWidth(15);
-     couleur->setFixedHeight(15);
-     couleur->setToolTip("Couleur du chemin sélectionné");
-     toolbar->addWidget(couleur);
+     label = new QLabel (toolbar);
+
+     couleur = label->palette();
+     couleur.setColor(label->backgroundRole(),Qt::white);
+     label->setPalette(couleur);
+     label->setAutoFillBackground(true);
+
+     label->setFixedWidth(15);
+     label->setFixedHeight(15);
+     label->setToolTip("Couleur du chemin sélectionné");
+     toolbar->addWidget(label);
      toolbar->addSeparator();
      // penser a faire le connecte et les fonctions de modifications ...
 
@@ -102,12 +111,6 @@ fenetre::fenetre()
 
 
     /********************************************************************/
-                                 //CARTE
-    image = new carte();
-    setCouleur(image->getCouleur());
-
-
-    /********************************************************************/
                                 //LAYOUTS
     mainLayout= new QHBoxLayout(w);
     mainLayout->addWidget(image);
@@ -118,7 +121,7 @@ fenetre::fenetre()
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
-     QObject::connect(image, SIGNAL(mousePressEvent(QEvent)),this, SLOT( setCouleur(QRgb) ));
+     QObject::connect(image, SIGNAL(mousePressEvent(QEvent)),this, SLOT( setCouleur(QColor) ));
 
 }
 
@@ -128,19 +131,23 @@ fenetre::fenetre()
 
 
 
-void fenetre::telechargerImage()
-{
-    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    void fenetre::telechargerImage()
+    {
+        QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
 
-       //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
+           //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
-       // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
+           // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
-       image->afficherImage(fichier);
-}
+           image->afficherImage(fichier);
+    }
 
-void fenetre::setCouleur(QRgb c)
-{
-    std::cout<<"couleur : "<<c<<std::endl;
-    coul=c;
-}
+    void fenetre::setCouleur()
+    {
+        std::cout<<" set couleur"<<std::endl;
+        QColor color = image->getCouleur();
+        couleur.setColor(label->backgroundRole(),color);
+        label->setPalette(couleur);
+        label->setAutoFillBackground(true);
+
+    }
