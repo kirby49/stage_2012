@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'carte.h'
 **
-** Created: Fri May 4 14:16:46 2012
+** Created: Mon May 7 10:46:13 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_carte[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,12 +33,14 @@ static const uint qt_meta_data_carte[] = {
  // slots: signature, parameters, type, tag, flags
        7,    6,    6,    6, 0x0a,
       24,    6,    6,    6, 0x0a,
+      40,    6,    6,    6, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_carte[] = {
     "carte\0\0augmenter_zoom()\0diminuer_zoom()\0"
+    "fermerProjet()\0"
 };
 
 const QMetaObject carte::staticMetaObject = {
@@ -72,9 +74,10 @@ int carte::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: augmenter_zoom(); break;
         case 1: diminuer_zoom(); break;
+        case 2: fermerProjet(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

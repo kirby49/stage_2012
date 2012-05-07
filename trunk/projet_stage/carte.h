@@ -47,6 +47,7 @@ public:
 public slots:
     void augmenter_zoom();
     void diminuer_zoom();
+    void fermerProjet();
 
 
 
