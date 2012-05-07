@@ -19,23 +19,24 @@ private:
     QMenu *menuAffichage;
     //toolbar
     QToolBar *toolbar;
-    QLabel * couleur;
+    QLabel * label;
+    QPalette couleur;
     QTextEdit *la;
     QTextEdit *lo;
     //carte
     carte* image;
-    QRgb coul;
 
 
 
 public:
     fenetre();
-    void setCouleur(QRgb c);
 
+signals:
+    //carte::mousePressEvent(QEvent event);
 
 public slots:
     void telechargerImage();
-
+    void setCouleur();
 
 };
 

@@ -1,7 +1,7 @@
 #include "carte.h"
 #include "iostream"
 
-carte::carte():point(0,0),point_click(0,0)
+carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
     global= new QVBoxLayout(this);
 
@@ -113,12 +113,10 @@ QColor carte::getCouleur()
     return coul;
 }
 
-void carte::setCoul(QRgb c)
+void carte::setCouleur(QRgb c)
 {
-    coul = coul.fromRgb(c);// a retravailler
+    coul = coul.fromRgb(c);
 }
-
-
 
 
 //gestion des évènements
@@ -139,14 +137,15 @@ void carte::mousePressEvent(QMouseEvent *event)
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
-
+    if (label->pixmap()!=0){
     QPoint p=getPoint_click();
     QRgb pt ;
     if (event->button() == Qt::LeftButton)
         {
          pt = image->pixel(p);
         }
-    setCoul(pt);
+    setCouleur(pt);
     //std::cout<<"couleur : "<<pt<<" "<<coul<<std::endl;
-    //std::cout<<"fermeture de l event click"<<std::endl;
+    std::cout<<"fermeture de l event click"<<std::endl;
+    }
 }
