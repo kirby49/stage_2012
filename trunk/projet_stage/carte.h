@@ -20,6 +20,7 @@ private:
     QPoint point;
     QPoint point_click;
     QRgb couleur;
+    QColor coul;
 
     QLabel* valeurZoom;
     //float largeur;
@@ -39,7 +40,7 @@ public:
     void setPoint_click(QPoint p);
 
     QRgb getCouleur();
-    void setCouleur(QRgb coul);
+    void setCoul(QRgb c);// pour encode le rgb sans l'alpha
 
 
 

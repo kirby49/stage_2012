@@ -2,10 +2,8 @@
 SOURCES += \
     main.cpp \
     fenetre.cpp \
-    carte.cpp \
-    menu.cpp
+    carte.cpp
 
 HEADERS += \
     fenetre.h \
-    carte.h \
-    menu.h
+    carte.h

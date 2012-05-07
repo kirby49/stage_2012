@@ -118,7 +118,7 @@ fenetre::fenetre()
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
-     QObject::connect(image, SIGNAL(triggered()),this, SLOT( setCouleur(QRgb) ));
+     QObject::connect(image, SIGNAL(mousePressEvent(QEvent)),this, SLOT( setCouleur(QRgb) ));
 
 }
 

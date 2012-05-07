@@ -101,9 +101,9 @@ QRgb carte::getCouleur()
     return couleur;
 }
 
-void carte::setCouleur(QRgb coul)
+void carte::setCouleur(QRgb c):QColor
 {
-    couleur = coul;
+    coul = fromRgb(c);// a retravailler
 }
 
 
@@ -133,6 +133,6 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
          pt = image->pixel(p);
         }
     setCouleur(pt);
-    std::cout<<"couleur : "<<pt<<std::endl;
+    std::cout<<"couleur : "<<pt<<" "<<coul<<std::endl;
     std::cout<<"fermeture de l event click"<<std::endl;
 }
