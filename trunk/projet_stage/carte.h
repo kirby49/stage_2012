@@ -9,28 +9,25 @@ class carte: public QWidget
     Q_OBJECT
 
 private:
-    QVBoxLayout* global;
-    QImage* image;
-    QLabel* label;
-    QScrollArea* scroll;
-    QPushButton* zom;
-    QPushButton* dezoom;
 
+    QImage* image;
     QMouseEvent *event;
     QPoint point;
     QPoint point_click;
     QString couleur;
     QRgb coul;
-
     QLabel* valeurZoom;
-    //float largeur;
-    //float longueur;
+    QPainter* painter;
+
+    bool imageDessiner;
     float echelle;
 
 
 public:
     carte();
     ~carte();
+    bool getImageDessiner();
+    void setImagedessiner(bool choix);
     void afficherImage(QString chemin);
     void zoom(float valeur);
 
@@ -48,6 +45,7 @@ public slots:
     void fermerProjet();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 };
 

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'carte.h'
 **
-** Created: Mon May 7 11:13:21 2012
+** Created: Tue May 8 15:56:39 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,24 +23,33 @@ static const uint qt_meta_data_carte[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: signature, parameters, type, tag, flags
+       7,    6,    6,    6, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-       7,    6,    6,    6, 0x0a,
-      24,    6,    6,    6, 0x0a,
-      40,    6,    6,    6, 0x0a,
+      19,    6,    6,    6, 0x0a,
+      36,    6,    6,    6, 0x0a,
+      52,    6,    6,    6, 0x0a,
+      73,   67,    6,    6, 0x0a,
+     103,   67,    6,    6, 0x0a,
+     135,   67,    6,    6, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_carte[] = {
-    "carte\0\0augmenter_zoom()\0diminuer_zoom()\0"
-    "fermerProjet()\0"
+    "carte\0\0ChangeRes()\0augmenter_zoom()\0"
+    "diminuer_zoom()\0fermerProjet()\0event\0"
+    "mousePressEvent(QMouseEvent*)\0"
+    "mouseReleaseEvent(QMouseEvent*)\0"
+    "paintEvent(QPaintEvent*)\0"
 };
 
 const QMetaObject carte::staticMetaObject = {
@@ -72,13 +81,23 @@ int carte::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: augmenter_zoom(); break;
-        case 1: diminuer_zoom(); break;
-        case 2: fermerProjet(); break;
+        case 0: ChangeRes(); break;
+        case 1: augmenter_zoom(); break;
+        case 2: diminuer_zoom(); break;
+        case 3: fermerProjet(); break;
+        case 4: mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 5: mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 6: paintEvent((*reinterpret_cast< QPaintEvent*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 7;
     }
     return _id;
+}
+
+// SIGNAL 0
+void carte::ChangeRes()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, 0);
 }
 QT_END_MOC_NAMESPACE
