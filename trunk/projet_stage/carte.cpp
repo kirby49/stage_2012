@@ -106,7 +106,6 @@ QString carte::getCouleur_rgb()
     return couleur;
 }
 
-
 void carte::setCouleur_rgb(QString str)
 {
    couleur = str;
@@ -127,15 +126,15 @@ void carte::setCouleur(QRgb c)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-    std::cout<<"ouverture de l event click"<<std::endl;
     if (label->pixmap()!=0){
         QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
             pt = image->pixel(event->pos());
             setCouleur(pt);
+            //update();
              }
-        std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
+       // std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }
 }
 
@@ -145,15 +144,15 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
 {
     if (label->pixmap()!=0){
     QColor c = c.fromRgb(getCouleur());
-    QString str,r,g,b;
+    QString r,g,b;
     if (event->button() == Qt::LeftButton)
         {
-           r= qRed(getCouleur());g=qGreen(getCouleur()); b=qBlue(getCouleur());
-           str = "background-color: rgb("+r+","+g+","+b+");";
-           emit setCouleur_rgb(str);
+           r= QString::number(qRed(getCouleur()));g=QString::number(qGreen(getCouleur())); b=QString::number(qBlue(getCouleur()));
+           setCouleur_rgb("background-color: rgb("+r+","+g+","+b+");");
+           emit ChangeRes();
         }
-    std::cout<<"couleur"<<str.toStdString()<<std::endl;
-    std::cout<<"fermeture de l event click , "<<std::endl;
+    // std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
+
 
     }
 }

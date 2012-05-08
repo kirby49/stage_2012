@@ -3,7 +3,7 @@
 
 
 
-fenetre::fenetre()
+fenetre::fenetre():test_image(false)
 {
     //widget central
     QWidget * w = new QWidget;
@@ -119,8 +119,7 @@ fenetre::fenetre()
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
-     QObject::connect(image, SIGNAL(mouseReleaseEvent()),this, SLOT( setCouleur()));
-
+     QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 
 }
 
@@ -137,15 +136,14 @@ fenetre::fenetre()
            //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
            // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
-
+           test_image=true;
            image->afficherImage(fichier);
     }
 
     void fenetre::setCouleur()
     {
-        if( label->pixmap()!=0){
-        std::cout<<" set couleur"<<std::endl;
         couleur=image->getCouleur_rgb();
-        }
+        label->setStyleSheet(couleur);
+        update();
 
     }
