@@ -87,7 +87,7 @@ void carte::zoom(float valeur){
 }
 
 // gestion de points de cliques et de couleurs
-QPoint carte::getPoint_click()
+QPoint carte::getPoint_click()   //===============
 {
     return point_click;
 }
@@ -97,7 +97,7 @@ QPoint carte::getPoint()
     return point;
 }
 
-void carte::setPoint_click(QPoint p)
+void carte::setPoint_click(QPoint p)               // inutile
 {
     point_click = p;
 }
@@ -106,7 +106,7 @@ void carte::setPoint_click(QPoint p)
 void carte::setPoint(QPoint p)
 {
     point = p;
-}
+}                           //=====================
 
 QColor carte::getCouleur()
 {
@@ -125,11 +125,12 @@ void carte::mousePressEvent(QMouseEvent *event)
 {
     std::cout<<"ouverture de l event click"<<std::endl;
     if (label->pixmap()!=0){
-    if (event->button() == Qt::LeftButton)
-        {
-         setPoint_click(event->pos());
-        }
-    std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
+        QRgb pt ;
+        if (event->button() == Qt::LeftButton)
+            {
+            pt = image->pixel(event->pos());
+             }
+        std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }
 }
 
@@ -138,14 +139,13 @@ void carte::mousePressEvent(QMouseEvent *event)
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
     if (label->pixmap()!=0){
-    QPoint p=getPoint_click();
     QRgb pt ;
     if (event->button() == Qt::LeftButton)
         {
-         pt = image->pixel(p);
+         emit setCouleur(pt);
         }
-    setCouleur(pt);
     //std::cout<<"couleur : "<<pt<<" "<<coul<<std::endl;
     std::cout<<"fermeture de l event click"<<std::endl;
+    //emit
     }
 }

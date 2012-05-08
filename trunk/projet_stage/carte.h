@@ -49,10 +49,6 @@ public slots:
     void augmenter_zoom();
     void diminuer_zoom();
     void fermerProjet();
-
-
-
-protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
