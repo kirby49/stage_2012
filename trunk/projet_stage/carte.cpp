@@ -90,7 +90,7 @@ void carte::setCouleur(QRgb c)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-    if (imageDessiner==true){
+    if (imageDessiner){
         QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
@@ -98,7 +98,7 @@ void carte::mousePressEvent(QMouseEvent *event)
             setCouleur(pt);
             //update();
              }
-        std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
+       // std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }
 }
 
@@ -106,7 +106,7 @@ void carte::mousePressEvent(QMouseEvent *event)
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (imageDessiner==true){
+    if (imageDessiner){
     QColor c = c.fromRgb(getCouleur());
     QString r,g,b;
     if (event->button() == Qt::LeftButton)
@@ -115,7 +115,7 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
            setCouleur_rgb("background-color: rgb("+r+","+g+","+b+");");
            emit ChangeRes();
         }
-    std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
+    //std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
 
 
     }
