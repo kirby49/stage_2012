@@ -35,8 +35,8 @@ void carte::afficherImage(QString chemin){
     //scroll->setBackgroundRole(QPalette::Dark);
     //scroll->setWidget(image);
     //global->addWidget(scroll);
-   // painter= new QPainter(this);
-   // painter->drawImage(QPoint(0,0), *image);
+    painter= new QPainter(this);
+    painter->drawImage(QPoint(0,0), *image);
     update();
     //painter.drawImage(QPoint(0, 0), image);
 
