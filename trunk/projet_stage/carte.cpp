@@ -21,6 +21,7 @@ void carte::paintEvent(QPaintEvent *event)
     //clearImage();
     QPainter painter(this);
     painter.drawImage(point,*image);
+
 }
 
 void carte::afficherImage(QString chemin){
@@ -128,13 +129,14 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
 
 void carte::wheelEvent(QWheelEvent *event)
 {
-    std::cout<<"molette souris : "<<event->orientation()<<std::endl;
-    if (event->orientation()>0){
-        emit ChangeZoomIn();
-        update();
-    }
-   else {
-        emit ChangeZoom();
-        update();
+    if (imageDessiner){
+        if (event->delta()>0){
+            emit ChangeZoomIn();
+            update();
+        }
+        else   {
+            emit ChangeZoom();
+            update();
+        }
     }
 }

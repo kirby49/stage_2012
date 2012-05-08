@@ -12,7 +12,6 @@ fenetre::fenetre()
     /********************************************************************/
                                  //CARTE
     image = new carte();
-    //setCoul(image->getCouleur());
 
     /********************************************************************/
                                  //MENUBAR
@@ -47,11 +46,12 @@ fenetre::fenetre()
      //zoom avant
      QAction *zoom_in = menuAffichage->addAction("Zoom avant");
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
+     zoom_in->setToolTip("La molette de la souris peut etre aussi utilisee");
 
      //zoom arriere
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
-
+     zoom_out->setToolTip("La molette de la souris peut etre aussi utilisee");
 
     /********************************************************************/
                                  //TOOLBAR
