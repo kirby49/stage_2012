@@ -3,10 +3,10 @@
 
 carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
-    global= new QVBoxLayout(this);
+    //global= new QVBoxLayout(this);
 
     this->setMinimumSize(1500,650);
-    label= new QLabel();
+
 
 
     //m_image = QImage(QSize(100,100), QImage::Format_RGB32);
@@ -17,25 +17,39 @@ carte::carte():point(0,0),point_click(0,0),coul(255255255)
 carte::~carte(){
 
 }
+void carte::paintEvent(QPaintEvent *event)
+{
+    //clearImage();
+    QPainter painter(this);
+    painter.drawImage(point,*image);
+}
 
 void carte::afficherImage(QString chemin){
 
 
     if (!chemin.isNull()) {
-
+    echelle= 1.0;
     image= new QImage(chemin);
 
-    label->setPixmap(QPixmap::fromImage(*image));
-    echelle= 1.0;
+    //scroll= new QScrollArea;
+    //scroll->setBackgroundRole(QPalette::Dark);
+    //scroll->setWidget(image);
+    //global->addWidget(scroll);
+   // painter= new QPainter(this);
+   // painter->drawImage(QPoint(0,0), *image);
+    update();
+    //painter.drawImage(QPoint(0, 0), image);
+
+
+    /*label->setPixmap(QPixmap::fromImage(*image));
+
     //SizePolicy ignored permet de mettre à n'importe quelle échelle l'image quand FIt to Window (pas encore implémenté) est mis  sur on
     label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     //Scaled contents à true permet de zoomer le QLabel et l'image ensemble et pas uniquement le QLabel
     label->setScaledContents(true);
     label->adjustSize();   // label->adjustSize();
-    scroll= new QScrollArea;
-    scroll->setBackgroundRole(QPalette::Dark);
-    scroll->setWidget(label);
-    global->addWidget(scroll);
+
+
 
 
 
@@ -48,7 +62,7 @@ void carte::afficherImage(QString chemin){
     valeurZoom->setText(QString::number(echelle) );
     global->addWidget(valeurZoom);
     global->addWidget(zom);
-    global->addWidget(dezoom);
+    global->addWidget(dezoom);*/
 
 
 

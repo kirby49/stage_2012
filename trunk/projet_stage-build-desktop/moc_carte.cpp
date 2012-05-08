@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'carte.h'
 **
-** Created: Mon May 7 11:13:21 2012
+** Created: Tue May 8 15:11:24 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_carte[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -34,13 +34,18 @@ static const uint qt_meta_data_carte[] = {
        7,    6,    6,    6, 0x0a,
       24,    6,    6,    6, 0x0a,
       40,    6,    6,    6, 0x0a,
+      61,   55,    6,    6, 0x0a,
+      91,   55,    6,    6, 0x0a,
+     123,   55,    6,    6, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_carte[] = {
     "carte\0\0augmenter_zoom()\0diminuer_zoom()\0"
-    "fermerProjet()\0"
+    "fermerProjet()\0event\0mousePressEvent(QMouseEvent*)\0"
+    "mouseReleaseEvent(QMouseEvent*)\0"
+    "paintEvent(QPaintEvent*)\0"
 };
 
 const QMetaObject carte::staticMetaObject = {
@@ -75,9 +80,12 @@ int carte::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 0: augmenter_zoom(); break;
         case 1: diminuer_zoom(); break;
         case 2: fermerProjet(); break;
+        case 3: mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 4: mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 5: paintEvent((*reinterpret_cast< QPaintEvent*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 3;
+        _id -= 6;
     }
     return _id;
 }

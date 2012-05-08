@@ -23,6 +23,7 @@ private:
     QRgb coul;
 
     QLabel* valeurZoom;
+    QPainter* painter;
     //float largeur;
     //float longueur;
     float echelle;
@@ -49,6 +50,7 @@ public slots:
     void fermerProjet();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
 
 };
 
