@@ -12,7 +12,6 @@ fenetre::fenetre()
     /********************************************************************/
                                  //CARTE
     image = new carte();
-    //setCoul(image->getCouleur());
 
     /********************************************************************/
                                  //MENUBAR
@@ -46,12 +45,13 @@ fenetre::fenetre()
 
      //zoom avant
      QAction *zoom_in = menuAffichage->addAction("Zoom avant");
-     zoom_in->setShortcut(QKeySequence("++"));// a definir
+     zoom_in->setShortcut(QKeySequence("Ctrl+W"));
+     zoom_in->setToolTip("La molette de la souris peut etre aussi utilisee");
 
      //zoom arriere
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
-     zoom_out->setShortcut(QKeySequence("-"));
-
+     zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
+     zoom_out->setToolTip("La molette de la souris peut etre aussi utilisee");
 
     /********************************************************************/
                                  //TOOLBAR
@@ -69,6 +69,13 @@ fenetre::fenetre()
      //Effacer
      QAction *effacer = toolbar->addAction("Fermer le projet");
      toolbar->addAction(effacer);
+
+     //Zoom
+     toolbar->addAction(zoom_in);
+     toolbar->addSeparator();
+     toolbar->addAction(zoom_out);
+     toolbar->addSeparator();
+
 
      //zone de sélection de couleur
 
@@ -119,8 +126,10 @@ fenetre::fenetre()
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
-     QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
+     QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
+     QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
 
+     QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
 
 

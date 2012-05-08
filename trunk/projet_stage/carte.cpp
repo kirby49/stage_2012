@@ -7,8 +7,15 @@ carte::carte():point(0,0),point_click(0,0),coul(255255255)
     this->setMinimumSize(1500,700);
     image = new QImage();
     imageDessiner=false;
+<<<<<<< HEAD
     longueur= 0;
     largeur=0;
+=======
+
+
+    QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
+    QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
+>>>>>>> 16bbb87147811858729f6c04158dfbf144f91852
 }
 
 carte::~carte(){
@@ -19,11 +26,12 @@ void carte::paintEvent(QPaintEvent *event)
     //clearImage();
     QPainter painter(this);
     painter.drawImage(point,*image);
+
 }
 
 void carte::afficherImage(QString chemin){
 
-
+    std::cout<<"afficher image"<<std::endl;
     if (!chemin.isNull()) {
     echelle= 1.0;
     image= new QImage(chemin);
@@ -54,14 +62,14 @@ void carte::setImagedessiner(bool choix){
 }
 
 void carte::augmenter_zoom(){
-
-    zoom(1.25);
+    std::cout<<"zoom in"<<std::endl;
+    //zoom(1.25);
 
 }
 
 void carte::diminuer_zoom(){
-
-    zoom(0.8);
+    std::cout<<"zoom out"<<std::endl;
+    //zoom(0.8);
 
 }
 
@@ -130,5 +138,20 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
     //std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
 
 
+    }
+}
+
+
+void carte::wheelEvent(QWheelEvent *event)
+{
+    if (imageDessiner){
+        if (event->delta()>0){
+            emit ChangeZoomIn();
+            update();
+        }
+        else   {
+            emit ChangeZoom();
+            update();
+        }
     }
 }
