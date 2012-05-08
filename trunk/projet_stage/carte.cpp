@@ -7,15 +7,15 @@ carte::carte():point(0,0),point_click(0,0),coul(255255255)
     this->setMinimumSize(1500,700);
     image = new QImage();
     imageDessiner=false;
-<<<<<<< HEAD
+
     longueur= 0;
     largeur=0;
-=======
+
 
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
->>>>>>> 16bbb87147811858729f6c04158dfbf144f91852
+
 }
 
 carte::~carte(){
