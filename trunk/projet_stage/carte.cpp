@@ -87,35 +87,25 @@ void carte::zoom(float valeur){
 }
 
 // gestion de points de cliques et de couleurs
-QPoint carte::getPoint_click()   //===============
+QString carte::getCouleur_rgb()
 {
-    return point_click;
-}
-
-QPoint carte::getPoint()
-{
-    return point;
-}
-
-void carte::setPoint_click(QPoint p)               // inutile
-{
-    point_click = p;
+    return couleur;
 }
 
 
-void carte::setPoint(QPoint p)
+void carte::setCouleur_rgb(QString str)
 {
-    point = p;
-}                           //=====================
+   couleur = str;
+}
 
-QColor carte::getCouleur()
+QRgb carte::getCouleur()
 {
     return coul;
 }
 
 void carte::setCouleur(QRgb c)
 {
-    coul = coul.fromRgb(c);
+    coul = c;
 }
 
 
@@ -140,12 +130,16 @@ void carte::mousePressEvent(QMouseEvent *event)
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
     if (label->pixmap()!=0){
-
+    QColor c = c.fromRgb(getCouleur());
+    QString str,r,g,b;
     if (event->button() == Qt::LeftButton)
         {
-         emit getCouleur();
+           r= qRed(getCouleur());g=qGreen(getCouleur()); b=qBlue(getCouleur());
+           str = "background-color: rgb("+r+","+g+","+b+");";
+           emit setCouleur_rgb(str);
         }
-    std::cout<<"fermeture de l event click"<<std::endl;
-    //emit
+    std::cout<<"couleur"<<str.toStdString()<<std::endl;
+    std::cout<<"fermeture de l event click , "<<std::endl;
+
     }
 }

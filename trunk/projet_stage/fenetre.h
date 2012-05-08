@@ -24,6 +24,8 @@ private:
     QTextEdit *lo;
     //carte
     carte* image;
+    //couleur
+    QString couleur;
 
 
 

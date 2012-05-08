@@ -74,7 +74,8 @@ fenetre::fenetre()
 
      toolbar->addSeparator();
      label = new QLabel (toolbar);
-     label->setStyleSheet("background-color: rgb(255,255,0);");
+     couleur = "background-color: rgb(255,255,255);";
+     label->setStyleSheet(couleur);
      label->setFixedWidth(15);
      label->setFixedHeight(15);
      label->setToolTip("Couleur du chemin sélectionné");
@@ -118,7 +119,7 @@ fenetre::fenetre()
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
 
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
-     QObject::connect(image, SIGNAL(mousePressEvent(QEvent)),this, SLOT( setCouleur(QColor) ));
+     QObject::connect(image, SIGNAL(mouseReleaseEvent()),this, SLOT( setCouleur()));
 
 
 }
@@ -144,6 +145,7 @@ fenetre::fenetre()
     {
         if( label->pixmap()!=0){
         std::cout<<" set couleur"<<std::endl;
+        couleur=image->getCouleur_rgb();
         }
 
     }

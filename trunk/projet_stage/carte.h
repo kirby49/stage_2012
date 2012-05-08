@@ -19,8 +19,8 @@ private:
     QMouseEvent *event;
     QPoint point;
     QPoint point_click;
-    //QRgb couleur;
-    QColor coul;
+    QString couleur;
+    QRgb coul;
 
     QLabel* valeurZoom;
     //float largeur;
@@ -34,13 +34,11 @@ public:
     void afficherImage(QString chemin);
     void zoom(float valeur);
 
-    QPoint getPoint();
-    QPoint getPoint_click();
-    void setPoint(QPoint p);
-    void setPoint_click(QPoint p);
-
-    QColor getCouleur();
+    QRgb getCouleur();
     void setCouleur(QRgb c);// pour encode le rgb sans l'alpha
+    QString getCouleur_rgb();
+    void setCouleur_rgb(QString str);
+
 
 signals:
 
