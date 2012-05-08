@@ -20,7 +20,6 @@ private:
     //toolbar
     QToolBar *toolbar;
     QLabel * label;
-    QPalette couleur;
     QTextEdit *la;
     QTextEdit *lo;
     //carte
@@ -30,9 +29,10 @@ private:
 
 public:
     fenetre();
+    //void setCouleur();
 
 signals:
-    //carte::mousePressEvent(QEvent event);
+
 
 public slots:
     void telechargerImage();

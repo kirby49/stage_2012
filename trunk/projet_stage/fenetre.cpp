@@ -74,12 +74,7 @@ fenetre::fenetre()
 
      toolbar->addSeparator();
      label = new QLabel (toolbar);
-
-     couleur = label->palette();
-     couleur.setColor(label->backgroundRole(),Qt::white);
-     label->setPalette(couleur);
-     label->setAutoFillBackground(true);
-
+     label->setStyleSheet("background-color: rgb(255,255,0);");
      label->setFixedWidth(15);
      label->setFixedHeight(15);
      label->setToolTip("Couleur du chemin sélectionné");
@@ -149,9 +144,6 @@ fenetre::fenetre()
     {
         if( label->pixmap()!=0){
         std::cout<<" set couleur"<<std::endl;
-        QColor color = image->getCouleur();
-        couleur.setColor(label->backgroundRole(),color);
-        label->setPalette(couleur);
-        label->setAutoFillBackground(true);}
+        }
 
     }

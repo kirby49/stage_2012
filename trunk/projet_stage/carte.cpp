@@ -129,6 +129,7 @@ void carte::mousePressEvent(QMouseEvent *event)
         if (event->button() == Qt::LeftButton)
             {
             pt = image->pixel(event->pos());
+            setCouleur(pt);
              }
         std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }
@@ -139,12 +140,11 @@ void carte::mousePressEvent(QMouseEvent *event)
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
     if (label->pixmap()!=0){
-    QRgb pt ;
+
     if (event->button() == Qt::LeftButton)
         {
-         emit setCouleur(pt);
+         emit getCouleur();
         }
-    //std::cout<<"couleur : "<<pt<<" "<<coul<<std::endl;
     std::cout<<"fermeture de l event click"<<std::endl;
     //emit
     }
