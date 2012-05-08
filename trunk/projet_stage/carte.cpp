@@ -27,6 +27,7 @@ void carte::afficherImage(QString chemin){
     image= new QImage(chemin);
     valeurZoom= new QLabel("valeur du zoom: ");
     valeurZoom->setText(QString::number(echelle) );
+    imageDessiner=true;
 
     update();
     }
