@@ -35,13 +35,12 @@ public:
     void zoom(float valeur);
 
     QRgb getCouleur();
-    void setCouleur(QRgb c);// pour encode le rgb sans l'alpha
-    QString getCouleur_rgb();
+    void setCouleur(QRgb c);
     void setCouleur_rgb(QString str);
-
+    QString getCouleur_rgb();
 
 signals:
-
+    void ChangeRes();
 
 public slots:
     void augmenter_zoom();

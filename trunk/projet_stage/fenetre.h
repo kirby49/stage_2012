@@ -26,12 +26,13 @@ private:
     carte* image;
     //couleur
     QString couleur;
-
+    //test
+    bool test_image;
 
 
 public:
     fenetre();
-    //void setCouleur();
+
 
 signals:
 
