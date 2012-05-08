@@ -38,6 +38,9 @@ public:
 
 signals:
     void ChangeRes();
+    void ChangeZoom();
+    void ChangeZoomIn();
+
 
 public slots:
     void augmenter_zoom();
@@ -45,6 +48,7 @@ public slots:
     void fermerProjet();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
     void paintEvent(QPaintEvent *event);
 
 };
