@@ -4,9 +4,11 @@
 carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
 
-    this->setMinimumSize(1500,650);
+    this->setMinimumSize(1500,700);
     image = new QImage();
     imageDessiner=false;
+    longueur= 0;
+    largeur=0;
 }
 
 carte::~carte(){
@@ -25,8 +27,18 @@ void carte::afficherImage(QString chemin){
     if (!chemin.isNull()) {
     echelle= 1.0;
     image= new QImage(chemin);
-    valeurZoom= new QLabel("valeur du zoom: ");
-    valeurZoom->setText(QString::number(echelle) );
+    int width= image->width();
+    int height=image->height();
+
+    if (width>longueur){
+    QImage newImage= (image->scaledToWidth(1200,Qt::SmoothTransformation));
+    image=new QImage(newImage);
+    }
+    else if (height>largeur){
+    QImage newImage= (image->scaledToHeight(600,Qt::SmoothTransformation));
+    image=new QImage(newImage);
+    };
+
     imageDessiner=true;
 
     update();

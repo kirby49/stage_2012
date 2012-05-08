@@ -21,6 +21,8 @@ private:
 
     bool imageDessiner;
     float echelle;
+    int longueur;
+    int largeur;
 
 
 public:
