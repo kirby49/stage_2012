@@ -3,7 +3,7 @@
 
 
 
-fenetre::fenetre():test_image(false)
+fenetre::fenetre()
 {
     //widget central
     QWidget * w = new QWidget;
@@ -46,7 +46,7 @@ fenetre::fenetre():test_image(false)
 
      //zoom avant
      QAction *zoom_in = menuAffichage->addAction("Zoom avant");
-     //zoom_in->setShortcut(QKeySequence(""));// a definir
+     zoom_in->setShortcut(QKeySequence("++"));// a definir
 
      //zoom arriere
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
@@ -136,7 +136,7 @@ fenetre::fenetre():test_image(false)
            //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
            // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
-           test_image=true;
+
            image->afficherImage(fichier);
     }
 
@@ -147,3 +147,4 @@ fenetre::fenetre():test_image(false)
         update();
 
     }
+
