@@ -13,6 +13,7 @@ carte::carte():point_click(0,0),coul(255255255)
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
+    QObject::connect(this, SIGNAL(signalDessinerChemin()),this, SLOT(dessinerChemin()));
 
 }
 
@@ -21,7 +22,7 @@ carte::~carte(){
 }
 void carte::paintEvent(QPaintEvent *event)
 {
-    //clearImage();
+
     QPainter painter(this);
     QPoint point (0,0);
     painter.drawImage(point,*image);
@@ -86,7 +87,7 @@ void carte::fermerProjet(){
    image= new QImage();
 
 }
-//zoom traitement au niveau du QLabel et non de l'image
+
 void carte::zoom(float valeur){
     echelle = (valeur * echelle);
     valeurZoom->setText(QString::number(echelle) );
@@ -126,6 +127,7 @@ void carte::mousePressEvent(QMouseEvent *event)
         QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
+
             setPoint(event->pos());
             pt = image->pixel(event->pos());
             setCouleur(pt);
@@ -144,6 +146,7 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
         {
            emit ChangeRes();
+           emit signalDessinerChemin();
         }
     //std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
 
@@ -165,3 +168,37 @@ void carte::wheelEvent(QWheelEvent *event)
         }
     }
 }
+int carte::maximum(int a, int b){
+    if(a>b) return a;
+        else return b;
+}
+
+bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
+
+    unsigned int differenceRouge = abs(qRed(p1) - qRed(p2));
+    unsigned int differenceVert  = abs(qGreen(p1)- qGreen(p2));
+    unsigned int differenceBleu  = abs(qBlue(p1)-qBlue(p2));
+    int couleurDominante= maximum(differenceBleu,maximum(differenceRouge, differenceVert));
+    if(couleurDominante>50) return false;
+              unsigned int somme= differenceRouge + differenceVert + differenceBleu;
+              if (somme<10) return true;
+}
+
+void carte::dessinerChemin(){
+
+    for (int i=0;i<largeur;i++){
+        for (int j=0; j<hauteur;j++){
+            if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
+
+
+               {image->setPixel(QPoint(i,j),255255255);}
+          // std::cout<<"couleur : "<<coul<<std::endl;}
+            //image->setPixel(QPoint(i,j),coul);
+
+
+        }
+    }
+update();
+}
+
+
