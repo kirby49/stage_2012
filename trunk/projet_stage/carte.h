@@ -12,7 +12,6 @@ private:
 
     QImage* image;
     QMouseEvent *event;
-    QPoint point;
     QPoint point_click;
     QString couleur;
     QRgb coul;
@@ -37,6 +36,11 @@ public:
     void setCouleur(QRgb c);
     void setCouleur_rgb(QString str);
     QString getCouleur_rgb();
+
+    QPoint getPoint();
+    void setPoint(QPoint p);
+
+
 
 signals:
     void ChangeRes();
