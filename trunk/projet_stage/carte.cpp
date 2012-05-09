@@ -3,8 +3,8 @@
 
 carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
-    largeur= QApplication::desktop()->width();
-    hauteur = QApplication::desktop()->height();
+    largeur= (QApplication::desktop()->width()-100);
+    hauteur = (QApplication::desktop()->height()-100);
     this->setMinimumSize(largeur,hauteur);
     image = new QImage();
     imageDessiner=false;
