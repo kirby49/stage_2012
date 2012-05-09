@@ -1,7 +1,7 @@
 #include "carte.h"
 #include "iostream"
 
-carte::carte():point_click(0,0),coul(255255255)
+carte::carte():point_click(0,0),coul(255255255),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -83,6 +83,16 @@ void carte::diminuer_zoom(){
 
 }
 
+int carte::getFlags()
+{
+    return flags;
+}
+
+void carte::setFlags(int f)
+{
+    flags=f;
+}
+
 void carte::fermerProjet(){
    image= new QImage();
 
@@ -123,7 +133,7 @@ void carte::setPoint(QPoint p)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-    if (imageDessiner){
+    if ((imageDessiner)&&(flags==2)){
     QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
@@ -148,7 +158,7 @@ void carte::mousePressEvent(QMouseEvent *event)
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (imageDessiner){
+    if ((imageDessiner)&&(flags==2)){
 
     if (event->button() == Qt::LeftButton)
         {
@@ -164,7 +174,7 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
 
 void carte::wheelEvent(QWheelEvent *event)
 {
-    if (imageDessiner){
+    if ((imageDessiner)&&(flags>0)){
         if (event->delta()>0){
             emit ChangeZoomIn();
             update();

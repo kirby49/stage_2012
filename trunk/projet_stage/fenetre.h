@@ -23,6 +23,8 @@ private:
     // latitude/longitude
     QTextEdit *la;
     QTextEdit *lo;
+    //DOCK
+    QDockWidget * dock;
     //degree/minute/seconde
     QTextEdit *d1;
     QTextEdit *m1;
@@ -48,6 +50,8 @@ signals:
 public slots:
     void telechargerImage();
     void setCouleur();
+    void valider_dec();
+    void valider_sexa();
 
 };
 
