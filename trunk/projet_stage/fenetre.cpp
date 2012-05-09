@@ -74,7 +74,6 @@ fenetre::fenetre()
      toolbar->addAction(zoom_in);
      toolbar->addSeparator();
      toolbar->addAction(zoom_out);
-     toolbar->addSeparator();
 
 
      //zone de sélection de couleur
@@ -92,7 +91,7 @@ fenetre::fenetre()
 
      //zone coordonnée
      //Lattitude
-     QLabel *lat = new QLabel ("Lattitude : ");
+     QLabel *lat = new QLabel ("Latitude : ");
      toolbar->addWidget(lat);
      la = new QTextEdit(toolbar);
      toolbar->addWidget(la);

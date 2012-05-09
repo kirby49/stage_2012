@@ -1,10 +1,10 @@
 #include "carte.h"
 #include "iostream"
 
-carte::carte():point(0,0),point_click(0,0),coul(255255255)
+carte::carte():point_click(0,0),coul(255255255)
 {
-    largeur= QApplication::desktop()->width();
-    hauteur = QApplication::desktop()->height();
+    largeur= QApplication::desktop()->width()-100;
+    hauteur = QApplication::desktop()->height()-100;
     this->setMinimumSize(largeur,hauteur);
     image = new QImage();
     imageDessiner=false;
@@ -25,6 +25,7 @@ void carte::paintEvent(QPaintEvent *event)
 {
     //clearImage();
     QPainter painter(this);
+    QPoint point (0,0);
     painter.drawImage(point,*image);
 
 }
@@ -112,6 +113,17 @@ void carte::setCouleur(QRgb c)
     coul = c;
 }
 
+QPoint carte::getPoint()
+{
+return point_click;
+}
+
+
+void carte::setPoint(QPoint p)
+{
+
+    point_click=p;
+}
 
 //gestion des évènements
 
@@ -121,6 +133,7 @@ void carte::mousePressEvent(QMouseEvent *event)
         QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
+            setPoint(event->pos());
             pt = image->pixel(event->pos());
             setCouleur(pt);
             //update();
