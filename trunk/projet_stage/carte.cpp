@@ -138,12 +138,6 @@ void carte::mousePressEvent(QMouseEvent *event)
            if (event->button() == Qt::LeftButton)
             {
                emit test(event->pos());
-
-              /*setPoint(event->pos());
-               pt = image->pixel(event->pos());
-               setCouleur(pt);*/
-
-            //update();
              }
        // std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }
