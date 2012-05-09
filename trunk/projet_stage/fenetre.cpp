@@ -5,6 +5,9 @@
 
 fenetre::fenetre()
 {
+    int largeur= QApplication::desktop()->width()-100;
+    int hauteur = QApplication::desktop()->height()-100;
+    this->setMinimumSize(largeur,hauteur);
     //widget central
     QWidget * w = new QWidget;
     setCentralWidget(w);
@@ -46,12 +49,12 @@ fenetre::fenetre()
      //zoom avant
      QAction *zoom_in = menuAffichage->addAction("Zoom avant");
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
-     zoom_in->setToolTip("La molette de la souris peut etre aussi utilisee");
+     zoom_in->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
 
      //zoom arriere
      QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
-     zoom_out->setToolTip("La molette de la souris peut etre aussi utilisee");
+     zoom_out->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
 
     /********************************************************************/
                                  //TOOLBAR
@@ -84,35 +87,104 @@ fenetre::fenetre()
      label->setStyleSheet(couleur);
      label->setFixedWidth(15);
      label->setFixedHeight(15);
-     label->setToolTip("Couleur du chemin sélectionné");
+     label->setToolTip(trUtf8("Couleur du chemin sélectionné"));
      toolbar->addWidget(label);
      toolbar->addSeparator();
      // penser a faire le connecte et les fonctions de modifications ...
 
-     //zone coordonnée
+
+
+     /********************************************************************/
+                                 //DOCK
+     QDockWidget * dock = new QDockWidget(trUtf8("Gestion des coordonnées"), this);
+     addDockWidget(Qt::RightDockWidgetArea, dock);
+
+     QWidget * contenuDock = new QWidget;
+     dock->setWidget(contenuDock);
+
+     QVBoxLayout* VdockLayout1 = new QVBoxLayout();
+
+     QVBoxLayout* VdockLayout2 = new QVBoxLayout();
+     QHBoxLayout* HdockLayout1 = new QHBoxLayout();
+     QHBoxLayout* HdockLayout2 = new QHBoxLayout();
+     QVBoxLayout* VdockLayout3 = new QVBoxLayout();
+
+     //zone coordonnées décimales
+     QLabel *titre = new QLabel (trUtf8("En décimal :"));
+     VdockLayout1->addWidget(titre);
      //Lattitude
      QLabel *lat = new QLabel ("Latitude : ");
-     toolbar->addWidget(lat);
-     la = new QTextEdit(toolbar);
-     toolbar->addWidget(la);
+     VdockLayout1->addWidget(lat);
+     la = new QTextEdit(dock);
+
+     VdockLayout1->addWidget(la);
      la->setFixedHeight(20);
      la->setFixedWidth(150);
-     la->setToolTip("Entrez la lattitude du point remarquable");
-
 
      //longitude
-     toolbar->addSeparator();
      QLabel *lon = new QLabel ("Longitude : ");
-     toolbar->addWidget(lon);
-     lo = new QTextEdit(toolbar);
-     toolbar->addWidget(lo);
+     VdockLayout1->addWidget(lon);
+     lo = new QTextEdit(dock);
+     VdockLayout1->addWidget(lo);
      lo->setFixedHeight(20);
      lo->setFixedWidth(150);
-     lo->setToolTip("Entrez la longitude du point remarquable");
+
+     QPushButton *valider1 = new QPushButton("Valider");
+     VdockLayout1->addWidget(valider1);
 
 
+     //zone coordonnées sexgésimales
+     QLabel *titre2 = new QLabel (trUtf8("En sexagésimal :"));
+     VdockLayout2->addWidget(titre2);
+
+     QLabel *DMS1 = new QLabel (trUtf8("Latitude : Degrée Minute Seconde "));
+     VdockLayout2->addWidget(DMS1);
+
+     d1 = new QTextEdit(dock);
+     d1->setFixedHeight(20);
+     d1->setFixedWidth(50);
+
+     m1 = new QTextEdit(dock);
+     m1->setFixedHeight(20);
+     m1->setFixedWidth(50);
+
+     s1 = new QTextEdit(dock);
+     s1->setFixedHeight(20);
+     s1->setFixedWidth(50);
+
+     HdockLayout1->addWidget(d1);
+     HdockLayout1->addWidget(m1);
+     HdockLayout1->addWidget(s1);
+     VdockLayout2->addLayout(HdockLayout1);
+
+     QLabel *DMS2 = new QLabel (trUtf8("Longitude : Degrée Minute Seconde "));
+     VdockLayout2->addWidget(DMS2);
+
+     d2 = new QTextEdit(dock);
+     d2->setFixedHeight(20);
+     d2->setFixedWidth(50);
+
+     m2 = new QTextEdit(dock);
+     m2->setFixedHeight(20);
+     m2->setFixedWidth(50);
+
+     s2 = new QTextEdit(dock);
+     s2->setFixedHeight(20);
+     s2->setFixedWidth(50);
+
+     HdockLayout2->addWidget(d2);
+     HdockLayout2->addWidget(m2);
+     HdockLayout2->addWidget(s2);
+     VdockLayout2->addLayout(HdockLayout2);
+     QPushButton *valider2 = new QPushButton("Valider");
+     VdockLayout2->addWidget(valider2);
+
+     VdockLayout3->addLayout(VdockLayout1);
+     VdockLayout3->addLayout(VdockLayout2);
+     contenuDock->setLayout(VdockLayout3);
 
 
+     /********************************************************************/
                                 //LAYOUTS
     mainLayout= new QHBoxLayout(w);
     mainLayout->addWidget(image);
