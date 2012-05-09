@@ -11,9 +11,6 @@ carte::carte():point_click(0,0),coul(255255255)
     imageDessiner=false;
 
 
-
-
-
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
 
