@@ -5,6 +5,7 @@
 
 fenetre::fenetre()
 {
+
     //widget central
     QWidget * w = new QWidget;
     setCentralWidget(w);
