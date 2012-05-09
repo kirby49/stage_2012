@@ -14,7 +14,7 @@ carte::carte():point_click(0,0),coul(255255255),flags(0)
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
     QObject::connect(this, SIGNAL(signalDessinerChemin()),this, SLOT(dessinerChemin()));
-    QObject::connect(this, SIGNAL(test(QPoint)),this, SLOT(attributCouleur(QPoint)));
+    QObject::connect(this, SIGNAL(changeRes2(QPoint)),this, SLOT(attributCouleur(QPoint)));
 }
 
 carte::~carte(){
@@ -137,7 +137,7 @@ void carte::mousePressEvent(QMouseEvent *event)
     if ((imageDessiner)&&(flags==2)){
            if (event->button() == Qt::LeftButton)
             {
-               emit test(event->pos());
+               emit changeRes2(event->pos());
              }
        // std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
     }

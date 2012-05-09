@@ -46,7 +46,7 @@ public:
 
 signals:
     void ChangeRes();
-    void test(const QPoint &p);
+    void changeRes2(const QPoint &p);
     void ChangeZoom();
     void ChangeZoomIn();
     void signalDessinerChemin();
