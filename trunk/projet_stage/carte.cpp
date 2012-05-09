@@ -92,6 +92,7 @@ void carte::zoom(float valeur){
 
 // gestion de points de cliques et de couleurs
 QString carte::getCouleur_rgb()
+
 {
     return couleur;
 }
