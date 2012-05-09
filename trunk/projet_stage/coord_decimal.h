@@ -19,7 +19,7 @@ public:
     void setLatitude(float la);
     void setLongitude(float lo);
 
-
+    void toSexagesimal(int la,int lo);
 
 
 
