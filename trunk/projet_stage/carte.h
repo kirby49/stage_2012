@@ -13,7 +13,6 @@ private:
     QImage* image;
     QMouseEvent *event;
     QPoint point_click;
-    QString couleur;
     QRgb coul;
     QLabel* valeurZoom;
     QPainter* painter;
@@ -34,8 +33,6 @@ public:
 
     QRgb getCouleur();
     void setCouleur(QRgb c);
-    void setCouleur_rgb(QString str);
-    QString getCouleur_rgb();
 
     QPoint getPoint();
     void setPoint(QPoint p);
