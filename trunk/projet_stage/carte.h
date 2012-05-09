@@ -36,6 +36,8 @@ public:
 
     QPoint getPoint();
     void setPoint(QPoint p);
+    bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
+    int maximum(int a , int b);
 
 
 
@@ -43,12 +45,14 @@ signals:
     void ChangeRes();
     void ChangeZoom();
     void ChangeZoomIn();
+    void signalDessinerChemin();
 
 
 public slots:
     void augmenter_zoom();
     void diminuer_zoom();
     void fermerProjet();
+    void dessinerChemin();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
