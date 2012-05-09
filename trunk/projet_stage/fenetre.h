@@ -11,7 +11,7 @@ class fenetre : public QMainWindow
 
 private:
     QHBoxLayout* mainLayout;
-    QPushButton* telecharger;
+
     //MENU *menu;
     //menubar
     QMenu *menuFichier;
