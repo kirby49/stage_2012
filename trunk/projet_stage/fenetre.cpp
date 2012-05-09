@@ -150,7 +150,10 @@ fenetre::fenetre()
 
     void fenetre::setCouleur()
     {
-        couleur=image->getCouleur_rgb();
+
+        QString r,g,b;
+        r= QString::number(qRed(image->getCouleur()));g=QString::number(qGreen(image->getCouleur())); b=QString::number(qBlue(image->getCouleur()));
+        couleur="background-color: rgb("+r+","+g+","+b+");";
         label->setStyleSheet(couleur);
         update();
 
