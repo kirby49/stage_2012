@@ -16,7 +16,7 @@ private:
     QRgb coul;
     QLabel* valeurZoom;
     QPainter* painter;
-
+    int flags;
     bool imageDessiner;
     float echelle;
     int hauteur;
@@ -38,6 +38,9 @@ public:
     void setPoint(QPoint p);
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a , int b);
+
+    int getFlags();
+    void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 1 pour la saisie des points gps, 3 pour la construction du chemin
 
 
 
