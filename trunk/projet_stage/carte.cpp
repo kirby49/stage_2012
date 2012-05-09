@@ -43,10 +43,14 @@ void carte::afficherImage(QString chemin){
     if (width>largeur){
     QImage newImage= (image->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     image=new QImage(newImage);
+    largeur=image->width();
+    hauteur=image->height();
     }
     else if (height>hauteur){
     QImage newImage= (image->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     image=new QImage(newImage);
+    largeur=image->width();
+    hauteur=image->height();
     };
 
     imageDessiner=true;
