@@ -3,13 +3,13 @@
 
 carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
-
-    this->setMinimumSize(1500,700);
+    largeur= QApplication::desktop()->width();
+    hauteur = QApplication::desktop()->height();
+    this->setMinimumSize(largeur,hauteur);
     image = new QImage();
     imageDessiner=false;
 
-    longueur= 0;
-    largeur=0;
+
 
 
 
@@ -38,12 +38,12 @@ void carte::afficherImage(QString chemin){
     int width= image->width();
     int height=image->height();
 
-    if (width>longueur){
-    QImage newImage= (image->scaledToWidth(1200,Qt::SmoothTransformation));
+    if (width>largeur){
+    QImage newImage= (image->scaledToWidth(largeur,Qt::SmoothTransformation));
     image=new QImage(newImage);
     }
-    else if (height>largeur){
-    QImage newImage= (image->scaledToHeight(600,Qt::SmoothTransformation));
+    else if (height>hauteur){
+    QImage newImage= (image->scaledToHeight(hauteur,Qt::SmoothTransformation));
     image=new QImage(newImage);
     };
 
@@ -62,6 +62,12 @@ void carte::setImagedessiner(bool choix){
 }
 
 void carte::augmenter_zoom(){
+    /*QRectF target(10.0, 20.0, 80.0, 60.0);
+     QRectF source(0.0, 0.0, 70.0, 40.0);
+
+
+     QPainter painter(this);
+     painter.drawImage(target, image, source);*/
     std::cout<<"zoom in"<<std::endl;
     //zoom(1.25);
 
@@ -86,6 +92,7 @@ void carte::zoom(float valeur){
 
 // gestion de points de cliques et de couleurs
 QString carte::getCouleur_rgb()
+
 {
     return couleur;
 }
