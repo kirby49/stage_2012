@@ -14,7 +14,7 @@ carte::carte():point_click(0,0),coul(255255255)
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
     QObject::connect(this, SIGNAL(signalDessinerChemin()),this, SLOT(dessinerChemin()));
-    // QObject::connect(this, SIGNAL(changeRes2(QPoint p)),this, SLOT(attributCouleur()));
+    QObject::connect(this, SIGNAL(test(QPoint)),this, SLOT(attributCouleur(QPoint)));
 }
 
 carte::~carte(){
@@ -124,14 +124,14 @@ void carte::setPoint(QPoint p)
 void carte::mousePressEvent(QMouseEvent *event)
 {
     if (imageDessiner){
-    QRgb pt ;
+    //QRgb pt ;
         if (event->button() == Qt::LeftButton)
             {
-               // emit ChangeRes2(event->pos());
+               emit test(event->pos());
 
-               setPoint(event->pos());
+              /*setPoint(event->pos());
                pt = image->pixel(event->pos());
-               setCouleur(pt);
+               setCouleur(pt);*/
 
             //update();
              }
@@ -139,12 +139,12 @@ void carte::mousePressEvent(QMouseEvent *event)
     }
 }
 
-/*void carte::attributCouleur(){
+void carte::attributCouleur(const QPoint &p){
      QRgb pt ;
-    setPoint(event->pos());
-    pt = image->pixel(event->pos());
+    setPoint(p);
+    pt = image->pixel(p);
     setCouleur(pt);
-}*/
+}
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -186,9 +186,9 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
     unsigned int differenceVert  = abs(qGreen(p1)- qGreen(p2));
     unsigned int differenceBleu  = abs(qBlue(p1)-qBlue(p2));
     int couleurDominante= maximum(differenceBleu,maximum(differenceRouge, differenceVert));
-    if(couleurDominante>50) return false;
-              unsigned int somme= differenceRouge + differenceVert + differenceBleu;
-              if (somme<10) return true;
+    if(couleurDominante>40) return false;
+                 else if ((differenceRouge + differenceVert + differenceBleu)>100) return false;
+              //if (somme<10) return true;
 }
 
 void carte::dessinerChemin(){

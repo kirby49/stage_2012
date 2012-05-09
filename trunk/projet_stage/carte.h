@@ -43,7 +43,7 @@ public:
 
 signals:
     void ChangeRes();
-    //void ChangeRes2(QPoint p);
+    void test(const QPoint &p);
     void ChangeZoom();
     void ChangeZoomIn();
     void signalDessinerChemin();
@@ -54,7 +54,7 @@ public slots:
     void diminuer_zoom();
     void fermerProjet();
     void dessinerChemin();
-    //void attributCouleur(QPoint p);
+    void attributCouleur(const QPoint &p);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
