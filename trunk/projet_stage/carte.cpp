@@ -3,19 +3,19 @@
 
 carte::carte():point(0,0),point_click(0,0),coul(255255255)
 {
-
-    this->setMinimumSize(1500,700);
+    largeur= QApplication::desktop()->width();
+    hauteur = QApplication::desktop()->height();
+    this->setMinimumSize(largeur,hauteur);
     image = new QImage();
     imageDessiner=false;
-<<<<<<< HEAD
-    longueur= 0;
-    largeur=0;
-=======
+
+
+
 
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
->>>>>>> 16bbb87147811858729f6c04158dfbf144f91852
+
 }
 
 carte::~carte(){
@@ -38,12 +38,12 @@ void carte::afficherImage(QString chemin){
     int width= image->width();
     int height=image->height();
 
-    if (width>longueur){
-    QImage newImage= (image->scaledToWidth(1200,Qt::SmoothTransformation));
+    if (width>largeur){
+    QImage newImage= (image->scaledToWidth(largeur,Qt::SmoothTransformation));
     image=new QImage(newImage);
     }
-    else if (height>largeur){
-    QImage newImage= (image->scaledToHeight(600,Qt::SmoothTransformation));
+    else if (height>hauteur){
+    QImage newImage= (image->scaledToHeight(hauteur,Qt::SmoothTransformation));
     image=new QImage(newImage);
     };
 
@@ -62,6 +62,12 @@ void carte::setImagedessiner(bool choix){
 }
 
 void carte::augmenter_zoom(){
+    /*QRectF target(10.0, 20.0, 80.0, 60.0);
+     QRectF source(0.0, 0.0, 70.0, 40.0);
+
+
+     QPainter painter(this);
+     painter.drawImage(target, image, source);*/
     std::cout<<"zoom in"<<std::endl;
     //zoom(1.25);
 
