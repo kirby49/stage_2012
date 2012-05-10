@@ -11,6 +11,7 @@ carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(
     this->setMinimumSize(largeur,hauteur);
     image = new QImage();
     imageDessiner=false;
+    tracer_chemin= new QImage();
 
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
@@ -75,6 +76,7 @@ void carte::afficherImage(QString chemin){
     };
 
     imageDessiner=true;
+    tracer_chemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
 
     update();
     }
@@ -87,7 +89,7 @@ void carte::zoom(float valeur){
 }
 
 void carte::dessinerChemin(const QPoint &p){
-    //tracer_chemin=new QImage(largeur,hauteur,QImage::Format_RGB32);
+
 
     point_release=p;
     QPoint direction;
@@ -101,7 +103,7 @@ void carte::dessinerChemin(const QPoint &p){
     {
         for (int i=point_click.x();i<=direction.x();i++){
            for (int j=point_click.y();j<=direction.y();j++){
-                if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
            }
         }
     }
@@ -110,7 +112,7 @@ void carte::dessinerChemin(const QPoint &p){
         {
             for (int i=point_click.x();i<=direction.x();i++){
                for (int j=point_click.y();j>=direction.y();j--){
-                    if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                    if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
                }
             }
         }
@@ -119,7 +121,7 @@ void carte::dessinerChemin(const QPoint &p){
             {
                 for (int i=point_click.x();i>=direction.x();i--){
                    for (int j=point_click.y();j<=direction.y();j++){
-                        if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                        if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
                    }
                 }
             }
@@ -127,7 +129,7 @@ void carte::dessinerChemin(const QPoint &p){
                 {
                     for (int i=point_click.x();i>=direction.x();i--){
                        for (int j=point_click.y();j>=direction.y();j--){
-                           if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                           if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
                        }
                     }
                 }
@@ -174,7 +176,7 @@ void carte::attributCouleur(const QPoint &p){
 }
 
 void carte::fermerProjet(){
-  QImage newImage(0,0,QImage::Format_RGB32);
+  QImage newImage(0,0,QImage::Format_ARGB32);
   image= new QImage(newImage);
   setFlags(0);
   update();
@@ -196,15 +198,17 @@ void carte::placerFlag2(const QPoint &p)
     update();
 }
 
+
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
-   /* if (imageDessiner){
+    if (imageDessiner){
         QPainter painter(this);
         QPoint point (0,0);
         painter.drawImage(point,*image);
-    }*/
-    if ((imageDessiner)&&(flags==1)){
+        painter.drawImage(point,*tracer_chemin);
+    }
+    /*if ((imageDessiner)&&(flags==1)){
             painter = new QPainter(this);
             QPoint point (0,0);
             painter->drawImage(point,*image);
@@ -221,7 +225,7 @@ void carte::paintEvent(QPaintEvent *event)
                       }
 
 
-        }
+        }*/
 }
 
 void carte::mousePressEvent(QMouseEvent *event)
