@@ -20,6 +20,15 @@ private:
     //toolbar
     QToolBar *toolbar;
     QLabel * label;
+    //action
+    QAction *save_as;
+    QAction *save;
+    QAction *zoom_in;
+    QAction *zoom_out;
+    QAction *exp;
+    QAction *affich_dock;
+    QAction *effacer;
+
     // latitude/longitude
     QTextEdit *la;
     QTextEdit *lo;
@@ -52,6 +61,10 @@ public slots:
     void setCouleur();
     void valider_dec();
     void valider_sexa();
+    void ignor();
+    void afficher_dock();
+
+
 
 };
 

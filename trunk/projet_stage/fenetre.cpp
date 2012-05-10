@@ -19,6 +19,8 @@ fenetre::fenetre()
     /********************************************************************/
                                  //MENUBAR
 
+    //FICHIER
+
     menuFichier = menuBar()->addMenu("&Fichier");
 
     //ouvrir
@@ -26,36 +28,48 @@ fenetre::fenetre()
     ouvrir->setShortcut(QKeySequence("Ctrl+O"));
 
     //Enregistrer sous
-    QAction *save_as = menuFichier->addAction("Sauvegarder le projet sous");
-
+    save_as = menuFichier->addAction("Sauvegarder le projet sous");
+    save_as->setEnabled(false);
 
     //Enregistrer
-    QAction *save = menuFichier->addAction("Sauvegarder le projet");
+    save = menuFichier->addAction("Sauvegarder le projet");
     save->setShortcut(QKeySequence("Ctrl+S"));
-
+    save->setEnabled(false);
 
     //quitter
      QAction *quitter = menuFichier->addAction("&Quitter");
      quitter->setShortcut(QKeySequence("Ctrl+Q"));
 
+     //EDITION
+
      menuEdition = menuBar()->addMenu("&Edition");
 
      //export
-     QAction *exp = menuEdition->addAction("Export aux format GPX");
+     exp = menuEdition->addAction("Export aux format GPX");
      exp->setShortcut(QKeySequence("Ctrl+E"));
+     exp->setEnabled(false);
+
+
+     //AFFICHAGE
 
      menuAffichage = menuBar()->addMenu("&Affichage");
 
      //zoom avant
-     QAction *zoom_in = menuAffichage->addAction("Zoom avant");
+     zoom_in = menuAffichage->addAction("Zoom avant");
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
      zoom_in->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
+     zoom_in->setEnabled(false);
 
      //zoom arriere
-     QAction *zoom_out = menuAffichage->addAction("Zoom arriere");
+     zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
      zoom_out->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
+     zoom_out->setEnabled(false);
 
+     //afficher le dock
+     affich_dock = menuAffichage->addAction("Afficher le gestionnaire gps");
+     affich_dock->setShortcut(QKeySequence("Ctrl+d"));
+     affich_dock->setEnabled(false);
     /********************************************************************/
                                  //TOOLBAR
 
@@ -70,8 +84,9 @@ fenetre::fenetre()
      toolbar->addSeparator();
 
      //Effacer
-     QAction *effacer = toolbar->addAction("Fermer le projet");
+     effacer = toolbar->addAction("Fermer le projet");
      toolbar->addAction(effacer);
+     effacer->setEnabled(false);
 
      //Zoom
      toolbar->addAction(zoom_in);
@@ -183,8 +198,10 @@ fenetre::fenetre()
 
          VdockLayout3->addLayout(VdockLayout1);
          VdockLayout3->addLayout(VdockLayout2);
+         QPushButton *ignorer = new QPushButton("Ignorer");
+         VdockLayout3->addWidget(ignorer);
          contenuDock->setLayout(VdockLayout3);
-        dock->setVisible(false);
+         dock->setVisible(false);
 
 
      /********************************************************************/
@@ -195,11 +212,16 @@ fenetre::fenetre()
 
     /********************************************************************/
                                  //CONNECT
+    QAction * var = dock->toggleViewAction();
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
+     QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
+     QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
+
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
+     QObject::connect(ignorer, SIGNAL(clicked()),this, SLOT(ignor()));
 
 
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
@@ -222,7 +244,13 @@ fenetre::fenetre()
            //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
            // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
-
+           save->setEnabled(true);
+           save_as->setEnabled(true);
+           effacer->setEnabled(true);
+           zoom_in->setEnabled(true);
+           zoom_out->setEnabled(true);
+           affich_dock->setEnabled(true);
+           exp->setEnabled(true);
            dock->setVisible(true);
            image->setFlags(1);
            image->afficherImage(fichier);
@@ -248,3 +276,27 @@ fenetre::fenetre()
     {
          image->setFlags(2);
     }
+
+    void fenetre::ignor()
+    {
+
+        dock->setVisible(false);
+        image->setFlags(2);
+
+    }
+
+    void fenetre::afficher_dock()// a retravailler !!!!!!!!!!!
+    {
+
+        if (image->getFlags()==2){
+            affich_dock->setEnabled(false);
+            dock->setVisible(true);
+            image->setFlags(1);
+        }   else if (image->getFlags()!=0){
+                affich_dock->setEnabled(true);
+                dock->setVisible(true);
+                image->setFlags(1);
+            }
+    }
+
+
