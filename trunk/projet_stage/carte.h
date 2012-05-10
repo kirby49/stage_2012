@@ -11,6 +11,7 @@ class carte: public QWidget
 private:
 
     QImage* image;
+    QImage* tracer_chemin;
     QImage* p1;
     QImage* p2;
     QMouseEvent *event;
