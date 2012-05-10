@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),nbpoint(0),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -103,7 +103,7 @@ void carte::dessinerChemin(const QPoint &p){
     {
         for (int i=point_click.x();i<=direction.x();i++){
            for (int j=point_click.y();j<=direction.y();j++){
-                if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
+                if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
            }
         }
     }
@@ -112,7 +112,7 @@ void carte::dessinerChemin(const QPoint &p){
         {
             for (int i=point_click.x();i<=direction.x();i++){
                for (int j=point_click.y();j>=direction.y();j--){
-                    if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
+                    if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
                }
             }
         }
@@ -121,7 +121,7 @@ void carte::dessinerChemin(const QPoint &p){
             {
                 for (int i=point_click.x();i>=direction.x();i--){
                    for (int j=point_click.y();j<=direction.y();j++){
-                        if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
+                        if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
                    }
                 }
             }
@@ -129,7 +129,7 @@ void carte::dessinerChemin(const QPoint &p){
                 {
                     for (int i=point_click.x();i>=direction.x();i--){
                        for (int j=point_click.y();j>=direction.y();j--){
-                           if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),255255255255);
+                           if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
                        }
                     }
                 }
@@ -169,7 +169,7 @@ void carte::diminuer_zoom(){
 }
 
 void carte::attributCouleur(const QPoint &p){
-     QRgb pt ;
+    QRgb pt ;
     setPoint(p);
     pt = image->pixel(p);
     setCouleur(pt);
@@ -178,6 +178,7 @@ void carte::attributCouleur(const QPoint &p){
 void carte::fermerProjet(){
   QImage newImage(0,0,QImage::Format_ARGB32);
   image= new QImage(newImage);
+  tracer_chemin= new QImage(newImage);
   setFlags(0);
   update();
 ;
@@ -185,47 +186,61 @@ void carte::fermerProjet(){
 
 void carte::placerFlag1(const QPoint &p)
 {
-    setPoint1(p);
-    delete []painter1;
-    update();
+    if (nbpoint==0){
+        std::cout<<"est dans placerf1 : "<<nbpoint<<std::endl;
+        nbpoint++;
+        setPoint1(p);
+        std::cout<<"point : "<<nbpoint<<std::endl;
+        std::cout<<"x y : "<<p.x()<<p.y()<<std::endl;
+        update();
+    }
+
 }
 
 void carte::placerFlag2(const QPoint &p)
 {
-    setPoint2(p);
-    //p1=new QImage("maps.png");
-    //p1->
-    update();
+    if (nbpoint==1){
+        std::cout<<"est dans placerf2 : "<<nbpoint<<std::endl;
+        nbpoint++;
+        setPoint2(p);
+        std::cout<<"point : "<<nbpoint<<std::endl;
+        std::cout<<"x y : "<<p.x()<<p.y()<<std::endl;
+        update();
+        //p1=new QImage("maps.png");
+    }
+
+
 }
 
 
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
-    if (imageDessiner){
+
+
+    if ((imageDessiner)&&(flags==1)){
         QPainter painter(this);
         QPoint point (0,0);
         painter.drawImage(point,*image);
         painter.drawImage(point,*tracer_chemin);
     }
-    /*if ((imageDessiner)&&(flags==1)){
-            painter = new QPainter(this);
-            QPoint point (0,0);
-            painter->drawImage(point,*image);
-      }  else if ((imageDessiner)&&(flags==2)){
-        if (nbpoint==0) {
-            std::cout<<"affiche test map.png :"<<getPoint1().x()<<" "<<getPoint1().y()<<std::endl;
-             //painter1 = new QPainter (image);
-              p1=new QImage("gps2.png");
-              painter->drawImage(getPoint1(),*p1);
-              } else if (nbpoint==1) {
-                        //painter2 = new QPainter (image);
-                        p2=new QImage("gps2.png");
-                        painter->drawImage(getPoint2(),*p2);
-                      }
+    else if ((imageDessiner)&&(flags==2)){
+            if (nbpoint==1) {
+                std::cout<<"affiche 1er point :"<<nbpoint<<std::endl;
+                 QPoint point (0,0);
+                 painter->drawImage(point,*image);
+                 painter = new QPainter (image);
 
-
-        }*/
+                  painter->drawImage(getPoint1(),*p1);
+                  } else if (nbpoint==2) {
+                            std::cout<<"affiche 2e point :"<<nbpoint<<std::endl;
+                            //painter2 = new QPainter (image);
+                            QPoint point (0,0);
+                            painter->drawImage(point,*image);
+                            p2=new QImage("gps2.png");
+                            painter->drawImage(getPoint2(),*p2);
+                          }
+            }
 }
 
 void carte::mousePressEvent(QMouseEvent *event)
@@ -239,11 +254,11 @@ void carte::mousePressEvent(QMouseEvent *event)
     } else if ((imageDessiner)&&(flags==2)){
         if (nbpoint==0){
                  emit placerFlag1(event->pos());
-                 nbpoint++;
+
                  }
         else if (nbpoint==1) {
                  emit placerFlag2(event->pos());
-                 nbpoint++;
+
                  }
 
     }
