@@ -76,7 +76,7 @@ void carte::zoom(float valeur){
 }
 
 void carte::dessinerChemin(const QPoint &p){
-   /* point_release=p;
+    point_release=p;
     QPoint direction;
     int directionX=point_release.x()-point_click.x();
     int directionY=point_release.y()-point_click.y();
@@ -86,26 +86,22 @@ void carte::dessinerChemin(const QPoint &p){
     std::cout<<"direction "<<direction.x()<<" "<<direction.y()<<std::endl;
 // while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
    for (int i=point_click.x();i<=direction.x();i++){
-       for (int j=point_click.y();i<=direction.y();j++){
-
+       for (int j=point_click.y();j<=direction.y();j++){
+if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
       image->setPixel(QPoint(i,j),255255255);
 
        }
-    }*/
+    }
 
-   for (int i=0;i<largeur;i++){
+   /*for (int i=0;i<largeur;i++){
      for (int j=0; j<hauteur;j++){
          if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
-
-
             {image->setPixel(QPoint(i,j),255255255);}
        // std::cout<<"couleur : "<<coul<<std::endl;}
          //image->setPixel(QPoint(i,j),coul);
-
-
      }
  }
-
+*/
 
 update();
 }
