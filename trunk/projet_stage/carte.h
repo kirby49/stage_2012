@@ -3,6 +3,8 @@
 
 #include <QtGui/QtGui>
 #include <QtCore/QtCore>
+#include "coord_decimal.h"
+#include "coord_sexagesimal.h"
 
 class carte: public QWidget
 {
@@ -22,6 +24,10 @@ private:
     QPoint point2;
     QRgb coul;
     QLabel* valeurZoom;
+    coord_decimal dec;
+    coord_decimal dec1;
+    coord_sexagesimal sexa;
+    coord_sexagesimal sexa1;
     bool imageDessiner;
     float echelle;
     int nbpoint;
@@ -48,6 +54,15 @@ public:
 
     QPoint getPoint();
     void setPoint(QPoint p);
+
+    coord_decimal getCoordDec();
+    coord_decimal getCoordDec1();
+    void setCoordDec(coord_decimal d, coord_decimal d1);
+
+    coord_sexagesimal getCoordSeg();
+    coord_sexagesimal getCoordSeg1();
+    void setCoordSeg(coord_sexagesimal s,coord_sexagesimal s1);
+
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);
     int minimum(int a, int b);

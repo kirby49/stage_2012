@@ -39,6 +39,14 @@ QPoint carte::getPoint1() {return point1;}
 
 QPoint carte::getPoint2() {return point2;}
 
+coord_decimal carte::getCoordDec() {return dec;}
+
+coord_decimal carte::getCoordDec1() {return dec1;}
+
+coord_sexagesimal carte::getCoordSeg() {return sexa;}
+
+coord_sexagesimal carte::getCoordSeg1() {return sexa1;}
+
 //mutateur
 void carte::setImagedessiner(bool choix) {imageDessiner= choix;}
 
@@ -51,6 +59,10 @@ void carte::setPoint(QPoint p) {point_click=p;}
 void carte::setPoint1(QPoint p) {point1=p;}
 
 void carte::setPoint2(QPoint p) {point2=p;}
+
+void carte::setCoordDec(coord_decimal d, coord_decimal d1) { dec=d;dec1=d1;}
+
+void carte::setCoordSeg(coord_sexagesimal s,coord_sexagesimal s1) {sexa=s;sexa1=s1;}
 
 //fonctions
 void carte::afficherImage(QString chemin){

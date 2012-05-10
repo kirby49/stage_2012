@@ -34,6 +34,8 @@ private:
     // latitude/longitude
     QTextEdit *la;
     QTextEdit *lo;
+    QTextEdit *la1;
+    QTextEdit *lo1;
     //DOCK
     QDockWidget * dock;
     //degree/minute/seconde
@@ -43,6 +45,12 @@ private:
     QTextEdit *d2;
     QTextEdit *m2;
     QTextEdit *s2;
+    QTextEdit *dd1;
+    QTextEdit *mm1;
+    QTextEdit *ss1;
+    QTextEdit *dd2;
+    QTextEdit *mm2;
+    QTextEdit *ss2;
     //carte
     carte* image;
     //couleur

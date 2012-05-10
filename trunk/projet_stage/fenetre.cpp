@@ -132,11 +132,12 @@ fenetre::fenetre():flag_dock(false)
     //dock->setStyleSheet("border-top :1px solid black");
     QVBoxLayout* VdockLayout1 = new QVBoxLayout();
     QVBoxLayout* VdockLayout2 = new QVBoxLayout();
-    QVBoxLayout* VsdockLayout1 = new QVBoxLayout();
-    QVBoxLayout* VsdockLayout2 = new QVBoxLayout();
+    QVBoxLayout* VdockLayout3 = new QVBoxLayout();
+
     QHBoxLayout* HdockLayout1 = new QHBoxLayout();
     QHBoxLayout* HdockLayout2 = new QHBoxLayout();
-    QVBoxLayout* VdockLayout3 = new QVBoxLayout();
+    QVBoxLayout* HdockLayout3 = new QVBoxLayout();
+    QVBoxLayout* HdockLayout4 = new QVBoxLayout();
 
     //zone coordonnées décimales
     QLabel *titre = new QLabel (trUtf8("En décimal :"));
@@ -150,6 +151,11 @@ fenetre::fenetre():flag_dock(false)
     la->setFixedHeight(20);
     la->setFixedWidth(150);
 
+    la1 = new QTextEdit(dock);
+    VdockLayout1->addWidget(la1);
+    la1->setFixedHeight(20);
+    la1->setFixedWidth(150);
+
     //longitude
     QLabel *lon = new QLabel ("Longitude : ");
     VdockLayout1->addWidget(lon);
@@ -158,8 +164,15 @@ fenetre::fenetre():flag_dock(false)
     lo->setFixedHeight(20);
     lo->setFixedWidth(150);
 
+
+    lo1 = new QTextEdit(dock);
+    VdockLayout1->addWidget(lo1);
+    lo1->setFixedHeight(20);
+    lo1->setFixedWidth(150);
+
     QPushButton *valider1 = new QPushButton("Valider");
     VdockLayout1->addWidget(valider1);
+
 
 
     //zone coordonnées sexgésimales
@@ -173,18 +186,37 @@ fenetre::fenetre():flag_dock(false)
     d1->setFixedHeight(20);
     d1->setFixedWidth(75);
 
+    dd1 = new QTextEdit(dock);
+    dd1->setFixedHeight(20);
+    dd1->setFixedWidth(75);
+
     m1 = new QTextEdit(dock);
     m1->setFixedHeight(20);
     m1->setFixedWidth(60);
+
+    mm1 = new QTextEdit(dock);
+    mm1->setFixedHeight(20);
+    mm1->setFixedWidth(60);
 
     s1 = new QTextEdit(dock);
     s1->setFixedHeight(20);
     s1->setFixedWidth(60);
 
+    ss1 = new QTextEdit(dock);
+    ss1->setFixedHeight(20);
+    ss1->setFixedWidth(60);
+
+
     HdockLayout1->addWidget(d1);
     HdockLayout1->addWidget(m1);
     HdockLayout1->addWidget(s1);
+
+    HdockLayout2->addWidget(dd1);
+    HdockLayout2->addWidget(mm1);
+    HdockLayout2->addWidget(ss1);
+
     VdockLayout2->addLayout(HdockLayout1);
+    VdockLayout2->addLayout(HdockLayout2);
 
     QLabel *DMS2 = new QLabel (trUtf8("Longitude en degrée minute seconde :"));
     VdockLayout2->addWidget(DMS2);
@@ -193,24 +225,44 @@ fenetre::fenetre():flag_dock(false)
     d2->setFixedHeight(20);
     d2->setFixedWidth(75);
 
+    dd2 = new QTextEdit(dock);
+    dd2->setFixedHeight(20);
+    dd2->setFixedWidth(75);
+
     m2 = new QTextEdit(dock);
     m2->setFixedHeight(20);
     m2->setFixedWidth(60);
+
+    mm2 = new QTextEdit(dock);
+    mm2->setFixedHeight(20);
+    mm2->setFixedWidth(60);
 
     s2 = new QTextEdit(dock);
     s2->setFixedHeight(20);
     s2->setFixedWidth(60);
 
-    HdockLayout2->addWidget(d2);
-    HdockLayout2->addWidget(m2);
-    HdockLayout2->addWidget(s2);
-    VdockLayout2->addLayout(HdockLayout2);
-    VdockLayout2->setSpacing(1);
+    ss2 = new QTextEdit(dock);
+    ss2->setFixedHeight(20);
+    ss2->setFixedWidth(60);
+
+
+    HdockLayout3->addWidget(d2);
+    HdockLayout3->addWidget(m2);
+    HdockLayout3->addWidget(s2);
+
+    HdockLayout4->addWidget(dd2);
+    HdockLayout4->addWidget(mm2);
+    HdockLayout4->addWidget(ss2);
+
+    VdockLayout2->addLayout(HdockLayout3);
+    VdockLayout2->addLayout(HdockLayout4);
+
     QPushButton *valider2 = new QPushButton("Valider");
     VdockLayout2->addWidget(valider2);
 
     VdockLayout3->addLayout(VdockLayout1);
     VdockLayout3->addLayout(VdockLayout2);
+
     QPushButton *reinit = new QPushButton(trUtf8("réinitialiser"));
     VdockLayout3->addWidget(reinit);
     contenuDock->setLayout(VdockLayout3);
