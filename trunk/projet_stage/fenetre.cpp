@@ -3,7 +3,7 @@
 
 
 
-fenetre::fenetre()
+fenetre::fenetre():flag_dock(false)
 {
     int largeur= QApplication::desktop()->width()-100;
     int hauteur = QApplication::desktop()->height()-100;
@@ -206,8 +206,6 @@ fenetre::fenetre()
 
          VdockLayout3->addLayout(VdockLayout1);
          VdockLayout3->addLayout(VdockLayout2);
-         QPushButton *ignorer = new QPushButton("Revenir sur la construction du chemin");
-         VdockLayout3->addWidget(ignorer);
          contenuDock->setLayout(VdockLayout3);
          dock->setVisible(false);
 
@@ -229,8 +227,7 @@ fenetre::fenetre()
 
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
-     QObject::connect(ignorer, SIGNAL(clicked()),this, SLOT(ignor()));
-
+     QObject::connect(gestionnaire, SIGNAL(clicked()),this, SLOT(afficher_dock()));
 
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
      QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
@@ -239,6 +236,8 @@ fenetre::fenetre()
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 
 }
+
+
 
 
     /********************************************************************/
@@ -295,21 +294,22 @@ fenetre::fenetre()
 
     }
 
-    void fenetre::afficher_dock()// a retravailler !!!!!!!!!!!
+    void fenetre::afficher_dock()
     {
+        if (flag_dock==false) {
+                     dock->setVisible(true);
+                     if (image->getFlags()==1)
+                                image->setFlags(2);
 
-        if (image->getFlags()==1){
-            dock->setVisible(true);
-            image->setFlags(2);
+                      flag_dock=true;
 
+        } else if (flag_dock==true) {
+                            dock->setVisible(false);
+                            if (image->getFlags()==2)
+                                       image->setFlags(1);
 
-        } else if (image->getFlags()==2){
-
-                    dock->setVisible(true);
-                    image->setFlags(2);
-
-
+                            flag_dock=false;
                 }
-     }
+    }
 
 
