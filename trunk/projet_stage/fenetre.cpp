@@ -132,6 +132,8 @@ fenetre::fenetre():flag_dock(false)
     //dock->setStyleSheet("border-top :1px solid black");
     QVBoxLayout* VdockLayout1 = new QVBoxLayout();
     QVBoxLayout* VdockLayout2 = new QVBoxLayout();
+    QVBoxLayout* VsdockLayout1 = new QVBoxLayout();
+    QVBoxLayout* VsdockLayout2 = new QVBoxLayout();
     QHBoxLayout* HdockLayout1 = new QHBoxLayout();
     QHBoxLayout* HdockLayout2 = new QHBoxLayout();
     QVBoxLayout* VdockLayout3 = new QVBoxLayout();
@@ -209,7 +211,8 @@ fenetre::fenetre():flag_dock(false)
 
     VdockLayout3->addLayout(VdockLayout1);
     VdockLayout3->addLayout(VdockLayout2);
-
+    QPushButton *reinit = new QPushButton(trUtf8("réinitialiser"));
+    VdockLayout3->addWidget(reinit);
     contenuDock->setLayout(VdockLayout3);
     dock->setVisible(false);
 
@@ -236,6 +239,8 @@ fenetre::fenetre():flag_dock(false)
      QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
      QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
+
+     QObject::connect(reinit, SIGNAL(clicked()),image, SLOT(setNbpoint()));
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 

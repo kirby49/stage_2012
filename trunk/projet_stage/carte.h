@@ -22,9 +22,6 @@ private:
     QPoint point2;
     QRgb coul;
     QLabel* valeurZoom;
-    QPainter* painter;
-    QPainter* painter1;
-    QPainter* painter2;
     bool imageDessiner;
     float echelle;
     int nbpoint;
@@ -74,6 +71,7 @@ public slots:
     void augmenter_zoom();
     void diminuer_zoom();
     void fermerProjet();
+    void setNbpoint ();
     void dessinerChemin(const QPoint &p);
     void attributCouleur(const QPoint &p);
     void placerFlag1(const QPoint &p);
