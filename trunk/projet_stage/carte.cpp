@@ -199,7 +199,7 @@ void carte::paintEvent(QPaintEvent *event)
         if (nbpoint==0) {
             std::cout<<"affiche test map.png"<<std::endl;
             QPainter painter1(this);
-              p1=new QIcon("maps.png");
+              p1=new QImage("maps.png");
               painter1.drawImage(getPoint1(),*p1);
               } else if (nbpoint==1) {
                         p2=new QImage("/maps.png");
