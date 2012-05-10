@@ -84,14 +84,41 @@ void carte::dessinerChemin(const QPoint &p){
     std::cout<<"pas a: "<<directionX<<" pas b: "<<directionY<<std::endl;
     std::cout<<"point de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
     std::cout<<"direction "<<direction.x()<<" "<<direction.y()<<std::endl;
-// while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
-   for (int i=point_click.x();i<=direction.x();i++){
-       for (int j=point_click.y();j<=direction.y();j++){
-if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
-      image->setPixel(QPoint(i,j),255255255);
-
-       }
+    if((directionX>=0)&&(directionY>=0))
+    {
+        for (int i=point_click.x();i<=direction.x();i++){
+           for (int j=point_click.y();j<=direction.y();j++){
+                if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+           }
+        }
     }
+    else
+        if((directionX>=0)&&(directionY<0))
+        {
+            for (int i=point_click.x();i<=direction.x();i++){
+               for (int j=point_click.y();j>=direction.y();j--){
+                    if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+               }
+            }
+        }
+        else
+            if((directionX<0)&&(directionY>=0))
+            {
+                for (int i=point_click.x();i>=direction.x();i--){
+                   for (int j=point_click.y();j<=direction.y();j++){
+                        if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                   }
+                }
+            }
+            else
+                {
+                    for (int i=point_click.x();i>=direction.x();i--){
+                       for (int j=point_click.y();j>=direction.y();j--){
+                           if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true) image->setPixel(QPoint(i,j),255255255);
+                       }
+                    }
+                }
+
 
    /*for (int i=0;i<largeur;i++){
      for (int j=0; j<hauteur;j++){
@@ -203,15 +230,28 @@ int carte::maximum(int a, int b){
         else return b;
 }
 
+int carte::minimum(int a, int b){
+    if(a<b) return a;
+        else return b;
+}
+
+
+
 bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
 
     unsigned int differenceRouge = abs(qRed(p1) - qRed(p2));
     unsigned int differenceVert  = abs(qGreen(p1)- qGreen(p2));
     unsigned int differenceBleu  = abs(qBlue(p1)-qBlue(p2));
-    int couleurDominante= maximum(differenceBleu,maximum(differenceRouge, differenceVert));
-    if(couleurDominante>40) return false;
-                 else if ((differenceRouge + differenceVert + differenceBleu)>100) return false;
-    else return true;
+    /*int couleurMaxP1= maximum(qRed(p1),maximum(qGreen(p1), qBlue(p1)));
+    int couleurMaxP2= maximum(qRed(p2),maximum(qGreen(p2), qBlue(p2)));
+    int couleurMin= minimum(qRed(p1),minimum(qGreen(p1), qBlue(p1)));*/
+    if ((differenceRouge + differenceVert + differenceBleu)>99) return false;
+        else return true;
+
+    /*int couleurDominante= maximum(differenceBleu,maximum(differenceRouge, differenceVert));
+    if(couleurDominante>40) return false;   //40
+                 else if ((differenceRouge + differenceVert + differenceBleu)>100) return false;  //100
+    else return true;*/
               //if (somme<10) return true;
 }
 

@@ -11,6 +11,7 @@ class carte: public QWidget
 private:
 
     QImage* image;
+
     QMouseEvent *event;
     QPoint point_click;
     QPoint point_release;
@@ -38,7 +39,8 @@ public:
     QPoint getPoint();
     void setPoint(QPoint p);
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
-    int maximum(int a , int b);
+    int maximum(int a, int b);
+    int minimum(int a, int b);
 
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
