@@ -21,6 +21,8 @@ private:
     QRgb coul;
     QLabel* valeurZoom;
     QPainter* painter;
+    QPainter* painter1;
+    QPainter* painter2;
     bool imageDessiner;
     float echelle;
     int nbpoint;
