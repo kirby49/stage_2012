@@ -217,7 +217,7 @@ fenetre::fenetre()
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
+     //QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
 
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
@@ -228,7 +228,7 @@ fenetre::fenetre()
      QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
 
-     //QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
+     QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
 
 
