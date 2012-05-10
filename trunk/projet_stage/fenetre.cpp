@@ -67,8 +67,8 @@ fenetre::fenetre()
      zoom_out->setEnabled(false);
 
      //afficher le dock
-     affich_dock = menuAffichage->addAction("Afficher le gestionnaire gps");
-     affich_dock->setShortcut(QKeySequence("Ctrl+d"));
+     affich_dock = menuAffichage->addAction("Afficher le gestionnaire GPS");
+     affich_dock->setShortcut(QKeySequence("Ctrl+D"));
      affich_dock->setEnabled(false);
     /********************************************************************/
                                  //TOOLBAR
@@ -105,6 +105,14 @@ fenetre::fenetre()
      label->setToolTip(trUtf8("Couleur du chemin sélectionné"));
      toolbar->addWidget(label);
      toolbar->addSeparator();
+
+     //gestionnaire des coordonnées
+     gestionnaire = new QPushButton("Gestionnaire GPS");
+     gestionnaire->setToolTip("Afficher ou non le gestionnaire GPS");
+     gestionnaire->setEnabled(false);
+     toolbar->addWidget(gestionnaire);
+     toolbar->addSeparator();
+
      // penser a faire le connecte et les fonctions de modifications ...
 
 
@@ -112,7 +120,7 @@ fenetre::fenetre()
      /********************************************************************/
                                  //DOCK
 
-    dock = new QDockWidget(trUtf8("Gestion des coordonnées"), this);
+    dock = new QDockWidget(trUtf8("Gestion des coordonnées :"), this);
 
 
          addDockWidget(Qt::RightDockWidgetArea, dock);
@@ -154,7 +162,7 @@ fenetre::fenetre()
          QLabel *titre2 = new QLabel (trUtf8("En sexagésimal :"));
          VdockLayout2->addWidget(titre2);
 
-         QLabel *DMS1 = new QLabel (trUtf8("Latitude : Degrée Minute Seconde "));
+         QLabel *DMS1 = new QLabel (trUtf8("Latitude en degrée minute seconde :"));
          VdockLayout2->addWidget(DMS1);
 
          d1 = new QTextEdit(dock);
@@ -174,7 +182,7 @@ fenetre::fenetre()
          HdockLayout1->addWidget(s1);
          VdockLayout2->addLayout(HdockLayout1);
 
-         QLabel *DMS2 = new QLabel (trUtf8("Longitude : Degrée Minute Seconde "));
+         QLabel *DMS2 = new QLabel (trUtf8("Longitude en degrée minute seconde :"));
          VdockLayout2->addWidget(DMS2);
 
          d2 = new QTextEdit(dock);
@@ -198,7 +206,7 @@ fenetre::fenetre()
 
          VdockLayout3->addLayout(VdockLayout1);
          VdockLayout3->addLayout(VdockLayout2);
-         QPushButton *ignorer = new QPushButton("Ignorer");
+         QPushButton *ignorer = new QPushButton("Revenir sur la construction du chemin");
          VdockLayout3->addWidget(ignorer);
          contenuDock->setLayout(VdockLayout3);
          dock->setVisible(false);
@@ -212,12 +220,12 @@ fenetre::fenetre()
 
     /********************************************************************/
                                  //CONNECT
-     //QAction * var = dock->toggleViewAction();
+     QAction * var = dock->toggleViewAction();//permet de récupérer la fermeture du dock
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     //QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
+     QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
 
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
@@ -229,6 +237,7 @@ fenetre::fenetre()
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
+
 }
 
 
@@ -249,9 +258,10 @@ fenetre::fenetre()
            effacer->setEnabled(true);
            zoom_in->setEnabled(true);
            zoom_out->setEnabled(true);
-           affich_dock->setEnabled(false);
+           affich_dock->setEnabled(true);
            exp->setEnabled(true);
-           dock->setVisible(true);
+           dock->setVisible(false);
+           gestionnaire->setEnabled(true);
            image->setFlags(1);
            image->afficherImage(fichier);
 
@@ -269,32 +279,37 @@ fenetre::fenetre()
 
     void fenetre::valider_dec()
     {
-        image->setFlags(2);
+        image->setFlags(1);
     }
 
     void fenetre::valider_sexa()
     {
-         image->setFlags(2);
+         image->setFlags(1);
     }
 
     void fenetre::ignor()
     {
         affich_dock->setEnabled(true);
         dock->setVisible(false);
-        image->setFlags(2);
+        image->setFlags(1);
 
     }
 
     void fenetre::afficher_dock()// a retravailler !!!!!!!!!!!
     {
 
-        if (image->getFlags()==2){
-            std::cout<<"test "<<std::endl;
-
+        if (image->getFlags()==1){
             dock->setVisible(true);
-            image->setFlags(1);
-            affich_dock->setEnabled(false);
-        }
+            image->setFlags(2);
+
+
+        } else if (image->getFlags()==2){
+
+                    dock->setVisible(true);
+                    image->setFlags(2);
+
+
+                }
      }
 
 

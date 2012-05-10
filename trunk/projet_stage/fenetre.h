@@ -20,6 +20,8 @@ private:
     //toolbar
     QToolBar *toolbar;
     QLabel * label;
+    QPushButton *gestionnaire;
+    bool flag_dock;
     //action
     QAction *save_as;
     QAction *save;
@@ -63,6 +65,7 @@ public slots:
     void valider_sexa();
     void ignor();
     void afficher_dock();
+
 
 
 
