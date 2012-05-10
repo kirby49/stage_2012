@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -179,12 +179,15 @@ void carte::fermerProjet(){
 void carte::placerFlag1(const QPoint &p)
 {
     setPoint1(p);
+    delete []painter1;
     update();
 }
 
 void carte::placerFlag2(const QPoint &p)
 {
     setPoint2(p);
+    //p1=new QImage("maps.png");
+    //p1->
     update();
 }
 
@@ -192,18 +195,19 @@ void carte::placerFlag2(const QPoint &p)
 void carte::paintEvent(QPaintEvent *event)
 {
     if ((imageDessiner)&&(flags==1)){
-            QPainter painter(this);
+            painter = new QPainter(this);
             QPoint point (0,0);
-            painter.drawImage(point,*image);
+            painter->drawImage(point,*image);
       }  else if ((imageDessiner)&&(flags==2)){
         if (nbpoint==0) {
-            std::cout<<"affiche test map.png"<<std::endl;
-            QPainter painter1(this);
-              p1=new QImage("maps.png");
-              painter1.drawImage(getPoint1(),*p1);
+            std::cout<<"affiche test map.png :"<<getPoint1().x()<<" "<<getPoint1().y()<<std::endl;
+             //painter1 = new QPainter (image);
+              p1=new QImage("gps2.png");
+              painter->drawImage(getPoint1(),*p1);
               } else if (nbpoint==1) {
-                        p2=new QImage("/maps.png");
-                        painter2->drawImage(getPoint2(),*p2);
+                        //painter2 = new QPainter (image);
+                        p2=new QImage("gps2.png");
+                        painter->drawImage(getPoint2(),*p2);
                       }
 
 
@@ -218,7 +222,7 @@ void carte::mousePressEvent(QMouseEvent *event)
             {
                emit changeRes2(event->pos());
              }
-    } else if ((imageDessiner)&&(flags==1)){
+    } else if ((imageDessiner)&&(flags==2)){
         if (nbpoint==0){
                  emit placerFlag1(event->pos());
                  nbpoint++;
