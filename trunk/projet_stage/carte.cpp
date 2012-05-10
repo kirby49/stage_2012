@@ -87,6 +87,8 @@ void carte::zoom(float valeur){
 }
 
 void carte::dessinerChemin(const QPoint &p){
+    //tracer_chemin=new QImage(largeur,hauteur,QImage::Format_RGB32);
+
     point_release=p;
     QPoint direction;
     int directionX=point_release.x()-point_click.x();
@@ -172,8 +174,11 @@ void carte::attributCouleur(const QPoint &p){
 }
 
 void carte::fermerProjet(){
-   image= new QImage();
-
+  QImage newImage(0,0,QImage::Format_RGB32);
+  image= new QImage(newImage);
+  setFlags(0);
+  update();
+;
 }
 
 void carte::placerFlag1(const QPoint &p)
@@ -191,6 +196,11 @@ void carte::placerFlag2(const QPoint &p)
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
+   /* if (imageDessiner){
+        QPainter painter(this);
+        QPoint point (0,0);
+        painter.drawImage(point,*image);
+    }*/
     if ((imageDessiner)&&(flags==1)){
             QPainter painter(this);
             QPoint point (0,0);
