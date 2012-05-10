@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),coul(255255255),flags(0)
+carte::carte():point_click(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -15,8 +15,11 @@ carte::carte():point_click(0,0),coul(255255255),flags(0)
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
+
     QObject::connect(this, SIGNAL(signalDessinerChemin(QPoint)),this, SLOT(dessinerChemin(QPoint)));
     QObject::connect(this, SIGNAL(changeRes2(QPoint)),this, SLOT(attributCouleur(QPoint)));
+    QObject::connect(this,SIGNAL(SignalFlag(QPoint)),this,SLOT(placerFlag1(QPoint)));
+    QObject::connect(this,SIGNAL(SignalFlag(QPoint)),this,SLOT(placerFlag2(QPoint)));
 }
 
 //destructeur
@@ -31,6 +34,10 @@ int carte::getFlags() {return flags;}
 
 QRgb carte::getCouleur() {return coul;}
 
+QPoint carte::getPoint1() {return point1;}
+
+QPoint carte::getPoint2() {return point2;}
+
 //mutateur
 void carte::setImagedessiner(bool choix) {imageDessiner= choix;}
 
@@ -39,6 +46,10 @@ void carte::setFlags(int f) {flags=f;}
 void carte::setCouleur(QRgb c) {coul = c;}
 
 void carte::setPoint(QPoint p) {point_click=p;}
+
+void carte::setPoint1(QPoint p) {point1=p;}
+
+void carte::setPoint2(QPoint p) {point2=p;}
 
 //fonctions
 void carte::afficherImage(QString chemin){
@@ -165,17 +176,36 @@ void carte::fermerProjet(){
 
 }
 
+void carte::placerFlag1(const QPoint &p)
+{
+    setPoint1(p);
+    update();
+}
 
-
+void carte::placerFlag2(const QPoint &p)
+{
+    setPoint2(p);
+    update();
+}
 
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
+    if ((imageDessiner)&&(flags==1)){
+            QPainter painter(this);
+            QPoint point (0,0);
+            painter.drawImage(point,*image);
+      }  else if ((imageDessiner)&&(flags==1)){
+        if (nbpoint==0) {
+              p1=new QImage("maps.png");
+              painter->drawImage(getPoint1(),*p1);
+              } else if (nbpoint==1) {
+                        p2=new QImage("maps.png");
+                        painter->drawImage(getPoint2(),*p2);
+                      }
 
-    QPainter painter(this);
-    QPoint point (0,0);
-    painter.drawImage(point,*image);
 
+        }
 }
 
 void carte::mousePressEvent(QMouseEvent *event)
@@ -186,7 +216,16 @@ void carte::mousePressEvent(QMouseEvent *event)
             {
                emit changeRes2(event->pos());
              }
-       // std::cout<<"point : "<<event->x()<<" "<<event->y()<<std::endl;
+    } else if ((imageDessiner)&&(flags==1)){
+        if (nbpoint==0){
+                 emit placerFlag1(event->pos());
+                 nbpoint++;
+                 }
+        else if (nbpoint==1) {
+                 emit placerFlag2(event->pos());
+                 nbpoint++;
+                 }
+
     }
 }
 
@@ -201,8 +240,6 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
            emit ChangeRes();
            emit signalDessinerChemin(event->pos());
         }
-    //std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
-
 
     }
 }
@@ -221,6 +258,8 @@ void carte::wheelEvent(QWheelEvent *event)
         }
     }
 }
+
+
 
 /******************* fonction pour l'algo de couleur*********************/
 
@@ -254,6 +293,7 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
     else return true;*/
               //if (somme<10) return true;
 }
+
 
 
 

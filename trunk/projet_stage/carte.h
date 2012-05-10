@@ -11,18 +11,22 @@ class carte: public QWidget
 private:
 
     QImage* image;
-
+    QImage* p1;
+    QImage* p2;
     QMouseEvent *event;
     QPoint point_click;
     QPoint point_release;
+    QPoint point1;
+    QPoint point2;
     QRgb coul;
     QLabel* valeurZoom;
     QPainter* painter;
-    int flags;
     bool imageDessiner;
     float echelle;
+    int nbpoint;
     int hauteur;
     int largeur;
+    int flags;
 
 
 public:
@@ -36,6 +40,11 @@ public:
     QRgb getCouleur();
     void setCouleur(QRgb c);
 
+    QPoint getPoint1();
+    QPoint getPoint2();
+    void setPoint1(QPoint p);
+    void setPoint2(QPoint p);
+
     QPoint getPoint();
     void setPoint(QPoint p);
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
@@ -47,12 +56,14 @@ public:
 
 
 
+
 signals:
     void ChangeRes();
     void changeRes2(const QPoint &p);
     void ChangeZoom();
     void ChangeZoomIn();
     void signalDessinerChemin(const QPoint &p);
+    void SignalFlag(const QPoint &p);
 
 
 public slots:
@@ -61,6 +72,8 @@ public slots:
     void fermerProjet();
     void dessinerChemin(const QPoint &p);
     void attributCouleur(const QPoint &p);
+    void placerFlag1(const QPoint &p);
+    void placerFlag2(const QPoint &p);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
