@@ -212,7 +212,7 @@ fenetre::fenetre()
 
     /********************************************************************/
                                  //CONNECT
-    QAction * var = dock->toggleViewAction();
+     //QAction * var = dock->toggleViewAction();
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
@@ -228,7 +228,7 @@ fenetre::fenetre()
      QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
 
-     QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
+     //QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
 
 
@@ -249,7 +249,7 @@ fenetre::fenetre()
            effacer->setEnabled(true);
            zoom_in->setEnabled(true);
            zoom_out->setEnabled(true);
-           affich_dock->setEnabled(true);
+           affich_dock->setEnabled(false);
            exp->setEnabled(true);
            dock->setVisible(true);
            image->setFlags(1);
@@ -279,7 +279,7 @@ fenetre::fenetre()
 
     void fenetre::ignor()
     {
-
+        affich_dock->setEnabled(true);
         dock->setVisible(false);
         image->setFlags(2);
 
@@ -289,14 +289,12 @@ fenetre::fenetre()
     {
 
         if (image->getFlags()==2){
-            affich_dock->setEnabled(false);
+            std::cout<<"test "<<std::endl;
+
             dock->setVisible(true);
             image->setFlags(1);
-        }   else if (image->getFlags()!=0){
-                affich_dock->setEnabled(true);
-                dock->setVisible(true);
-                image->setFlags(1);
-            }
-    }
+            affich_dock->setEnabled(false);
+        }
+     }
 
 
