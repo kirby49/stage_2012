@@ -26,7 +26,7 @@ fenetre::fenetre():flag_dock(false)
     //ouvrir
     QAction *ouvrir = menuFichier->addAction("Ouvrir");
     ouvrir->setShortcut(QKeySequence("Ctrl+O"));
-
+    ouvrir->setIcon(QIcon("ouvrir.png"));
     //Enregistrer sous
     save_as = menuFichier->addAction("Sauvegarder le projet sous");
     save_as->setEnabled(false);
@@ -35,7 +35,7 @@ fenetre::fenetre():flag_dock(false)
     save = menuFichier->addAction("Sauvegarder le projet");
     save->setShortcut(QKeySequence("Ctrl+S"));
     save->setEnabled(false);
-
+    save->setIcon(QIcon("s.png"));
     //quitter
      QAction *quitter = menuFichier->addAction("&Quitter");
      quitter->setShortcut(QKeySequence("Ctrl+Q"));
@@ -59,7 +59,7 @@ fenetre::fenetre():flag_dock(false)
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
      zoom_in->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
      zoom_in->setEnabled(false);
-
+     zoom_in->setIcon(QIcon("loupe.gif"));
      //zoom arriere
      zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
@@ -78,6 +78,7 @@ fenetre::fenetre():flag_dock(false)
      //ouvrir //prenser a mettre les icones
      toolbar->addAction(ouvrir);
      toolbar->addSeparator();
+
 
      //enregistrer
      toolbar->addAction(save);
@@ -109,6 +110,7 @@ fenetre::fenetre():flag_dock(false)
      //gestionnaire des coordonnées
      gestionnaire = new QPushButton("Gestionnaire GPS");
      gestionnaire->setToolTip("Afficher ou non le gestionnaire GPS");
+     gestionnaire->setIcon(QIcon("smile.png"));
      gestionnaire->setEnabled(false);
      toolbar->addWidget(gestionnaire);
      toolbar->addSeparator();
