@@ -76,70 +76,37 @@ void carte::zoom(float valeur){
 }
 
 void carte::dessinerChemin(const QPoint &p){
-    point_release=p;
+   /* point_release=p;
     QPoint direction;
     int directionX=point_release.x()-point_click.x();
     int directionY=point_release.y()-point_click.y();
-    if (directionX>directionY){
-            if (directionX>0)
-                direction=QPoint (point_click.x()+1,point_click.y());
-                else
-                direction=QPoint (point_click.x()-1,point_click.y());
-    }
-    else {
-        if (directionY>0)
-            direction=QPoint (point_click.x(),point_click.y()+1);
-            else
-            direction=QPoint (point_click.x(),point_click.y()-1);
-    }
+    direction= QPoint(point_click.x()+directionX,point_click.y()+directionY);
+    std::cout<<"pas a: "<<directionX<<" pas b: "<<directionY<<std::endl;
+    std::cout<<"point de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
+    std::cout<<"direction "<<direction.x()<<" "<<direction.y()<<std::endl;
+// while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
+   for (int i=point_click.x();i<=direction.x();i++){
+       for (int j=point_click.y();i<=direction.y();j++){
 
+      image->setPixel(QPoint(i,j),255255255);
 
-
-
-   while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
-       image->setPixel(direction,255255255);
-       std::cout<<"couleur changee "<<std::endl;
-      // QPoint direction1,direction2,direction3,direction4;
-      QPoint direction1=QPoint(direction.x()+1,direction.y());
-      QPoint direction2=QPoint(direction.x()-1,direction.y());
-      QPoint direction3=QPoint(direction.x(),direction.y()+1);
-      QPoint direction4=QPoint(direction.x(),direction.y()-1);
-       if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction1)==true))){
-           point_click=direction;
-           direction=direction1;
        }
-       else
-                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction2)==true))){
-                       point_click=direction;
-                       direction=direction2;
-       }
-       else
-                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction3)==true))){
-                       point_click=direction;
-                       direction=direction3;
-                   }
-       else
-                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction4)==true))){
-                       point_click=direction;
-                       direction=direction4;
-                   }
-
-    }
-
-
-
-    /*for (int i=0;i<largeur;i++){
-        for (int j=0; j<hauteur;j++){
-            if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
-
-
-               {image->setPixel(QPoint(i,j),255255255);}
-          // std::cout<<"couleur : "<<coul<<std::endl;}
-            //image->setPixel(QPoint(i,j),coul);
-
-
-        }
     }*/
+
+   for (int i=0;i<largeur;i++){
+     for (int j=0; j<hauteur;j++){
+         if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
+
+
+            {image->setPixel(QPoint(i,j),255255255);}
+       // std::cout<<"couleur : "<<coul<<std::endl;}
+         //image->setPixel(QPoint(i,j),coul);
+
+
+     }
+ }
+
+
 update();
 }
 
@@ -253,4 +220,80 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
 }
 
 
+
+/*************************Brouillon  algo******************************************
+    if (abs(directionX)>abs(directionY)){
+            if (directionX>0)
+                direction=QPoint (point_click.x()+1,point_click.y());
+                else
+                direction=QPoint (point_click.x()-1,point_click.y());
+    }
+    else {
+        if (directionY>0)
+            direction=QPoint (point_click.x(),point_click.y()+1);
+            else
+            direction=QPoint (point_click.x(),point_click.y()-1);
+    }
+//std::cout<<"point 1 "<<point_click.x()<<" "<<point_click.y()<<std::endl;
+//std::cout<<"point 2 "<<direction.x()<<" "<<direction.y()<<std::endl;
+
+
+
+   while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
+       image->setPixel(direction,255255255);
+       std::cout<<"yes"<<std::endl;
+      // QPoint direction1,direction2,direction3,direction4;
+      QPoint direction1=QPoint(direction.x()+1,direction.y());
+      QPoint direction2=QPoint(direction.x()-1,direction.y());
+      QPoint direction3=QPoint(direction.x(),direction.y()+1);
+      QPoint direction4=QPoint(direction.x(),direction.y()-1);
+       if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction1)==true))){
+           point_click=direction;
+           direction=direction1;
+       }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction2)==true))){
+                       point_click=direction;
+                       direction=direction2;
+       }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction3)==true))){
+                       point_click=direction;
+                       direction=direction3;
+                   }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction4)==true))){
+                       point_click=direction;
+                       direction=direction4;
+                   }
+
+    }
+
+
+
+      for (int i=0;i<largeur;i++){
+        for (int j=0; j<hauteur;j++){
+            if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
+
+
+               {image->setPixel(QPoint(i,j),255255255);}
+          // std::cout<<"couleur : "<<coul<<std::endl;}
+            //image->setPixel(QPoint(i,j),coul);
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+***************************************************************************************/
 
