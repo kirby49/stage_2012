@@ -158,7 +158,7 @@ void carte::paintEvent(QPaintEvent *event)
 void carte::mousePressEvent(QMouseEvent *event)
 {
 
-    if ((imageDessiner)&&(flags==2)){
+    if ((imageDessiner)&&(flags==1)){
            if (event->button() == Qt::LeftButton)
             {
                emit changeRes2(event->pos());
@@ -171,7 +171,7 @@ void carte::mousePressEvent(QMouseEvent *event)
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
-    if ((imageDessiner)&&(flags==2)){
+    if ((imageDessiner)&&(flags==1)){
 
     if (event->button() == Qt::LeftButton)
         {
