@@ -168,13 +168,15 @@ void carte::paintEvent(QPaintEvent *event)
             QPainter painter(this);
             QPoint point (0,0);
             painter.drawImage(point,*image);
-      }  else if ((imageDessiner)&&(flags==1)){
+      }  else if ((imageDessiner)&&(flags==2)){
         if (nbpoint==0) {
-              p1=new QImage("maps.png");
-              painter->drawImage(getPoint1(),*p1);
+            std::cout<<"affiche test map.png"<<std::endl;
+            QPainter painter1(this);
+              p1=new QIcon("maps.png");
+              painter1.drawImage(getPoint1(),*p1);
               } else if (nbpoint==1) {
-                        p2=new QImage("maps.png");
-                        painter->drawImage(getPoint2(),*p2);
+                        p2=new QImage("/maps.png");
+                        painter2->drawImage(getPoint2(),*p2);
                       }
 
 
