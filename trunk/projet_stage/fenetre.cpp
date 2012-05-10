@@ -59,7 +59,7 @@ fenetre::fenetre():flag_dock(false)
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
      zoom_in->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
      zoom_in->setEnabled(false);
-     zoom_in->setIcon(QIcon("loupe.gif"));
+     zoom_in->setIcon(QIcon("/loupe.gif"));
      //zoom arriere
      zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
@@ -70,6 +70,7 @@ fenetre::fenetre():flag_dock(false)
      affich_dock = menuAffichage->addAction("Afficher le gestionnaire GPS");
      affich_dock->setShortcut(QKeySequence("Ctrl+D"));
      affich_dock->setEnabled(false);
+
     /********************************************************************/
                                  //TOOLBAR
 
@@ -110,7 +111,7 @@ fenetre::fenetre():flag_dock(false)
      //gestionnaire des coordonnées
      gestionnaire = new QPushButton("Gestionnaire GPS");
      gestionnaire->setToolTip("Afficher ou non le gestionnaire GPS");
-     gestionnaire->setIcon(QIcon("smile.png"));
+     gestionnaire->setIcon(QIcon("/maps.png"));
      gestionnaire->setEnabled(false);
      toolbar->addWidget(gestionnaire);
      toolbar->addSeparator();
