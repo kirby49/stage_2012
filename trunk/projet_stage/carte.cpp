@@ -1,6 +1,8 @@
 #include "carte.h"
 #include "iostream"
 
+
+//constructeur
 carte::carte():point_click(0,0),coul(255255255),flags(0)
 {
 
@@ -13,22 +15,32 @@ carte::carte():point_click(0,0),coul(255255255),flags(0)
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
-    QObject::connect(this, SIGNAL(signalDessinerChemin()),this, SLOT(dessinerChemin()));
+    QObject::connect(this, SIGNAL(signalDessinerChemin(QPoint)),this, SLOT(dessinerChemin(QPoint)));
     QObject::connect(this, SIGNAL(changeRes2(QPoint)),this, SLOT(attributCouleur(QPoint)));
 }
 
-carte::~carte(){
+//destructeur
+carte::~carte(){}
 
-}
-void carte::paintEvent(QPaintEvent *event)
-{
+//accesseur
+bool carte::getImageDessiner(){return imageDessiner;}
 
-    QPainter painter(this);
-    QPoint point (0,0);
-    painter.drawImage(point,*image);
+QPoint carte::getPoint() {return point_click;}
 
-}
+int carte::getFlags() {return flags;}
 
+QRgb carte::getCouleur() {return coul;}
+
+//mutateur
+void carte::setImagedessiner(bool choix) {imageDessiner= choix;}
+
+void carte::setFlags(int f) {flags=f;}
+
+void carte::setCouleur(QRgb c) {coul = c;}
+
+void carte::setPoint(QPoint p) {point_click=p;}
+
+//fonctions
 void carte::afficherImage(QString chemin){
 
     std::cout<<"afficher image"<<std::endl;
@@ -57,14 +69,82 @@ void carte::afficherImage(QString chemin){
     }
 }
 
-bool carte::getImageDessiner(){
-    return imageDessiner;
+void carte::zoom(float valeur){
+    echelle = (valeur * echelle);
+    valeurZoom->setText(QString::number(echelle) );
+
 }
 
-void carte::setImagedessiner(bool choix){
-    imageDessiner= choix;
+void carte::dessinerChemin(const QPoint &p){
+    point_release=p;
+    QPoint direction;
+    int directionX=point_release.x()-point_click.x();
+    int directionY=point_release.y()-point_click.y();
+    if (directionX>directionY){
+            if (directionX>0)
+                direction=QPoint (point_click.x()+1,point_click.y());
+                else
+                direction=QPoint (point_click.x()-1,point_click.y());
+    }
+    else {
+        if (directionY>0)
+            direction=QPoint (point_click.x(),point_click.y()+1);
+            else
+            direction=QPoint (point_click.x(),point_click.y()-1);
+    }
+
+
+
+
+   while(comparerCouleurAvecMarge( image->pixel(point_click),image->pixel(direction)==true)){
+       image->setPixel(direction,255255255);
+       std::cout<<"couleur changee "<<std::endl;
+      // QPoint direction1,direction2,direction3,direction4;
+      QPoint direction1=QPoint(direction.x()+1,direction.y());
+      QPoint direction2=QPoint(direction.x()-1,direction.y());
+      QPoint direction3=QPoint(direction.x(),direction.y()+1);
+      QPoint direction4=QPoint(direction.x(),direction.y()-1);
+       if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction1)==true))){
+           point_click=direction;
+           direction=direction1;
+       }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction2)==true))){
+                       point_click=direction;
+                       direction=direction2;
+       }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction3)==true))){
+                       point_click=direction;
+                       direction=direction3;
+                   }
+       else
+                   if ((comparerCouleurAvecMarge( image->pixel(direction),image->pixel(direction4)==true))){
+                       point_click=direction;
+                       direction=direction4;
+                   }
+
+    }
+
+
+
+    /*for (int i=0;i<largeur;i++){
+        for (int j=0; j<hauteur;j++){
+            if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
+
+
+               {image->setPixel(QPoint(i,j),255255255);}
+          // std::cout<<"couleur : "<<coul<<std::endl;}
+            //image->setPixel(QPoint(i,j),coul);
+
+
+        }
+    }*/
+update();
 }
 
+
+//slots
 void carte::augmenter_zoom(){
     /*QRectF target(10.0, 20.0, 80.0, 60.0);
      QRectF source(0.0, 0.0, 70.0, 40.0);
@@ -83,14 +163,11 @@ void carte::diminuer_zoom(){
 
 }
 
-int carte::getFlags()
-{
-    return flags;
-}
-
-void carte::setFlags(int f)
-{
-    flags=f;
+void carte::attributCouleur(const QPoint &p){
+     QRgb pt ;
+    setPoint(p);
+    pt = image->pixel(p);
+    setCouleur(pt);
 }
 
 void carte::fermerProjet(){
@@ -98,38 +175,18 @@ void carte::fermerProjet(){
 
 }
 
-void carte::zoom(float valeur){
-    echelle = (valeur * echelle);
-    valeurZoom->setText(QString::number(echelle) );
-
-}
-
-// gestion de points de cliques et de couleurs
 
 
-QRgb carte::getCouleur()
-{
-    return coul;
-}
-
-void carte::setCouleur(QRgb c)
-{
-    coul = c;
-}
-
-QPoint carte::getPoint()
-{
-return point_click;
-}
-
-
-void carte::setPoint(QPoint p)
-{
-
-    point_click=p;
-}
 
 //gestion des évènements
+void carte::paintEvent(QPaintEvent *event)
+{
+
+    QPainter painter(this);
+    QPoint point (0,0);
+    painter.drawImage(point,*image);
+
+}
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
@@ -143,12 +200,7 @@ void carte::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void carte::attributCouleur(const QPoint &p){
-     QRgb pt ;
-    setPoint(p);
-    pt = image->pixel(p);
-    setCouleur(pt);
-}
+
 
 void carte::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -157,7 +209,7 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
         {
            emit ChangeRes();
-           emit signalDessinerChemin();
+           emit signalDessinerChemin(event->pos());
         }
     //std::cout<<"couleur : "<<getCouleur_rgb().toStdString()<<std::endl;
 
@@ -179,6 +231,10 @@ void carte::wheelEvent(QWheelEvent *event)
         }
     }
 }
+
+/******************* fonction pour l'algo de couleur*********************/
+
+
 int carte::maximum(int a, int b){
     if(a>b) return a;
         else return b;
@@ -192,24 +248,9 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
     int couleurDominante= maximum(differenceBleu,maximum(differenceRouge, differenceVert));
     if(couleurDominante>40) return false;
                  else if ((differenceRouge + differenceVert + differenceBleu)>100) return false;
+    else return true;
               //if (somme<10) return true;
 }
 
-void carte::dessinerChemin(){
-
-    for (int i=0;i<largeur;i++){
-        for (int j=0; j<hauteur;j++){
-            if (comparerCouleurAvecMarge( image->pixel(i,j),coul)==true)
-
-
-               {image->setPixel(QPoint(i,j),255255255);}
-          // std::cout<<"couleur : "<<coul<<std::endl;}
-            //image->setPixel(QPoint(i,j),coul);
-
-
-        }
-    }
-update();
-}
 
 

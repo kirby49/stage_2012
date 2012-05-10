@@ -13,6 +13,7 @@ private:
     QImage* image;
     QMouseEvent *event;
     QPoint point_click;
+    QPoint point_release;
     QRgb coul;
     QLabel* valeurZoom;
     QPainter* painter;
@@ -49,14 +50,14 @@ signals:
     void changeRes2(const QPoint &p);
     void ChangeZoom();
     void ChangeZoomIn();
-    void signalDessinerChemin();
+    void signalDessinerChemin(const QPoint &p);
 
 
 public slots:
     void augmenter_zoom();
     void diminuer_zoom();
     void fermerProjet();
-    void dessinerChemin();
+    void dessinerChemin(const QPoint &p);
     void attributCouleur(const QPoint &p);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);

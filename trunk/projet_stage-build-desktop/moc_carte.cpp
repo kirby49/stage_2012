@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'carte.h'
 **
-** Created: Wed May 9 18:21:48 2012
+** Created: Wed May 9 18:39:07 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -35,18 +35,18 @@ static const uint qt_meta_data_carte[] = {
       21,   19,    6,    6, 0x05,
       40,    6,    6,    6, 0x05,
       53,    6,    6,    6, 0x05,
-      68,    6,    6,    6, 0x05,
+      68,   19,    6,    6, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-      91,    6,    6,    6, 0x0a,
-     108,    6,    6,    6, 0x0a,
-     124,    6,    6,    6, 0x0a,
-     139,    6,    6,    6, 0x0a,
-     156,   19,    6,    6, 0x0a,
-     186,  180,    6,    6, 0x0a,
-     216,  180,    6,    6, 0x0a,
-     248,  180,    6,    6, 0x0a,
-     273,  180,    6,    6, 0x0a,
+      97,    6,    6,    6, 0x0a,
+     114,    6,    6,    6, 0x0a,
+     130,    6,    6,    6, 0x0a,
+     145,   19,    6,    6, 0x0a,
+     168,   19,    6,    6, 0x0a,
+     198,  192,    6,    6, 0x0a,
+     228,  192,    6,    6, 0x0a,
+     260,  192,    6,    6, 0x0a,
+     285,  192,    6,    6, 0x0a,
 
        0        // eod
 };
@@ -54,10 +54,11 @@ static const uint qt_meta_data_carte[] = {
 static const char qt_meta_stringdata_carte[] = {
     "carte\0\0ChangeRes()\0p\0changeRes2(QPoint)\0"
     "ChangeZoom()\0ChangeZoomIn()\0"
-    "signalDessinerChemin()\0augmenter_zoom()\0"
-    "diminuer_zoom()\0fermerProjet()\0"
-    "dessinerChemin()\0attributCouleur(QPoint)\0"
-    "event\0mousePressEvent(QMouseEvent*)\0"
+    "signalDessinerChemin(QPoint)\0"
+    "augmenter_zoom()\0diminuer_zoom()\0"
+    "fermerProjet()\0dessinerChemin(QPoint)\0"
+    "attributCouleur(QPoint)\0event\0"
+    "mousePressEvent(QMouseEvent*)\0"
     "mouseReleaseEvent(QMouseEvent*)\0"
     "wheelEvent(QWheelEvent*)\0"
     "paintEvent(QPaintEvent*)\0"
@@ -96,11 +97,11 @@ int carte::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: changeRes2((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 2: ChangeZoom(); break;
         case 3: ChangeZoomIn(); break;
-        case 4: signalDessinerChemin(); break;
+        case 4: signalDessinerChemin((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 5: augmenter_zoom(); break;
         case 6: diminuer_zoom(); break;
         case 7: fermerProjet(); break;
-        case 8: dessinerChemin(); break;
+        case 8: dessinerChemin((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 9: attributCouleur((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 10: mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
         case 11: mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
@@ -139,8 +140,9 @@ void carte::ChangeZoomIn()
 }
 
 // SIGNAL 4
-void carte::signalDessinerChemin()
+void carte::signalDessinerChemin(const QPoint & _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 4, 0);
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 4, _a);
 }
 QT_END_MOC_NAMESPACE
