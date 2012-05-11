@@ -18,9 +18,9 @@ public:
     int getSeconde();
 
     //seteurs
-    int setDegree(int d);
-    int setMinute(int m);
-    int setSeconde(int s);
+    void setDegree(int d);
+    void setMinute(int m);
+    void setSeconde(int s);
 
     void toDecimal(int d,int m,int s);
 

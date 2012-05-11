@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),nbpoint(2),flags(0)
+carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -12,7 +12,6 @@ carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),
     image = new QImage();
     imageDessiner=false;
     tracer_chemin= new QImage();
-
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
@@ -39,6 +38,14 @@ QPoint carte::getPoint1() {return point1;}
 
 QPoint carte::getPoint2() {return point2;}
 
+coord_decimal carte::getCoordDec() {return dec;}
+
+coord_decimal carte::getCoordDec1() {return dec1;}
+
+coord_sexagesimal carte::getCoordSeg() {return sexa;}
+
+coord_sexagesimal carte::getCoordSeg1() {return sexa1;}
+
 //mutateur
 void carte::setImagedessiner(bool choix) {imageDessiner= choix;}
 
@@ -52,10 +59,20 @@ void carte::setPoint1(QPoint p) {point1=p;}
 
 void carte::setPoint2(QPoint p) {point2=p;}
 
+void carte::setCoordDec(int la,int lo,int la1,int lo1)
+{
+
+   // dec=d;dec1=d1;
+}
+
+void carte::setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2)
+{
+    //sexa=s;sexa1=s1;
+}
+
 //fonctions
 void carte::afficherImage(QString chemin){
 
-    std::cout<<"afficher image"<<std::endl;
     if (!chemin.isNull()) {
     echelle= 1.0;
     image= new QImage(chemin);
@@ -73,11 +90,12 @@ void carte::afficherImage(QString chemin){
     image=new QImage(newImage);
     largeur=image->width();
     hauteur=image->height();
-    };
+    }
 
     imageDessiner=true;
     tracer_chemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
-
+    p1=new QImage("gps2.png");
+    p2=new QImage("gps2.png");
     update();
     }
 }
@@ -179,6 +197,8 @@ void carte::fermerProjet(){
   QImage newImage(0,0,QImage::Format_ARGB32);
   image= new QImage(newImage);
   tracer_chemin= new QImage(newImage);
+  p1= new QImage();
+  p2= new QImage();
   setFlags(0);
   update();
 ;
@@ -187,11 +207,13 @@ void carte::fermerProjet(){
 void carte::placerFlag1(const QPoint &p)
 {
     if (nbpoint==0){
-        std::cout<<"est dans placerf1 : "<<nbpoint<<std::endl;
+        int x = (p.x()-4);
+        int y = (p.y()-(p1->height()));
+        QPoint pt(x,y);
+        std::cout<<"image 1 : "<<x<<" "<<y<<std::endl;
         nbpoint++;
-        setPoint1(p);
-        std::cout<<"point : "<<nbpoint<<std::endl;
-        std::cout<<"x y : "<<p.x()<<p.y()<<std::endl;
+        setPoint1(pt);
+
         update();
     }
 
@@ -200,24 +222,29 @@ void carte::placerFlag1(const QPoint &p)
 void carte::placerFlag2(const QPoint &p)
 {
     if (nbpoint==1){
-        std::cout<<"est dans placerf2 : "<<nbpoint<<std::endl;
+        int x = (p.x()-4);
+        int y = (p.y()-(p2->height()));
+        std::cout<<"image 2 : "<<x<<" "<<y<<std::endl;
+        QPoint pt(x,y);
         nbpoint++;
-        setPoint2(p);
-        std::cout<<"point : "<<nbpoint<<std::endl;
-        std::cout<<"x y : "<<p.x()<<p.y()<<std::endl;
+        setPoint2(pt);
+
         update();
-        //p1=new QImage("maps.png");
+
     }
 
+}
 
+void carte::setNbpoint()
+{
+    nbpoint=0;
+    update();
 }
 
 
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
-
-
     if ((imageDessiner)&&(flags==1)){
         QPainter painter(this);
         QPoint point (0,0);
@@ -225,45 +252,27 @@ void carte::paintEvent(QPaintEvent *event)
         painter.drawImage(point,*tracer_chemin);
     }
     else if ((imageDessiner)&&(flags==2)){
+            QPainter painter(this);
+            QPoint point (0,0);
+            painter.drawImage(point,*image);
             if (nbpoint==1) {
-                std::cout<<"affiche 1er point :"<<nbpoint<<std::endl;
+                 QPainter painter(this);
                  QPoint point (0,0);
-                 painter->drawImage(point,*image);
-                 p1=new QImage("gps2.png");
-                 painter->drawImage(getPoint1(),*p1);
+                 painter.drawImage(point,*image);
+                 painter.drawImage(getPoint1(),*p1);
                   } else if (nbpoint==2) {
-                            std::cout<<"affiche 2e point :"<<nbpoint<<std::endl;
-                            //painter2 = new QPainter (image);
+                            QPainter painter(this);
                             QPoint point (0,0);
-                            painter->drawImage(point,*image);
-                            p1=new QImage("gps2.png");
-                            p2=new QImage("gps2.png");
-                            painter->drawImage(getPoint1(),*p1);
-                            painter->drawImage(getPoint2(),*p2);
+                            painter.drawImage(point,*image);
+                            painter.drawImage(getPoint1(),*p1);
+                            painter.drawImage(getPoint2(),*p2);
                           }
             }
-    /*else if ((imageDessiner)&&(flags==2)){
-            if (nbpoint==1) {
-                std::cout<<"affiche 1er point :"<<nbpoint<<std::endl;
-                 QPoint point (0,0);
-                 painter->drawImage(point,*image);
-                 painter = new QPainter (image);
-
-                  painter->drawImage(getPoint1(),*p1);
-                  } else if (nbpoint==2) {
-                            std::cout<<"affiche 2e point :"<<nbpoint<<std::endl;
-                            //painter2 = new QPainter (image);
-                            QPoint point (0,0);
-                            painter->drawImage(point,*image);
-                            p2=new QImage("gps2.png");
-                            painter->drawImage(getPoint2(),*p2);
-                          }
-            }*/
 }
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-
+    std::cout<<"click : "<<event->x()<<" "<<event->y()<<std::endl;
     if ((imageDessiner)&&(flags==1)){
            if (event->button() == Qt::LeftButton)
             {
@@ -412,16 +421,6 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
 
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
 ***************************************************************************************/
