@@ -57,11 +57,11 @@ public:
 
     coord_decimal getCoordDec();
     coord_decimal getCoordDec1();
-    void setCoordDec(coord_decimal d, coord_decimal d1);
+    void setCoordDec(int la, int lo,int la1,int lo1);
 
     coord_sexagesimal getCoordSeg();
     coord_sexagesimal getCoordSeg1();
-    void setCoordSeg(coord_sexagesimal s,coord_sexagesimal s1);
+    void setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2);
 
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);

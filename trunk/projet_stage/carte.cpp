@@ -13,7 +13,6 @@ carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),
     imageDessiner=false;
     tracer_chemin= new QImage();
 
-
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
 
@@ -60,9 +59,16 @@ void carte::setPoint1(QPoint p) {point1=p;}
 
 void carte::setPoint2(QPoint p) {point2=p;}
 
-void carte::setCoordDec(coord_decimal d, coord_decimal d1) { dec=d;dec1=d1;}
+void carte::setCoordDec(int la,int lo,int la1,int lo1)
+{
 
-void carte::setCoordSeg(coord_sexagesimal s,coord_sexagesimal s1) {sexa=s;sexa1=s1;}
+   // dec=d;dec1=d1;
+}
+
+void carte::setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2)
+{
+    //sexa=s;sexa1=s1;
+}
 
 //fonctions
 void carte::afficherImage(QString chemin){

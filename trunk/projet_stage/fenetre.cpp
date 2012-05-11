@@ -295,7 +295,6 @@ fenetre::fenetre():flag_dock(false)
      QObject::connect(reinit, SIGNAL(clicked()),image, SLOT(setNbpoint()));
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
-
 }
 
 
@@ -339,12 +338,14 @@ fenetre::fenetre():flag_dock(false)
 
     void fenetre::valider_dec()
     {
-        image->setFlags(1);
+       // image->setCoordDec(lo,la,lo1,la1);
+
+
     }
 
     void fenetre::valider_sexa()
     {
-         image->setFlags(1);
+
     }
 
     void fenetre::ignor()
