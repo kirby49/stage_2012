@@ -59,33 +59,37 @@ void carte::setPoint1(QPoint p) {point1=p;}
 
 void carte::setPoint2(QPoint p) {point2=p;}
 
-void carte::setCoordDec(int la,int lo,int la1,int lo1)
+void carte::setCoordDec(float la,float lo,float la1,float lo1)
 {
-    dec.setLatitude(la);
-    dec.setLongitude(lo);
+    if ((la!=0)||(lo!=0)||(la1!=0)||(lo1!=0)) {
+            dec.setLatitude(la);
+            dec.setLongitude(lo);
 
-    dec1.setLatitude(la1);
-    dec1.setLongitude(lo1);
+            dec1.setLatitude(la1);
+            dec1.setLongitude(lo1);
+            std::cout<<"dec : "<<dec.getLatitude()<<std::endl;
+    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 
 
 }
 
 void carte::setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2)
 {
-    sexa.setDegree(d1);
-    sexa.setDegree1(dd1);
-    sexa.setMinute(m1);
-    sexa.setMinute1(mm1);
-    sexa.setSeconde(s1);
-    sexa.setSeconde1(ss1);
+    if ((d1!=0)&&(m1!=0)&&(s1!=0)&&(dd1!=0)&&(mm1!=0)&&(ss1!=0)&&(d2!=0)&&(m2!=0)&&(s2!=0)&&(dd2!=0)&&(mm2!=0)&&(ss2!=0)) {
+            sexa.setDegree(d1);
+            sexa.setDegree1(dd1);
+            sexa.setMinute(m1);
+            sexa.setMinute1(mm1);
+            sexa.setSeconde(s1);
+            sexa.setSeconde1(ss1);
 
-    sexa1.setDegree(d2);
-    sexa1.setDegree1(dd2);
-    sexa1.setMinute(m2);
-    sexa1.setMinute1(mm2);
-    sexa1.setSeconde(s2);
-    sexa1.setSeconde1(ss2);
-
+            sexa1.setDegree(d2);
+            sexa1.setDegree1(dd2);
+            sexa1.setMinute(m2);
+            sexa1.setMinute1(mm2);
+            sexa1.setSeconde(s2);
+            sexa1.setSeconde1(ss2);
+    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 }
 
 //fonctions

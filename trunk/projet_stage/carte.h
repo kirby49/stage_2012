@@ -57,7 +57,7 @@ public:
 
     coord_decimal getCoordDec();
     coord_decimal getCoordDec1();
-    void setCoordDec(int la, int lo,int la1,int lo1);
+    void setCoordDec(float la, float lo,float la1, float lo1);
 
     coord_sexagesimal getCoordSeg();
     coord_sexagesimal getCoordSeg1();
