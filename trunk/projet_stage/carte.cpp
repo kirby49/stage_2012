@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;

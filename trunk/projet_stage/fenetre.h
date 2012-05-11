@@ -32,25 +32,25 @@ private:
     QAction *effacer;
 
     // latitude/longitude
-    QTextEdit *la;
-    QTextEdit *lo;
-    QTextEdit *la1;
-    QTextEdit *lo1;
+    QDoubleSpinBox  *la;
+    QDoubleSpinBox  *lo;
+    QDoubleSpinBox  *la1;
+    QDoubleSpinBox  *lo1;
     //DOCK
     QDockWidget * dock;
     //degree/minute/seconde
-    QTextEdit *d1;
-    QTextEdit *m1;
-    QTextEdit *s1;
-    QTextEdit *d2;
-    QTextEdit *m2;
-    QTextEdit *s2;
-    QTextEdit *dd1;
-    QTextEdit *mm1;
-    QTextEdit *ss1;
-    QTextEdit *dd2;
-    QTextEdit *mm2;
-    QTextEdit *ss2;
+    QSpinBox *d1;
+    QSpinBox *m1;
+    QSpinBox *s1;
+    QSpinBox *d2;
+    QSpinBox *m2;
+    QSpinBox *s2;
+    QSpinBox *dd1;
+    QSpinBox *mm1;
+    QSpinBox *ss1;
+    QSpinBox *dd2;
+    QSpinBox *mm2;
+    QSpinBox *ss2;
     //carte
     carte* image;
     //couleur
