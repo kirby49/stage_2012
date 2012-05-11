@@ -12,7 +12,7 @@ class carte: public QWidget
 
 private:
 
-    QImage* image;
+    QImage* tracer_carte;
     QImage* tracer_chemin;
     //QImage* smiley;
     QImage* p1;
@@ -28,7 +28,7 @@ private:
     coord_decimal dec1;
     coord_sexagesimal sexa;
     coord_sexagesimal sexa1;
-    bool imageDessiner;
+    bool carteDessiner;
     float echelle;
     int nbpoint;
     int hauteur;
@@ -39,9 +39,9 @@ private:
 public:
     carte();
     ~carte();
-    bool getImageDessiner();
-    void setImagedessiner(bool choix);
-    void afficherImage(QString chemin);
+    bool getCarteDessiner();
+    void setCartedessiner(bool choix);
+    void afficherCarte(QString chemin);
     void zoom(float valeur);
 
     QRgb getCouleur();
