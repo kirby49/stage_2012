@@ -61,7 +61,7 @@ public:
 
     coord_sexagesimal getCoordSeg();
     coord_sexagesimal getCoordSeg1();
-    void setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2);
+    void setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2);
 
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);

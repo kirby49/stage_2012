@@ -338,10 +338,10 @@ fenetre::fenetre():flag_dock(false)
     void fenetre::valider_dec()
     {
        // image->setCoordDec(lo,la,lo1,la1);
-       int a = la->value();
-       int b = la1->value();
-       int c = lo->value();
-       int d = lo1->value();
+       float a = la->value();
+       float b = la1->value();
+       float c = lo->value();
+       float d = lo1->value();
 
        image->setCoordDec(a,b,c,d);
 
@@ -363,7 +363,7 @@ fenetre::fenetre():flag_dock(false)
         int k = mm2->value();
         int l = ss2->value();
 
-        image->setCoordSeg(a,b,c,d,e,f);
+        image->setCoordSeg(a,b,c,d,e,f,g,h,i,j,k,l);
 
     }
 

@@ -61,13 +61,31 @@ void carte::setPoint2(QPoint p) {point2=p;}
 
 void carte::setCoordDec(int la,int lo,int la1,int lo1)
 {
+    dec.setLatitude(la);
+    dec.setLongitude(lo);
 
-   // dec=d;dec1=d1;
+    dec1.setLatitude(la1);
+    dec1.setLongitude(lo1);
+
+
 }
 
-void carte::setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2)
+void carte::setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2)
 {
-    //sexa=s;sexa1=s1;
+    sexa.setDegree(d1);
+    sexa.setDegree1(dd1);
+    sexa.setMinute(m1);
+    sexa.setMinute1(mm1);
+    sexa.setSeconde(s1);
+    sexa.setSeconde1(ss1);
+
+    sexa1.setDegree(d2);
+    sexa1.setDegree1(dd2);
+    sexa1.setMinute(m2);
+    sexa1.setMinute1(mm2);
+    sexa1.setSeconde(s2);
+    sexa1.setSeconde1(ss2);
+
 }
 
 //fonctions
