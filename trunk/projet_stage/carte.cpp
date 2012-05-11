@@ -1,5 +1,6 @@
 #include "carte.h"
 #include "iostream"
+#include "math.h"
 
 
 //constructeur
@@ -186,6 +187,32 @@ void carte::dessinerChemin(const QPoint &p){
 */
 
 update();
+}
+
+double carte::longeur(QPoint pt, QPoint pt1)
+{
+
+int res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
+int res2 = ((pt1.y()-pt.y())*(pt1.y()-pt.y()));
+int res3 = res1 + res2;
+
+double resultat = qSqrt(res3);
+return resultat;
+}
+
+double carte::angleA(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
+}
+
+double carte::angleB(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
+}
+
+double carte::angleC(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
 }
 
 

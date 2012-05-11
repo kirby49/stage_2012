@@ -70,6 +70,13 @@ public:
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
 
+    double longeur(QPoint pt, QPoint pt1);
+    double angleA(QPoint pt, QPoint pt1,QPoint pt3);
+    double angleB(QPoint pt, QPoint pt1,QPoint pt3);
+    double angleC(QPoint pt, QPoint pt1,QPoint pt3);
+
+
+
 
 
 

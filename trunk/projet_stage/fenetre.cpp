@@ -1,4 +1,5 @@
 #include "fenetre.h"
+#include "math.h"
 #include "iostream"
 
 
@@ -17,7 +18,7 @@ fenetre::fenetre():flag_dock(false)
     image = new carte();
 
     /********************************************************************/
-                                 //MENUBAR
+                             //MENUBAR
 
     //FICHIER
 
@@ -191,8 +192,6 @@ fenetre::fenetre():flag_dock(false)
     QPushButton *valider1 = new QPushButton("Valider");
     valider1->setFixedSize(100,30);
     VdockLayout1->addWidget(valider1);
-
-
 
     //zone coordonnées sexgésimales
     QLabel *titre2 = new QLabel (trUtf8("<font color=\"red\">En sexagésimal :</font>"));
@@ -376,6 +375,9 @@ fenetre::fenetre():flag_dock(false)
        float c = la1->value();
        float d = lo1->value();
        std::cout<<a<<""<<b<<std::endl;
+       QPoint p(5,3);
+       QPoint pt (10,9);
+       std::cout<<"res : "<<image->longeur(p,pt)<<std::endl;
        image->setCoordDec(a,b,c,d);
 
 
