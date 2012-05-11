@@ -136,8 +136,8 @@ fenetre::fenetre():flag_dock(false)
 
     QHBoxLayout* HdockLayout1 = new QHBoxLayout();
     QHBoxLayout* HdockLayout2 = new QHBoxLayout();
-    QVBoxLayout* HdockLayout3 = new QVBoxLayout();
-    QVBoxLayout* HdockLayout4 = new QVBoxLayout();
+    QHBoxLayout* HdockLayout3 = new QHBoxLayout();
+    QHBoxLayout* HdockLayout4 = new QHBoxLayout();
 
     //zone coordonnées décimales
     QLabel *titre = new QLabel (trUtf8("En décimal :"));
@@ -145,13 +145,12 @@ fenetre::fenetre():flag_dock(false)
     //Lattitude
     QLabel *lat = new QLabel ("Latitude : ");
     VdockLayout1->addWidget(lat);
-    la = new QTextEdit(dock);
-
+    la = new QDoubleSpinBox (dock);
     VdockLayout1->addWidget(la);
     la->setFixedHeight(20);
     la->setFixedWidth(150);
 
-    la1 = new QTextEdit(dock);
+    la1 = new QDoubleSpinBox (dock);
     VdockLayout1->addWidget(la1);
     la1->setFixedHeight(20);
     la1->setFixedWidth(150);
@@ -159,13 +158,13 @@ fenetre::fenetre():flag_dock(false)
     //longitude
     QLabel *lon = new QLabel ("Longitude : ");
     VdockLayout1->addWidget(lon);
-    lo = new QTextEdit(dock);
+    lo = new QDoubleSpinBox (dock);
     VdockLayout1->addWidget(lo);
     lo->setFixedHeight(20);
     lo->setFixedWidth(150);
 
 
-    lo1 = new QTextEdit(dock);
+    lo1 = new QDoubleSpinBox (dock);
     VdockLayout1->addWidget(lo1);
     lo1->setFixedHeight(20);
     lo1->setFixedWidth(150);
@@ -182,27 +181,27 @@ fenetre::fenetre():flag_dock(false)
     QLabel *DMS1 = new QLabel (trUtf8("Latitude en degrée minute seconde :"));
     VdockLayout2->addWidget(DMS1);
 
-    d1 = new QTextEdit(dock);
+    d1 = new QSpinBox(dock);
     d1->setFixedHeight(20);
     d1->setFixedWidth(75);
 
-    dd1 = new QTextEdit(dock);
+    dd1 = new QSpinBox(dock);
     dd1->setFixedHeight(20);
     dd1->setFixedWidth(75);
 
-    m1 = new QTextEdit(dock);
+    m1 = new QSpinBox(dock);
     m1->setFixedHeight(20);
     m1->setFixedWidth(60);
 
-    mm1 = new QTextEdit(dock);
+    mm1 = new QSpinBox(dock);
     mm1->setFixedHeight(20);
     mm1->setFixedWidth(60);
 
-    s1 = new QTextEdit(dock);
+    s1 = new QSpinBox(dock);
     s1->setFixedHeight(20);
     s1->setFixedWidth(60);
 
-    ss1 = new QTextEdit(dock);
+    ss1 = new QSpinBox(dock);
     ss1->setFixedHeight(20);
     ss1->setFixedWidth(60);
 
@@ -221,27 +220,27 @@ fenetre::fenetre():flag_dock(false)
     QLabel *DMS2 = new QLabel (trUtf8("Longitude en degrée minute seconde :"));
     VdockLayout2->addWidget(DMS2);
 
-    d2 = new QTextEdit(dock);
+    d2 = new QSpinBox(dock);
     d2->setFixedHeight(20);
     d2->setFixedWidth(75);
 
-    dd2 = new QTextEdit(dock);
+    dd2 = new QSpinBox(dock);
     dd2->setFixedHeight(20);
     dd2->setFixedWidth(75);
 
-    m2 = new QTextEdit(dock);
+    m2 = new QSpinBox(dock);
     m2->setFixedHeight(20);
     m2->setFixedWidth(60);
 
-    mm2 = new QTextEdit(dock);
+    mm2 = new QSpinBox(dock);
     mm2->setFixedHeight(20);
     mm2->setFixedWidth(60);
 
-    s2 = new QTextEdit(dock);
+    s2 = new QSpinBox(dock);
     s2->setFixedHeight(20);
     s2->setFixedWidth(60);
 
-    ss2 = new QTextEdit(dock);
+    ss2 = new QSpinBox(dock);
     ss2->setFixedHeight(20);
     ss2->setFixedWidth(60);
 
@@ -339,12 +338,32 @@ fenetre::fenetre():flag_dock(false)
     void fenetre::valider_dec()
     {
        // image->setCoordDec(lo,la,lo1,la1);
+       int a = la->value();
+       int b = la1->value();
+       int c = lo->value();
+       int d = lo1->value();
+
+       image->setCoordDec(a,b,c,d);
 
 
     }
 
     void fenetre::valider_sexa()
     {
+        int a = d1->value();
+        int b = m1->value();
+        int c = s1->value();
+        int d = dd1->value();
+        int e = mm1->value();
+        int f = ss1->value();
+        int g = d2->value();
+        int h = m2->value();
+        int i = s2->value();
+        int j = dd2->value();
+        int k = mm2->value();
+        int l = ss2->value();
+
+        image->setCoordSeg(a,b,c,d,e,f);
 
     }
 
