@@ -3,7 +3,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point1(100,700),point2(150,300),coul(255255255),nbpoint(2),flags(0)
 {
 
     largeur= QApplication::desktop()->width()-100;
@@ -229,6 +229,24 @@ void carte::paintEvent(QPaintEvent *event)
                 std::cout<<"affiche 1er point :"<<nbpoint<<std::endl;
                  QPoint point (0,0);
                  painter->drawImage(point,*image);
+                 p1=new QImage("gps2.png");
+                 painter->drawImage(getPoint1(),*p1);
+                  } else if (nbpoint==2) {
+                            std::cout<<"affiche 2e point :"<<nbpoint<<std::endl;
+                            //painter2 = new QPainter (image);
+                            QPoint point (0,0);
+                            painter->drawImage(point,*image);
+                            p1=new QImage("gps2.png");
+                            p2=new QImage("gps2.png");
+                            painter->drawImage(getPoint1(),*p1);
+                            painter->drawImage(getPoint2(),*p2);
+                          }
+            }
+    /*else if ((imageDessiner)&&(flags==2)){
+            if (nbpoint==1) {
+                std::cout<<"affiche 1er point :"<<nbpoint<<std::endl;
+                 QPoint point (0,0);
+                 painter->drawImage(point,*image);
                  painter = new QPainter (image);
 
                   painter->drawImage(getPoint1(),*p1);
@@ -240,7 +258,7 @@ void carte::paintEvent(QPaintEvent *event)
                             p2=new QImage("gps2.png");
                             painter->drawImage(getPoint2(),*p2);
                           }
-            }
+            }*/
 }
 
 void carte::mousePressEvent(QMouseEvent *event)
