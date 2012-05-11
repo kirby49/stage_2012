@@ -95,7 +95,7 @@ void carte::afficherCarte(QString chemin){
     echelle= 1.0;
     imageCarte= new QImage(chemin);
     int width= imageCarte->width();
-    int height=imageCarte>height();
+    int height=imageCarte->height();
 
     if (width>largeur){
     QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
@@ -148,7 +148,7 @@ void carte::dessinerChemin(const QPoint &p){
         {
             for (int i=point_click.x();i<=direction.x();i++){
                for (int j=point_click.y();j>=direction.y();j--){
-                    if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
+                    if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
                }
             }
         }
@@ -157,7 +157,7 @@ void carte::dessinerChemin(const QPoint &p){
             {
                 for (int i=point_click.x();i>=direction.x();i--){
                    for (int j=point_click.y();j<=direction.y();j++){
-                        if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
+                        if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
                    }
                 }
             }
@@ -165,7 +165,7 @@ void carte::dessinerChemin(const QPoint &p){
                 {
                     for (int i=point_click.x();i>=direction.x();i--){
                        for (int j=point_click.y();j>=direction.y();j--){
-                           if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracer_chemin->setPixel(QPoint(i,j),0xFF00FF00);
+                           if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
                        }
                     }
                 }
@@ -213,6 +213,8 @@ void carte::attributCouleur(const QPoint &p){
 
 void carte::fermerProjet(){
   QImage newImage(0,0,QImage::Format_ARGB32);
+  //hauteur=0;
+  //largeur=0;
   imageCarte= new QImage(newImage);
   tracerChemin= new QImage(newImage);
   p1= new QImage();

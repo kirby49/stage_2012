@@ -12,8 +12,8 @@ class carte: public QWidget
 
 private:
 
-    QImage* tracer_carte;
-    QImage* tracer_chemin;
+    QImage* imageCarte;
+    QImage* tracerChemin;
     //QImage* smiley;
     QImage* p1;
     QImage* p2;

@@ -321,7 +321,7 @@ fenetre::fenetre():flag_dock(false)
            dock->setVisible(false);
            gestionnaire->setEnabled(true);
            image->setFlags(1);
-           image->afficherImage(fichier);
+           image->afficherCarte(fichier);
 
     }
 
