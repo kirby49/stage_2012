@@ -189,7 +189,7 @@ void carte::dessinerChemin(const QPoint &p){
 update();
 }
 
-double carte::longeur(QPoint pt, QPoint pt1)
+double carte::longueur(QPoint pt, QPoint pt1)
 {
 
 int res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
@@ -202,17 +202,35 @@ return resultat;
 
 double carte::angleA(QPoint pt, QPoint pt1, QPoint pt3)
 {
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
+
+    double res = acos( ((ab*ab)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
+    return res;
 
 }
 
 double carte::angleB(QPoint pt, QPoint pt1, QPoint pt3)
 {
-
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
+    double res = acos( ((ab*ab)+(bc*bc)-(ac*ac))/(2*(ab)*(bc)));
+    return res;
 }
 
 double carte::angleC(QPoint pt, QPoint pt1, QPoint pt3)
 {
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
 
+    bool res = acos( ((ab*ac)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
+    return res;
 }
 
 

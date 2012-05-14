@@ -377,7 +377,7 @@ fenetre::fenetre():flag_dock(false)
        std::cout<<a<<""<<b<<std::endl;
        QPoint p(5,3);
        QPoint pt (10,9);
-       std::cout<<"res : "<<image->longeur(p,pt)<<std::endl;
+       std::cout<<"res : "<<image->longueur(p,pt)<<std::endl;
        image->setCoordDec(a,b,c,d);
 
 
