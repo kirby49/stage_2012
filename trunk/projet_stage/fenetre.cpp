@@ -1,4 +1,5 @@
 #include "fenetre.h"
+#include "math.h"
 #include "iostream"
 
 
@@ -17,7 +18,7 @@ fenetre::fenetre():flag_dock(false)
     image = new carte();
 
     /********************************************************************/
-                                 //MENUBAR
+                             //MENUBAR
 
     //FICHIER
 
@@ -125,11 +126,11 @@ fenetre::fenetre():flag_dock(false)
                                  //DOCK
 
     dock = new QDockWidget(trUtf8("Gestion des coordonnées :"), this);
-    //dock->setStyleSheet("border : 1px; background-color : gray");
     addDockWidget(Qt::RightDockWidgetArea, dock);
+
     QWidget * contenuDock = new QWidget;
     dock->setWidget(contenuDock);
-    //dock->setStyleSheet("border-top :1px solid black");
+
     QVBoxLayout* VdockLayout1 = new QVBoxLayout();
     QVBoxLayout* VdockLayout2 = new QVBoxLayout();
     QVBoxLayout* VdockLayout3 = new QVBoxLayout();
@@ -140,66 +141,84 @@ fenetre::fenetre():flag_dock(false)
     QHBoxLayout* HdockLayout4 = new QHBoxLayout();
 
     //zone coordonnées décimales
-    QLabel *titre = new QLabel (trUtf8("En décimal :"));
+
+    QLabel *titre = new QLabel (trUtf8("<font color=\"red\">En décimal :</font>"));
     VdockLayout1->addWidget(titre);
+    QLabel *dd = new QLabel (trUtf8("<font color=\"green\">Premier point :</font>"));
+    VdockLayout1->addWidget(dd);
     //Lattitude
     QLabel *lat = new QLabel ("Latitude : ");
     VdockLayout1->addWidget(lat);
     la = new QDoubleSpinBox (dock);
+    la->setMaximum((90.0));
+    la->setMinimum((-90.0));
+    la->setDecimals(6);
     VdockLayout1->addWidget(la);
     la->setFixedHeight(20);
     la->setFixedWidth(150);
 
-    la1 = new QDoubleSpinBox (dock);
-    VdockLayout1->addWidget(la1);
-    la1->setFixedHeight(20);
-    la1->setFixedWidth(150);
-
-    //longitude
     QLabel *lon = new QLabel ("Longitude : ");
     VdockLayout1->addWidget(lon);
     lo = new QDoubleSpinBox (dock);
+    lo->setMaximum((180.0));
+    lo->setMinimum((-180.0));
+    lo->setDecimals(6);
     VdockLayout1->addWidget(lo);
     lo->setFixedHeight(20);
     lo->setFixedWidth(150);
 
+    QLabel *ddd1 = new QLabel (trUtf8("<font color=\"green\">Deuxième point :</font>"));
+    VdockLayout1->addWidget(ddd1);
+    QLabel *lat1 = new QLabel ("Latitude : ");
+    VdockLayout1->addWidget(lat1);
+    la1 = new QDoubleSpinBox (dock);
+    la1->setMaximum((90.0));
+    la1->setMinimum((-90.0));
+    la1->setDecimals(6);
+    VdockLayout1->addWidget(la1);
+    la1->setFixedHeight(20);
+    la1->setFixedWidth(150);
 
+    QLabel *lon1 = new QLabel ("Longitude : ");
+    VdockLayout1->addWidget(lon1);
     lo1 = new QDoubleSpinBox (dock);
+    lo1->setMaximum((180.0));
+    lo1->setMinimum((-180.0));
+    lo1->setDecimals(6);
     VdockLayout1->addWidget(lo1);
     lo1->setFixedHeight(20);
     lo1->setFixedWidth(150);
 
     QPushButton *valider1 = new QPushButton("Valider");
+    valider1->setFixedSize(100,30);
     VdockLayout1->addWidget(valider1);
 
-
-
     //zone coordonnées sexgésimales
-    QLabel *titre2 = new QLabel (trUtf8("En sexagésimal :"));
+    QLabel *titre2 = new QLabel (trUtf8("<font color=\"red\">En sexagésimal :</font>"));
     VdockLayout2->addWidget(titre2);
 
-    QLabel *DMS1 = new QLabel (trUtf8("Latitude en degrée minute seconde :"));
+    QLabel *DMS1 = new QLabel (trUtf8("<font color=\"green\">Premier point en degrée minute seconde :</font>"));
     VdockLayout2->addWidget(DMS1);
 
     d1 = new QSpinBox(dock);
     d1->setFixedHeight(20);
     d1->setFixedWidth(75);
 
-    dd1 = new QSpinBox(dock);
-    dd1->setFixedHeight(20);
-    dd1->setFixedWidth(75);
-
     m1 = new QSpinBox(dock);
     m1->setFixedHeight(20);
     m1->setFixedWidth(60);
 
-    mm1 = new QSpinBox(dock);
-    mm1->setFixedHeight(20);
-    mm1->setFixedWidth(60);
-
     s1 = new QSpinBox(dock);
     s1->setFixedHeight(20);
     s1->setFixedWidth(60);
+
+    dd1 = new QSpinBox(dock);
+    dd1->setFixedHeight(20);
+    dd1->setFixedWidth(75);
+
+    mm1 = new QSpinBox(dock);
+    mm1->setFixedHeight(20);
+    mm1->setFixedWidth(60);
 
     ss1 = new QSpinBox(dock);
     ss1->setFixedHeight(20);
@@ -214,36 +233,40 @@ fenetre::fenetre():flag_dock(false)
     HdockLayout2->addWidget(mm1);
     HdockLayout2->addWidget(ss1);
 
+    QLabel *lat2 = new QLabel ("Latitude : ");
+    VdockLayout2->addWidget(lat2);
     VdockLayout2->addLayout(HdockLayout1);
+    QLabel *lon2 = new QLabel ("Longitude : ");
+    VdockLayout2->addWidget(lon2);
     VdockLayout2->addLayout(HdockLayout2);
 
-    QLabel *DMS2 = new QLabel (trUtf8("Longitude en degrée minute seconde :"));
+    QLabel *DMS2 = new QLabel (trUtf8("<font color=\"green\">Deuxième point en degrée minute seconde :</font>"));
     VdockLayout2->addWidget(DMS2);
+
 
     d2 = new QSpinBox(dock);
     d2->setFixedHeight(20);
     d2->setFixedWidth(75);
 
-    dd2 = new QSpinBox(dock);
-    dd2->setFixedHeight(20);
-    dd2->setFixedWidth(75);
-
     m2 = new QSpinBox(dock);
     m2->setFixedHeight(20);
     m2->setFixedWidth(60);
-
-    mm2 = new QSpinBox(dock);
-    mm2->setFixedHeight(20);
-    mm2->setFixedWidth(60);
 
     s2 = new QSpinBox(dock);
     s2->setFixedHeight(20);
     s2->setFixedWidth(60);
 
+    dd2 = new QSpinBox(dock);
+    dd2->setFixedHeight(20);
+    dd2->setFixedWidth(75);
+
+    mm2 = new QSpinBox(dock);
+    mm2->setFixedHeight(20);
+    mm2->setFixedWidth(60);
+
     ss2 = new QSpinBox(dock);
     ss2->setFixedHeight(20);
     ss2->setFixedWidth(60);
-
 
     HdockLayout3->addWidget(d2);
     HdockLayout3->addWidget(m2);
@@ -253,14 +276,22 @@ fenetre::fenetre():flag_dock(false)
     HdockLayout4->addWidget(mm2);
     HdockLayout4->addWidget(ss2);
 
+    QLabel *lat3 = new QLabel ("Latitude : ");
+    VdockLayout2->addWidget(lat3);
     VdockLayout2->addLayout(HdockLayout3);
+    QLabel *lon3 = new QLabel ("Longitude : ");
+    VdockLayout2->addWidget(lon3);
     VdockLayout2->addLayout(HdockLayout4);
 
     QPushButton *valider2 = new QPushButton("Valider");
+    valider2->setFixedSize(100,30);
     VdockLayout2->addWidget(valider2);
 
+    VdockLayout3->addStretch();
     VdockLayout3->addLayout(VdockLayout1);
+    VdockLayout3->addStretch();
     VdockLayout3->addLayout(VdockLayout2);
+    VdockLayout3->addStretch();
 
     QPushButton *reinit = new QPushButton(trUtf8("réinitialiser"));
     VdockLayout3->addWidget(reinit);
@@ -338,11 +369,15 @@ fenetre::fenetre():flag_dock(false)
     void fenetre::valider_dec()
     {
        // image->setCoordDec(lo,la,lo1,la1);
-       int a = la->value();
-       int b = la1->value();
-       int c = lo->value();
-       int d = lo1->value();
-
+       std::cout<<la->value()<<""<<lo->value()<<std::endl;
+       float a = la->value();
+       float b = lo->value();
+       float c = la1->value();
+       float d = lo1->value();
+       std::cout<<a<<""<<b<<std::endl;
+       QPoint p(5,3);
+       QPoint pt (10,9);
+       std::cout<<"res : "<<image->longeur(p,pt)<<std::endl;
        image->setCoordDec(a,b,c,d);
 
 
@@ -363,7 +398,7 @@ fenetre::fenetre():flag_dock(false)
         int k = mm2->value();
         int l = ss2->value();
 
-        image->setCoordSeg(a,b,c,d,e,f);
+        image->setCoordSeg(a,b,c,d,e,f,g,h,i,j,k,l);
 
     }
 

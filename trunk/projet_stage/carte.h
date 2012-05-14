@@ -57,11 +57,11 @@ public:
 
     coord_decimal getCoordDec();
     coord_decimal getCoordDec1();
-    void setCoordDec(int la, int lo,int la1,int lo1);
+    void setCoordDec(float la, float lo,float la1, float lo1);
 
     coord_sexagesimal getCoordSeg();
     coord_sexagesimal getCoordSeg1();
-    void setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2);
+    void setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2);
 
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);
@@ -72,6 +72,13 @@ public:
 
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
+
+    double longeur(QPoint pt, QPoint pt1);
+    double angleA(QPoint pt, QPoint pt1,QPoint pt3);
+    double angleB(QPoint pt, QPoint pt1,QPoint pt3);
+    double angleC(QPoint pt, QPoint pt1,QPoint pt3);
+
+
 
 
 

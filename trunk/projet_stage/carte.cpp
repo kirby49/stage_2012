@@ -1,5 +1,6 @@
 #include "carte.h"
 #include "iostream"
+#include "math.h"
 
 
 //constructeur
@@ -60,15 +61,37 @@ void carte::setPoint1(QPoint p) {point1=p;}
 
 void carte::setPoint2(QPoint p) {point2=p;}
 
-void carte::setCoordDec(int la,int lo,int la1,int lo1)
+void carte::setCoordDec(float la,float lo,float la1,float lo1)
 {
+    if ((la!=0)||(lo!=0)||(la1!=0)||(lo1!=0)) {
+            dec.setLatitude(la);
+            dec.setLongitude(lo);
 
-   // dec=d;dec1=d1;
+            dec1.setLatitude(la1);
+            dec1.setLongitude(lo1);
+            std::cout<<"dec : "<<dec.getLatitude()<<std::endl;
+    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
+
+
 }
 
-void carte::setCoordSeg(int d1, int m1,int s1,int d2, int m2, int s2)
+void carte::setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2)
 {
-    //sexa=s;sexa1=s1;
+    if ((d1!=0)&&(m1!=0)&&(s1!=0)&&(dd1!=0)&&(mm1!=0)&&(ss1!=0)&&(d2!=0)&&(m2!=0)&&(s2!=0)&&(dd2!=0)&&(mm2!=0)&&(ss2!=0)) {
+            sexa.setDegree(d1);
+            sexa.setDegree1(dd1);
+            sexa.setMinute(m1);
+            sexa.setMinute1(mm1);
+            sexa.setSeconde(s1);
+            sexa.setSeconde1(ss1);
+
+            sexa1.setDegree(d2);
+            sexa1.setDegree1(dd2);
+            sexa1.setMinute(m2);
+            sexa1.setMinute1(mm2);
+            sexa1.setSeconde(s2);
+            sexa1.setSeconde1(ss2);
+    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 }
 
 //fonctions
@@ -84,20 +107,22 @@ void carte::afficherCarte(QString chemin){
     if (width>largeur){
     QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     imageCarte=new QImage(newImage);
-    largeur=imageCarte->width();
-    hauteur=imageCarte->height();
+    std::cout<<"you piss off"<<std::endl;
     }
     else if (height>hauteur){
     QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     imageCarte=new QImage(newImage);
+     std::cout<<"you piss off"<<std::endl;
+    }
+     std::cout<<"ça passe"<<std::endl;
     largeur=imageCarte->width();
     hauteur=imageCarte->height();
-    }
-
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
+    std::cout<<"hauteur : "<<hauteur<<std::endl;
+    std::cout<<"largeur : "<<largeur<<std::endl;
     update();
     }
 }
@@ -106,21 +131,19 @@ void carte::zoom(float valeur){
     echelle = (valeur * echelle);
     valeurZoom->setText(QString::number(echelle) );
 
+
 }
 
 void carte::dessinerChemin(const QPoint &p){
 
     // capture point de release souris
-    point_release=p;
+point_release=p;
+
+     // tracer départ du chemin
 int i=tracerZone(point_click,coul);
-    // départ du chemin
-    //tracerZone(point_click,coul);
 std::cout<<"zone : "<<i<<std::endl;
 
     // calcul orientation (release devient l'orientation)
-
-
-
     if (abs(point_release.x())>abs(point_release.y())){
             if (point_release.x()>0)
                 point_release=QPoint (point_click.x()+etendueZone,point_click.y());
@@ -136,37 +159,32 @@ std::cout<<"zone : "<<i<<std::endl;
 
    // std::cout<<"point de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
    // std::cout<<"point release "<<point_release.x()<<" "<<point_release.y()<<std::endl;
+   QPoint resultat=directionChemin();
 
-
-
-    // trace suite chemin jusqu'à sortie de chemin
-   while(1){
-
-      QPoint resultat=directionChemin();
+   // trace suite chemin jusqu'à sortie de chemin
+   while(resultat!=QPoint(0,0)&&
+         (resultat.x()<=largeur)&&
+         (resultat.x()>=0)&&
+         (resultat.y()>=0)&&
+         (resultat.y()<=hauteur))
+   {
       std::cout<<"resultat: "<<resultat.x()<<" "<<resultat.y()<<std::endl;
-    if(resultat==QPoint(0,0)) break;
 
       point_release.setX(resultat.x()+(resultat.x()-point_click.x()));
       point_release.setY(resultat.y()+(resultat.y() -point_click.y()));
 
       point_click.setX(resultat.x());
       point_click.setY(resultat.y());
+      resultat=directionChemin();
 
 
-//        std::cout<<"new point  de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
 
-
+  //      std::cout<<"new point  de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
   //      std::cout<<"new release x: "<<point_release.x()<<" new release y: "<<point_release.y()<<std::endl;
-    //point_release.setX(point_release.x()-point_click.x());
-    //point_release.setY(point_release.y()-point_click.y());
     }
-
-
-
-
-
 update();
 }
+
 
 QPoint carte::directionChemin(){
     int margeErreur=10;
@@ -177,7 +195,7 @@ QPoint carte::directionChemin(){
     else if (ancienneOrientation==QPoint(0,-etendueZone)) choix=2;
         else if (ancienneOrientation==QPoint(etendueZone,0)) choix=3;
             else if (ancienneOrientation==QPoint(0,etendueZone)) choix=4;
-    std::cout<<"ancienne DIrection: "<<ancienneOrientation.x()<<"  "<<ancienneOrientation.y()<<std::endl;
+        std::cout<<"ancienne DIrection: "<<ancienneOrientation.x()<<"  "<<ancienneOrientation.y()<<std::endl;
 
     switch (choix){
     //gauche
@@ -269,6 +287,34 @@ std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
                 break;
 }
 }
+
+double carte::longeur(QPoint pt, QPoint pt1)
+{
+
+int res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
+int res2 = ((pt1.y()-pt.y())*(pt1.y()-pt.y()));
+int res3 = res1 + res2;
+
+double resultat = qSqrt(res3);
+return resultat;
+}
+
+double carte::angleA(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
+}
+
+double carte::angleB(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
+}
+
+double carte::angleC(QPoint pt, QPoint pt1, QPoint pt3)
+{
+
+}
+
+
 
 //slots
 void carte::augmenter_zoom(){
