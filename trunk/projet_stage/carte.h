@@ -5,6 +5,7 @@
 #include <QtCore/QtCore>
 #include "coord_decimal.h"
 #include "coord_sexagesimal.h"
+#include "point_gps.h"
 
 class carte: public QWidget
 {
@@ -19,9 +20,11 @@ private:
     QImage* p2;
     QMouseEvent *event;
     QPoint point_click;
+    QPoint point_depart;
     QPoint point_release;
-    QPoint point1;
-    QPoint point2;
+    QPoint point1_gps;
+    QPoint point2_gps;
+    QPoint res;
     QRgb coul;
     QLabel* valeurZoom;
     coord_decimal dec;
@@ -70,12 +73,16 @@ public:
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
 
+    /*
     double longueur(QPoint pt, QPoint pt1);
-    double angleA(QPoint pt, QPoint pt1,QPoint pt3);
-    double angleB(QPoint pt, QPoint pt1,QPoint pt3);
-    double angleC(QPoint pt, QPoint pt1,QPoint pt3);
+    double angleA(QPoint a, QPoint b, QPoint c);
+    double angleB(QPoint a, QPoint b, QPoint c);
+    double angleC(QPoint a, QPoint b, QPoint c);
     //double pointX(double x, double ac, double ab, double )
-
+    double aire(QPoint a, QPoint b, QPoint c);
+    double H(coord_decimal pt, coord_decimal pt1,double air);
+    */
+    point_gps pt_gps (QPoint a, QPoint b,QPoint c);
 
 
 

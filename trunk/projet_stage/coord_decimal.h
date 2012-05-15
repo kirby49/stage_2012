@@ -4,22 +4,22 @@
 class coord_decimal
 {
 private:
-    float latitude;
-    float longitude;
+    double latitude;
+    double longitude;
 
 
 public:
     coord_decimal();
     // getteurs
-    float getLatitude();
-    float getLongitude();
+    double getLatitude();
+    double getLongitude();
 
 
     //seteurs
-    void setLatitude(float la);
-    void setLongitude(float lo);
+    void setLatitude(double la);
+    void setLongitude(double lo);
 
-    void toSexagesimal(int la,int lo);
+    void toSexagesimal(double la,double lo);
 
 
 

@@ -7,24 +7,24 @@ coord_decimal::coord_decimal():longitude(0),latitude(0)
 
 
 //accesseurs
-float coord_decimal::getLatitude()
+double coord_decimal::getLatitude()
 {
     return latitude;
 }
 
-float coord_decimal::getLongitude()
+double coord_decimal::getLongitude()
 {
     return longitude;
 }
 
 
 //muttateurs
-void coord_decimal::setLatitude(float la)
+void coord_decimal::setLatitude(double la)
 {
     latitude = la;
 }
 
-void coord_decimal::setLongitude(float lo)
+void coord_decimal::setLongitude(double lo)
 {
     longitude = lo;
 }
