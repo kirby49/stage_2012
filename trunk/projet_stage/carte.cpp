@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point_depart(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -38,9 +38,9 @@ int carte::getFlags() {return flags;}
 
 QRgb carte::getCouleur() {return coul;}
 
-QPoint carte::getPoint1() {return point1;}
+QPoint carte::getPoint1() {return point1_gps;}
 
-QPoint carte::getPoint2() {return point2;}
+QPoint carte::getPoint2() {return point2_gps;}
 
 coord_decimal carte::getCoordDec() {return dec;}
 
@@ -59,9 +59,9 @@ void carte::setCouleur(QRgb c) {coul = c;}
 
 void carte::setPoint(QPoint p) {point_click=p;}
 
-void carte::setPoint1(QPoint p) {point1=p;}
+void carte::setPoint1(QPoint p) {point1_gps=p;}
 
-void carte::setPoint2(QPoint p) {point2=p;}
+void carte::setPoint2(QPoint p) {point2_gps=p;}
 
 void carte::setCoordDec(float la,float lo,float la1,float lo1)
 {
@@ -71,7 +71,7 @@ void carte::setCoordDec(float la,float lo,float la1,float lo1)
 
             dec1.setLatitude(la1);
             dec1.setLongitude(lo1);
-            std::cout<<"dec : "<<dec.getLatitude()<<std::endl;
+
     } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 
 
@@ -294,53 +294,120 @@ std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
      return QPoint(0,0);
 }
 
-
-
+//première version :
+/*
 double carte::longueur(QPoint pt, QPoint pt1)
 
 {
 
-int res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
-int res2 = ((pt1.y()-pt.y())*(pt1.y()-pt.y()));
-int res3 = res1 + res2;
+double res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
+double res2 = ((pt1.y()-pt.y())*(pt1.y()-pt.y()));
+double res3 = res1 + res2;
 
 double resultat = qSqrt(res3);
 return resultat;
 }
 
-double carte::angleA(QPoint pt, QPoint pt1, QPoint pt3)
+double carte::angleA(QPoint a, QPoint b, QPoint c)
 {
-    int ab,bc,ac;
-    ab=longueur(pt,pt1);
-    bc=longueur(pt1,pt3);
-    ac=longueur(pt,pt3);
+    double ab,bc,ac,res;
+    ab=longueur(a,b);
+    bc=longueur(b,c);
+    ac=longueur(a,c);
 
-    double res = acos( ((ab*ab)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
+    res = acos( ((ab*ab)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
     return res;
 
 }
 
-double carte::angleB(QPoint pt, QPoint pt1, QPoint pt3)
+double carte::angleB(QPoint a, QPoint b, QPoint c)
 {
-    int ab,bc,ac;
-    ab=longueur(pt,pt1);
-    bc=longueur(pt1,pt3);
-    ac=longueur(pt,pt3);
+    double ab,bc,ac;
+    ab=longueur(a,b);
+    bc=longueur(b,c);
+    ac=longueur(a,c);
     double res = acos( ((ab*ab)+(bc*bc)-(ac*ac))/(2*(ab)*(bc)));
     return res;
 }
 
-double carte::angleC(QPoint pt, QPoint pt1, QPoint pt3)
+double carte::angleC(QPoint a, QPoint b, QPoint c)
 {
-    int ab,bc,ac;
-    ab=longueur(pt,pt1);
-    bc=longueur(pt1,pt3);
-    ac=longueur(pt,pt3);
+    double ab,bc,ac;
+    ab=longueur(a,b);
+    bc=longueur(b,c);
+    ac=longueur(a,c);
 
     bool res = acos( ((ab*ac)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
     return res;
 }
 
+double carte::aire(QPoint a, QPoint b, QPoint c)
+{
+    double ab,bc,ac,ai;
+    ab=longueur(a,b);
+    bc=longueur(b,c);
+    ac=longueur(a,c);
+
+    int s = ((ab+ac+bc)/2);
+    ai = qSqrt(s*((s-ab)*(s-bc)*(s-ac)));
+    return ai;
+}
+
+double carte::H(coord_decimal pt, coord_decimal pt1, double a)
+{
+    double b,h;
+    QPoint p,p1;
+
+    p.setX(pt.getLatitude());
+    p.setY(pt.getLongitude());
+    p1.setX(pt1.getLatitude());
+    p1.setY(pt1.getLongitude());
+
+    b=longueur(p,p1);
+    h=((2*a)/b);
+    return h;
+
+}*/
+
+point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
+{
+    //première version :
+   /* QPoint p;
+    double angle, cos_angle, h, ai, x, y, ac, ab;
+    ai = aire(a,b,c);
+    h= H(dec,dec1,ai);
+    angle = angleC(a,b,c);
+    cos_angle=cos(angle);
+    ac=cos_angle*h;
+    ab=(((ac)*(ac))-((h)*(h)));
+    x=((dec.getLatitude())+ab);
+    y=((dec.getLongitude())+ac);
+
+    p.setX(x);
+    p.setY(y);
+    return p;*/
+
+    point_gps res;
+    double x1 = (b.x()-a.x());
+    double y1 = (b.y()-a.y());
+
+    double x2 = (c.x()-a.x());
+    double y2 = (c.y()-a.y());
+
+    double y_gps = (dec1.getLatitude()-dec.getLatitude());
+    double x_gps = (dec1.getLongitude()-dec.getLongitude());
+
+    double var = ((x2*x_gps)/x1);
+    double var2 = ((y2*y_gps)/y1);
+
+    double res_x = dec.getLongitude()+var;
+    double res_y = dec.getLatitude()+var2;
+
+    res.setX(res_x);
+    res.setY(res_y);
+
+    return res;
+}
 
 
 //slots
@@ -366,6 +433,7 @@ void carte::attributCouleur(const QPoint &p){
     QRgb pt ;
     setPoint(p);
     pt = imageCarte->pixel(p);
+    point_depart=p;
     setCouleur(pt);
 }
 
@@ -389,6 +457,7 @@ void carte::fermerProjet(){
 void carte::placerFlag1(const QPoint &p)
 {
     if (nbpoint==0){
+
         int x = (p.x()-4);
         int y = (p.y()-(p1->height()));
         QPoint pt(x,y);
@@ -424,6 +493,8 @@ void carte::setNbpoint()
 }
 
 
+
+
 //gestion des évènements
 void carte::paintEvent(QPaintEvent *event)
 {
@@ -433,6 +504,8 @@ void carte::paintEvent(QPaintEvent *event)
         painter.drawImage(point,*imageCarte);
         //painter.drawImage(point,*couche1);
         painter.drawImage(point,*tracerChemin);
+        point_gps p = pt_gps(point1_gps,point2_gps,point_depart);
+        std::cout<<"point : "<<point_depart.x()<<" "<<point_depart.y()<<" coord gps :"<<p.X()<<" "<<p.Y()<<std::endl;
     }
     else if ((carteDessiner)&&(flags==2)){
             QPainter painter(this);
@@ -463,10 +536,12 @@ void carte::mousePressEvent(QMouseEvent *event)
              }
     } else if ((carteDessiner)&&(flags==2)){
         if (nbpoint==0){
+
                  emit placerFlag1(event->pos());
 
                  }
         else if (nbpoint==1) {
+
                  emit placerFlag2(event->pos());
 
                  }
@@ -482,6 +557,7 @@ void carte::mouseReleaseEvent(QMouseEvent *event)
 
     if (event->button() == Qt::LeftButton)
         {
+
            emit ChangeRes();
            emit signalDessinerChemin(event->pos());
         }
