@@ -7,12 +7,15 @@
 carte::carte():point_click(0,0),point_depart(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
-    largeur= QApplication::desktop()->width()-100;
-    hauteur = QApplication::desktop()->height()-100;
+    //largeur= QApplication::desktop()->width()-100;
+    //hauteur = QApplication::desktop()->height()-100;
     this->setMinimumSize(largeur,hauteur);
     imageCarte = new QImage();
     carteDessiner=false;
+    couche1= new QImage();
+    couche2= new QImage;
     tracerChemin= new QImage();
+    etendueZone=5;
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
@@ -99,26 +102,31 @@ void carte::afficherCarte(QString chemin){
     if (!chemin.isNull()) {
     echelle= 1.0;
     imageCarte= new QImage(chemin);
+    std::cout<<"image: "<<chemin.toStdString()<<std::endl;
     int width= imageCarte->width();
     int height=imageCarte->height();
 
-    if (width>largeur){
-    QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    if (width>height){
+    QImage newImage= (imageCarte->scaledToWidth(1201,Qt::SmoothTransformation));
     imageCarte=new QImage(newImage);
+    std::cout<<"you piss off"<<std::endl;
+    }
+    else {
+    QImage newImage= (imageCarte->scaledToHeight(651,Qt::SmoothTransformation));
+    imageCarte=new QImage(newImage);
+     std::cout<<"you piss off"<<std::endl;
+    }
+     std::cout<<"ça passe"<<std::endl;
     largeur=imageCarte->width();
     hauteur=imageCarte->height();
-    }
-    else if (height>hauteur){
-    QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-    imageCarte=new QImage(newImage);
-    largeur=imageCarte->width();
-    hauteur=imageCarte->height();
-    }
-
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
+    couche1=imageCarte;
+    couche2=new QImage(largeur,hauteur,QImage::Format_ARGB32);
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
+    std::cout<<"hauteur : "<<hauteur<<std::endl;
+    std::cout<<"largeur : "<<largeur<<std::endl;
     update();
     }
 }
@@ -127,71 +135,169 @@ void carte::zoom(float valeur){
     echelle = (valeur * echelle);
     valeurZoom->setText(QString::number(echelle) );
 
+
 }
 
 void carte::dessinerChemin(const QPoint &p){
 
+    // capture point de release souris
+point_release=p;
 
-    point_release=p;
-    QPoint direction;
-    int directionX=point_release.x()-point_click.x();
-    int directionY=point_release.y()-point_click.y();
-    direction= QPoint(point_click.x()+directionX,point_click.y()+directionY);
-    std::cout<<"pas a: "<<directionX<<" pas b: "<<directionY<<std::endl;
-    std::cout<<"point de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
-    std::cout<<"direction "<<direction.x()<<" "<<direction.y()<<std::endl;
-    if((directionX>=0)&&(directionY>=0))
-    {
-        for (int i=point_click.x();i<=direction.x();i++){
-           for (int j=point_click.y();j<=direction.y();j++){
-                if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
-           }
-        }
+     // tracer départ du chemin
+int i=tracerZone(point_click,coul);
+std::cout<<"zone : "<<i<<std::endl;
+
+    // calcul orientation (release devient l'orientation)
+    if (abs(point_release.x())>abs(point_release.y())){
+            if (point_release.x()>0)
+                point_release=QPoint (point_click.x()+etendueZone,point_click.y());
+                else
+                point_release=QPoint (point_click.x()-etendueZone,point_click.y());
     }
-    else
-        if((directionX>=0)&&(directionY<0))
-        {
-            for (int i=point_click.x();i<=direction.x();i++){
-               for (int j=point_click.y();j>=direction.y();j--){
-                    if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
-               }
-            }
-        }
-        else
-            if((directionX<0)&&(directionY>=0))
-            {
-                for (int i=point_click.x();i>=direction.x();i--){
-                   for (int j=point_click.y();j<=direction.y();j++){
-                        if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
-                   }
-                }
-            }
+    else {
+        if (point_release.y()>0)
+            point_release=QPoint (point_click.x(),point_click.y()+etendueZone);
             else
-                {
-                    for (int i=point_click.x();i>=direction.x();i--){
-                       for (int j=point_click.y();j>=direction.y();j--){
-                           if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
-                       }
-                    }
-                }
+            point_release=QPoint (point_click.x(),point_click.y()-etendueZone);
+    }
+
+   // std::cout<<"point de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
+   // std::cout<<"point release "<<point_release.x()<<" "<<point_release.y()<<std::endl;
+   QPoint resultat=directionChemin();
+
+   // trace suite chemin jusqu'à sortie de chemin
+   while(resultat!=QPoint(0,0)&&
+         (resultat.x()<=largeur)&&
+         (resultat.x()>=0)&&
+         (resultat.y()>=0)&&
+         (resultat.y()<=hauteur))
+   {
+      std::cout<<"resultat: "<<resultat.x()<<" "<<resultat.y()<<std::endl;
+
+      point_release.setX(resultat.x()+(resultat.x()-point_click.x()));
+      point_release.setY(resultat.y()+(resultat.y() -point_click.y()));
+
+      point_click.setX(resultat.x());
+      point_click.setY(resultat.y());
+      resultat=directionChemin();
 
 
-   /*for (int i=0;i<largeur;i++){
-     for (int j=0; j<hauteur;j++){
-         if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true)
-            {imageCarte->setPixel(QPoint(i,j),255255255);}
-       // std::cout<<"couleur : "<<coul<<std::endl;}
-         //imageCarte->setPixel(QPoint(i,j),coul);
-     }
- }
-*/
 
+  //      std::cout<<"new point  de base: "<<point_click.x()<<" "<<point_click.y()<<std::endl;
+  //      std::cout<<"new release x: "<<point_release.x()<<" new release y: "<<point_release.y()<<std::endl;
+    }
 update();
 }
 
-/*
+
+
+QPoint carte::directionChemin(){
+    int margeErreur=14;
+    int choix=0;
+    //0: arret   1: gauche   2:haut    3:droite   4: bas
+    QPoint ancienneOrientation (point_release.x()-point_click.x(),point_release.y()-point_click.y());
+    if (ancienneOrientation==QPoint(-etendueZone,0)) choix=1;
+    else if (ancienneOrientation==QPoint(0,-etendueZone)) choix=2;
+        else if (ancienneOrientation==QPoint(etendueZone,0)) choix=3;
+            else if (ancienneOrientation==QPoint(0,etendueZone)) choix=4;
+        std::cout<<"ancienne DIrection: "<<ancienneOrientation.x()<<"  "<<ancienneOrientation.y()<<std::endl;
+
+    switch (choix){
+    //gauche
+            case (1):
+    {
+                 int gauche=(tracerZone(QPoint(point_click.x()-etendueZone,point_click.y()),coul));
+                //int droite=(tracerZone(QPoint(point_click.x()+etendueZone,point_click.y()),coul));
+                int haut=(tracerZone(QPoint(point_click.x(),point_click.y()-etendueZone),coul));
+                int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
+                int nouvelleOrientation=maximum(gauche,maximum(haut,bas));
+
+                std::cout<<"nouvelle DIrection: "<<nouvelleOrientation<<std::endl;
+                if (nouvelleOrientation>margeErreur){
+                     //std::cout<<"nouvelle DIrection2: "<<nouvelleOrientation <<std::endl;
+                   // return QPoint(point_click.x()-etendueZone,point_click.y());
+
+                    if (nouvelleOrientation == gauche) return QPoint(point_click.x()-etendueZone,point_click.y());
+                    else if (nouvelleOrientation == haut) return QPoint(point_click.x(),point_click.y()-etendueZone);
+                              else if (nouvelleOrientation == bas) return QPoint(point_click.x(),point_click.y()+etendueZone);
+
+                }
+                return QPoint(0,0);
+    }
+                break;
+
+    //haut
+            case (2):
+    {
+                int gauche=(tracerZone(QPoint(point_click.x()-etendueZone,point_click.y()),coul));
+                int droite=(tracerZone(QPoint(point_click.x()+etendueZone,point_click.y()),coul));
+                int haut=(tracerZone(QPoint(point_click.x(),point_click.y()-etendueZone),coul));
+                //int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
+                int nouvelleOrientation=maximum(haut,maximum(gauche,droite));
+
+                std::cout<<"nouvelle DIrection 3: "<<nouvelleOrientation <<std::endl;
+                if (nouvelleOrientation>margeErreur){
+                    if (nouvelleOrientation == gauche) return QPoint(point_click.x()-etendueZone,point_click.y());
+                    else if (nouvelleOrientation == haut) return QPoint(point_click.x(),point_click.y()-etendueZone);
+                         else if (nouvelleOrientation == droite) return QPoint(point_click.x()+etendueZone,point_click.y());
+                   // std::cout<<"nouvelle DIrection 4: "<<nouvelleOrientation <<std::endl;
+                    //return QPoint(point_click.x(),point_click.y()-etendueZone);
+
+                }
+                return QPoint(0,0);
+      }
+                break;
+
+    //droite
+            case (3):
+    {
+                //int gauche=(tracerZone(QPoint(point_click.x()-etendueZone,point_click.y()),coul));
+                int droite=(tracerZone(QPoint(point_click.x()+etendueZone,point_click.y()),coul));
+                int haut=(tracerZone(QPoint(point_click.x(),point_click.y()-etendueZone),coul));
+                int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
+                int nouvelleOrientation=maximum(droite,maximum(haut,bas));
+               std::cout<<"nouvelle DIrection 5: "<<nouvelleOrientation <<std::endl;
+                if (nouvelleOrientation>margeErreur){
+                     if (nouvelleOrientation == haut) return QPoint(point_click.x(),point_click.y()-etendueZone);
+                         else if (nouvelleOrientation == droite) return QPoint(point_click.x()+etendueZone,point_click.y());
+                              else if (nouvelleOrientation == bas) return QPoint(point_click.x(),point_click.y()+etendueZone);
+                    //std::cout<<"nouvelle DIrection 6: "<<nouvelleOrientation <<std::endl;
+                   // return QPoint(point_click.x()+etendueZone,point_click.y());
+
+                }
+                return QPoint(0,0);
+      }
+                break;
+
+    //bas
+            case (4):
+    {
+                int gauche=(tracerZone(QPoint(point_click.x()-etendueZone,point_click.y()),coul));
+                int droite=(tracerZone(QPoint(point_click.x()+etendueZone,point_click.y()),coul));
+                //int haut=(tracerZone(QPoint(point_click.x(),point_click.y()-etendueZone),coul));
+                int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
+                int nouvelleOrientation=maximum(bas,maximum(gauche,droite));
+
+std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
+                if (nouvelleOrientation>margeErreur){
+                    if (nouvelleOrientation == gauche) return QPoint(point_click.x()-etendueZone,point_click.y());
+                         else if (nouvelleOrientation == droite) return QPoint(point_click.x()+etendueZone,point_click.y());
+                              else if (nouvelleOrientation == bas) return QPoint(point_click.x(),point_click.y()+etendueZone);
+
+                   //std::cout<<"nouvelle DIrection 8: "<<nouvelleOrientation <<std::endl;
+                    //return QPoint(point_click.x(),point_click.y()+etendueZone);
+                }
+                return QPoint(0,0);
+     }
+                break;
+}
+     return QPoint(0,0);
+}
+
 //première version :
+/*
 double carte::longueur(QPoint pt, QPoint pt1)
+
 {
 
 double res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
@@ -280,6 +386,7 @@ point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
     p.setX(x);
     p.setY(y);
     return p;*/
+
     point_gps res;
     double x1 = (b.x()-a.x());
     double y1 = (b.y()-a.y());
@@ -301,6 +408,7 @@ point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
 
     return res;
 }
+
 
 //slots
 void carte::augmenter_zoom(){
@@ -330,15 +438,19 @@ void carte::attributCouleur(const QPoint &p){
 }
 
 void carte::fermerProjet(){
+
   QImage newImage(0,0,QImage::Format_ARGB32);
-  //hauteur=0;
-  //largeur=0;
+  hauteur=0;
+  largeur=0;
   imageCarte= new QImage(newImage);
   tracerChemin= new QImage(newImage);
+  couche1=new QImage(newImage);
+  couche2=new QImage(newImage);
   p1= new QImage();
   p2= new QImage();
   setFlags(0);
   update();
+
 ;
 }
 
@@ -390,6 +502,7 @@ void carte::paintEvent(QPaintEvent *event)
         QPainter painter(this);
         QPoint point (0,0);
         painter.drawImage(point,*imageCarte);
+        //painter.drawImage(point,*couche1);
         painter.drawImage(point,*tracerChemin);
         point_gps p = pt_gps(point1_gps,point2_gps,point_depart);
         std::cout<<"point : "<<point_depart.x()<<" "<<point_depart.y()<<" coord gps :"<<p.X()<<" "<<p.Y()<<std::endl;
@@ -484,6 +597,8 @@ int carte::minimum(int a, int b){
 
 
 
+
+
 bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
 
     unsigned int differenceRouge = abs(qRed(p1) - qRed(p2));
@@ -503,23 +618,28 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
 }
 
 
+int carte::tracerZone(const QPoint &p,const QRgb &color){
+    int nbPixel=0;
+    for (int i=p.x()-etendueZone; i<p.x()+etendueZone;i++){
+        for (int j=p.y()-etendueZone; j<p.y()+etendueZone;j++){
+            if((i<=largeur)&&(i>=0)&&(j>=0)&&(j<=hauteur)){
+            if (comparerCouleurAvecMarge(color,imageCarte->pixel(QPoint(i,j)))) {
+                couche1->setPixel(QPoint(i,j),0xFF00FF00);
+                nbPixel++;
+            }
+            }
+        }
+    }
+   return nbPixel;
+}
+
+
+
+
 
 
 /*************************Brouillon  algo******************************************
-    if (abs(directionX)>abs(directionY)){
-            if (directionX>0)
-                direction=QPoint (point_click.x()+1,point_click.y());
-                else
-                direction=QPoint (point_click.x()-1,point_click.y());
-    }
-    else {
-        if (directionY>0)
-            direction=QPoint (point_click.x(),point_click.y()+1);
-            else
-            direction=QPoint (point_click.x(),point_click.y()-1);
-    }
-//std::cout<<"point 1 "<<point_click.x()<<" "<<point_click.y()<<std::endl;
-//std::cout<<"point 2 "<<direction.x()<<" "<<direction.y()<<std::endl;
+
 
 
 
@@ -568,6 +688,56 @@ bool carte::comparerCouleurAvecMarge(QRgb p1, QRgb p2){
         }
     }
 
+
+
+
+
+    //tracer diagonale et parcourir rectangle
+    if((directionX>=0)&&(directionY>=0))
+    {
+        for (int i=point_click.x();i<=direction.x();i++){
+           for (int j=point_click.y();j<=direction.y();j++){
+                if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
+           }
+        }
+    }
+    else
+        if((directionX>=0)&&(directionY<0))
+        {
+            for (int i=point_click.x();i<=direction.x();i++){
+               for (int j=point_click.y();j>=direction.y();j--){
+                    if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
+               }
+            }
+        }
+        else
+            if((directionX<0)&&(directionY>=0))
+            {
+                for (int i=point_click.x();i>=direction.x();i--){
+                   for (int j=point_click.y();j<=direction.y();j++){
+                        if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
+                   }
+                }
+            }
+            else
+                {
+                    for (int i=point_click.x();i>=direction.x();i--){
+                       for (int j=point_click.y();j>=direction.y();j--){
+                           if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true) tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
+                       }
+                    }
+                }*/
+
+   /*
+//parcourir toute la carte
+for (int i=0;i<largeur;i++){
+     for (int j=0; j<hauteur;j++){
+         if (comparerCouleurAvecMarge( imageCarte->pixel(i,j),coul)==true)
+            {imageCarte->setPixel(QPoint(i,j),255255255);}
+       // std::cout<<"couleur : "<<coul<<std::endl;}
+         //imageCarte->setPixel(QPoint(i,j),coul);
+     }
+ }
 
 ***************************************************************************************/
 

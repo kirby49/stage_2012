@@ -15,7 +15,8 @@ private:
 
     QImage* imageCarte;
     QImage* tracerChemin;
-    //QImage* smiley;
+    QImage* couche1;
+    QImage* couche2;
     QImage* p1;
     QImage* p2;
     QMouseEvent *event;
@@ -37,6 +38,7 @@ private:
     int hauteur;
     int largeur;
     int flags;
+    int etendueZone;
 
 
 public:
@@ -69,6 +71,9 @@ public:
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);
     int minimum(int a, int b);
+    int tracerZone(const QPoint &p, const QRgb &color);
+    QPoint directionChemin();
+
 
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
