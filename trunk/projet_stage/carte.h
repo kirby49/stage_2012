@@ -79,6 +79,7 @@ public:
     double angleA(QPoint pt, QPoint pt1,QPoint pt3);
     double angleB(QPoint pt, QPoint pt1,QPoint pt3);
     double angleC(QPoint pt, QPoint pt1,QPoint pt3);
+    //double pointX(double x, double ac, double ab, double )
 
 
 
