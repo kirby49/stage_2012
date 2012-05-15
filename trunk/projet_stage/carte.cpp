@@ -7,11 +7,13 @@
 carte::carte():point_click(0,0),point1(0,0),point2(0,0),coul(255255255),nbpoint(0),flags(0)
 {
 
-    largeur= QApplication::desktop()->width()-100;
-    hauteur = QApplication::desktop()->height()-100;
+    //largeur= QApplication::desktop()->width()-100;
+    //hauteur = QApplication::desktop()->height()-100;
     this->setMinimumSize(largeur,hauteur);
     imageCarte = new QImage();
     carteDessiner=false;
+    couche1= new QImage();
+    couche2= new QImage;
     tracerChemin= new QImage();
     etendueZone=5;
 
@@ -104,13 +106,13 @@ void carte::afficherCarte(QString chemin){
     int width= imageCarte->width();
     int height=imageCarte->height();
 
-    if (width>largeur){
-    QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    if (width>height){
+    QImage newImage= (imageCarte->scaledToWidth(1201,Qt::SmoothTransformation));
     imageCarte=new QImage(newImage);
     std::cout<<"you piss off"<<std::endl;
     }
-    else if (height>hauteur){
-    QImage newImage= (imageCarte->scaled(largeur,hauteur,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    else {
+    QImage newImage= (imageCarte->scaledToHeight(651,Qt::SmoothTransformation));
     imageCarte=new QImage(newImage);
      std::cout<<"you piss off"<<std::endl;
     }
@@ -119,6 +121,8 @@ void carte::afficherCarte(QString chemin){
     hauteur=imageCarte->height();
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
+    couche1=imageCarte;
+    couche2=new QImage(largeur,hauteur,QImage::Format_ARGB32);
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
     std::cout<<"hauteur : "<<hauteur<<std::endl;
@@ -186,8 +190,9 @@ update();
 }
 
 
+
 QPoint carte::directionChemin(){
-    int margeErreur=10;
+    int margeErreur=14;
     int choix=0;
     //0: arret   1: gauche   2:haut    3:droite   4: bas
     QPoint ancienneOrientation (point_release.x()-point_click.x(),point_release.y()-point_click.y());
@@ -286,9 +291,13 @@ std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
      }
                 break;
 }
+     return QPoint(0,0);
 }
 
-double carte::longeur(QPoint pt, QPoint pt1)
+
+
+double carte::longueur(QPoint pt, QPoint pt1)
+
 {
 
 int res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
@@ -301,17 +310,35 @@ return resultat;
 
 double carte::angleA(QPoint pt, QPoint pt1, QPoint pt3)
 {
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
+
+    double res = acos( ((ab*ab)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
+    return res;
 
 }
 
 double carte::angleB(QPoint pt, QPoint pt1, QPoint pt3)
 {
-
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
+    double res = acos( ((ab*ab)+(bc*bc)-(ac*ac))/(2*(ab)*(bc)));
+    return res;
 }
 
 double carte::angleC(QPoint pt, QPoint pt1, QPoint pt3)
 {
+    int ab,bc,ac;
+    ab=longueur(pt,pt1);
+    bc=longueur(pt1,pt3);
+    ac=longueur(pt,pt3);
 
+    bool res = acos( ((ab*ac)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
+    return res;
 }
 
 
@@ -345,10 +372,12 @@ void carte::attributCouleur(const QPoint &p){
 void carte::fermerProjet(){
 
   QImage newImage(0,0,QImage::Format_ARGB32);
-  hauteur=50;
-  largeur=50;
+  hauteur=0;
+  largeur=0;
   imageCarte= new QImage(newImage);
   tracerChemin= new QImage(newImage);
+  couche1=new QImage(newImage);
+  couche2=new QImage(newImage);
   p1= new QImage();
   p2= new QImage();
   setFlags(0);
@@ -402,6 +431,7 @@ void carte::paintEvent(QPaintEvent *event)
         QPainter painter(this);
         QPoint point (0,0);
         painter.drawImage(point,*imageCarte);
+        //painter.drawImage(point,*couche1);
         painter.drawImage(point,*tracerChemin);
     }
     else if ((carteDessiner)&&(flags==2)){
@@ -516,9 +546,11 @@ int carte::tracerZone(const QPoint &p,const QRgb &color){
     int nbPixel=0;
     for (int i=p.x()-etendueZone; i<p.x()+etendueZone;i++){
         for (int j=p.y()-etendueZone; j<p.y()+etendueZone;j++){
+            if((i<=largeur)&&(i>=0)&&(j>=0)&&(j<=hauteur)){
             if (comparerCouleurAvecMarge(color,imageCarte->pixel(QPoint(i,j)))) {
-                imageCarte->setPixel(QPoint(i,j),0xFF00FF00);
+                couche1->setPixel(QPoint(i,j),0xFF00FF00);
                 nbPixel++;
+            }
             }
         }
     }
