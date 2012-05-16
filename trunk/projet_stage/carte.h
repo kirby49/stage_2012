@@ -4,7 +4,6 @@
 #include <QtGui/QtGui>
 #include <QtCore/QtCore>
 #include "coord_decimal.h"
-#include "coord_sexagesimal.h"
 #include "point_gps.h"
 
 class carte: public QWidget
@@ -24,14 +23,14 @@ private:
     QPoint point_depart;
     QPoint point_release;
     QPoint point1_gps;
+    QPoint point1;
     QPoint point2_gps;
+    QPoint point2;
     QPoint res;
     QRgb coul;
     QLabel* valeurZoom;
     coord_decimal dec;
     coord_decimal dec1;
-    coord_sexagesimal sexa;
-    coord_sexagesimal sexa1;
     bool carteDessiner;
     float echelle;
     int nbpoint;
@@ -63,10 +62,8 @@ public:
     coord_decimal getCoordDec();
     coord_decimal getCoordDec1();
     void setCoordDec(float la, float lo,float la1, float lo1);
-
-    coord_sexagesimal getCoordSeg();
-    coord_sexagesimal getCoordSeg1();
     void setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2);
+
 
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);
     int maximum(int a, int b);

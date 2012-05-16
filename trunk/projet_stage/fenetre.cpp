@@ -152,7 +152,7 @@ fenetre::fenetre():flag_dock(false)
     la = new QDoubleSpinBox (dock);
     la->setMaximum((90.0));
     la->setMinimum((-90.0));
-    la->setDecimals(6);
+    la->setDecimals(9);
     VdockLayout1->addWidget(la);
     la->setFixedHeight(20);
     la->setFixedWidth(150);
@@ -162,7 +162,7 @@ fenetre::fenetre():flag_dock(false)
     lo = new QDoubleSpinBox (dock);
     lo->setMaximum((180.0));
     lo->setMinimum((-180.0));
-    lo->setDecimals(6);
+    lo->setDecimals(9);
     VdockLayout1->addWidget(lo);
     lo->setFixedHeight(20);
     lo->setFixedWidth(150);
@@ -174,7 +174,7 @@ fenetre::fenetre():flag_dock(false)
     la1 = new QDoubleSpinBox (dock);
     la1->setMaximum((90.0));
     la1->setMinimum((-90.0));
-    la1->setDecimals(6);
+    la1->setDecimals(9);
     VdockLayout1->addWidget(la1);
     la1->setFixedHeight(20);
     la1->setFixedWidth(150);
@@ -184,7 +184,7 @@ fenetre::fenetre():flag_dock(false)
     lo1 = new QDoubleSpinBox (dock);
     lo1->setMaximum((180.0));
     lo1->setMinimum((-180.0));
-    lo1->setDecimals(6);
+    lo1->setDecimals(9);
     VdockLayout1->addWidget(lo1);
     lo1->setFixedHeight(20);
     lo1->setFixedWidth(150);
@@ -368,13 +368,14 @@ fenetre::fenetre():flag_dock(false)
 
     void fenetre::valider_dec()
     {
-       // image->setCoordDec(lo,la,lo1,la1);
+
        std::cout<<la->value()<<""<<lo->value()<<std::endl;
        float a = la->value();
        float b = lo->value();
        float c = la1->value();
        float d = lo1->value();
-       std::cout<<a<<""<<b<<std::endl;
+       //std::cout<<"latitude "<<a<<""<<b<<std::endl;
+       //std::cout<<"longitude "<<c<<""<<d<<std::endl;
        image->setCoordDec(a,b,c,d);
 
 
