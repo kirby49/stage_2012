@@ -61,8 +61,8 @@ public:
 
     coord_decimal getCoordDec();
     coord_decimal getCoordDec1();
-    void setCoordDec(float la, float lo,float la1, float lo1);
-    void setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2);
+    void setCoordDec(double la, double lo, double la1, double lo1);
+    void setCoordSeg(int d1,int m1, double s1, int dd1, int mm1,double ss1, int d2, int m2, double s2, int dd2, int mm2, double ss2);
 
 
     bool comparerCouleurAvecMarge(QRgb p1, QRgb p2);

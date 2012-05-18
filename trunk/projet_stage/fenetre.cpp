@@ -152,7 +152,7 @@ fenetre::fenetre():flag_dock(false)
     la = new QDoubleSpinBox (dock);
     la->setMaximum((90.0));
     la->setMinimum((-90.0));
-    la->setDecimals(9);
+    la->setDecimals(7);
     VdockLayout1->addWidget(la);
     la->setFixedHeight(20);
     la->setFixedWidth(150);
@@ -162,7 +162,7 @@ fenetre::fenetre():flag_dock(false)
     lo = new QDoubleSpinBox (dock);
     lo->setMaximum((180.0));
     lo->setMinimum((-180.0));
-    lo->setDecimals(9);
+    lo->setDecimals(7);
     VdockLayout1->addWidget(lo);
     lo->setFixedHeight(20);
     lo->setFixedWidth(150);
@@ -174,7 +174,7 @@ fenetre::fenetre():flag_dock(false)
     la1 = new QDoubleSpinBox (dock);
     la1->setMaximum((90.0));
     la1->setMinimum((-90.0));
-    la1->setDecimals(9);
+    la1->setDecimals(7);
     VdockLayout1->addWidget(la1);
     la1->setFixedHeight(20);
     la1->setFixedWidth(150);
@@ -184,7 +184,7 @@ fenetre::fenetre():flag_dock(false)
     lo1 = new QDoubleSpinBox (dock);
     lo1->setMaximum((180.0));
     lo1->setMinimum((-180.0));
-    lo1->setDecimals(9);
+    lo1->setDecimals(7);
     VdockLayout1->addWidget(lo1);
     lo1->setFixedHeight(20);
     lo1->setFixedWidth(150);
@@ -202,28 +202,32 @@ fenetre::fenetre():flag_dock(false)
 
     d1 = new QSpinBox(dock);
     d1->setFixedHeight(20);
-    d1->setFixedWidth(75);
+    d1->setFixedWidth(75);    
 
     m1 = new QSpinBox(dock);
     m1->setFixedHeight(20);
     m1->setFixedWidth(60);
 
-    s1 = new QSpinBox(dock);
+    s1 = new QDoubleSpinBox(dock);
     s1->setFixedHeight(20);
-    s1->setFixedWidth(60);
+    s1->setFixedWidth(100);
+    s1->setDecimals(5);
 
     dd1 = new QSpinBox(dock);
     dd1->setFixedHeight(20);
     dd1->setFixedWidth(75);
 
+
+
     mm1 = new QSpinBox(dock);
     mm1->setFixedHeight(20);
     mm1->setFixedWidth(60);
 
-    ss1 = new QSpinBox(dock);
-    ss1->setFixedHeight(20);
-    ss1->setFixedWidth(60);
 
+    ss1 = new QDoubleSpinBox(dock);
+    ss1->setFixedHeight(20);
+    ss1->setFixedWidth(100);
+    ss1->setDecimals(5);
 
     HdockLayout1->addWidget(d1);
     HdockLayout1->addWidget(m1);
@@ -248,13 +252,15 @@ fenetre::fenetre():flag_dock(false)
     d2->setFixedHeight(20);
     d2->setFixedWidth(75);
 
+
     m2 = new QSpinBox(dock);
     m2->setFixedHeight(20);
     m2->setFixedWidth(60);
 
-    s2 = new QSpinBox(dock);
+    s2 = new QDoubleSpinBox(dock);
     s2->setFixedHeight(20);
-    s2->setFixedWidth(60);
+    s2->setFixedWidth(100);
+    s2->setDecimals(5);
 
     dd2 = new QSpinBox(dock);
     dd2->setFixedHeight(20);
@@ -264,9 +270,10 @@ fenetre::fenetre():flag_dock(false)
     mm2->setFixedHeight(20);
     mm2->setFixedWidth(60);
 
-    ss2 = new QSpinBox(dock);
+    ss2 = new QDoubleSpinBox(dock);
     ss2->setFixedHeight(20);
-    ss2->setFixedWidth(60);
+    ss2->setFixedWidth(100);
+    ss2->setDecimals(5);
 
     HdockLayout3->addWidget(d2);
     HdockLayout3->addWidget(m2);
