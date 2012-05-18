@@ -99,6 +99,7 @@ signals:
     void SignalFlag(const QPoint &p);
 
 
+
 public slots:
     void augmenter_zoom();
     void diminuer_zoom();

@@ -312,14 +312,16 @@ fenetre::fenetre():flag_dock(false)
     mainLayout->addWidget(image);
 
 
+
+
     /********************************************************************/
                                  //CONNECT
-     QAction * var = dock->toggleViewAction();//permet de récupérer la fermeture du dock
+
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     QObject::connect(var, SIGNAL(triggered()),this, SLOT(afficher_dock()));
+     QObject::connect(dock, SIGNAL(close()),this, SLOT(afficher_dock()));// a reprendre
 
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
