@@ -51,6 +51,8 @@ private:
     QSpinBox *dd2;
     QSpinBox *mm2;
     QDoubleSpinBox *ss2;
+    //Status bar
+    QStatusBar *SB;
     //carte
     carte* image;
     //couleur

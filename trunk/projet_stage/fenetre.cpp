@@ -304,6 +304,10 @@ fenetre::fenetre():flag_dock(false)
     VdockLayout3->addWidget(reinit);
     contenuDock->setLayout(VdockLayout3);
     dock->setVisible(false);
+    /********************************************************************/
+                               //STATUSBAR
+    SB = statusBar();
+    SB->setVisible(false);
 
 
      /********************************************************************/
@@ -379,13 +383,23 @@ fenetre::fenetre():flag_dock(false)
     {
 
        std::cout<<la->value()<<""<<lo->value()<<std::endl;
-       float a = la->value();
-       float b = lo->value();
-       float c = la1->value();
-       float d = lo1->value();
+       double a = la->value();
+       double b = lo->value();
+       double c = la1->value();
+       double d = lo1->value();
        //std::cout<<"latitude "<<a<<""<<b<<std::endl;
        //std::cout<<"longitude "<<c<<""<<d<<std::endl;
        image->setCoordDec(a,b,c,d);
+       /*SB->setVisible(true);
+       QLabel *lat = new QLabel (SB);
+       lat->
+       QLabel *lon = new QLabel (trUtf8("Latitude du point 1 :"+image->getCoordDec().toSexaLa(b));
+       QLabel *lat1 = new QLabel (trUtf8("Latitude du point 1 :"+image->getCoordDec1().toSexaLa(c));
+       QLabel *lon1 = new QLabel (trUtf8("Latitude du point 1 :"+image->getCoordDec1().toSexaLa(d));
+       SB->addWidget(lat);
+       SB->addWidget(lon);
+       SB->addWidget(lat1);
+       SB->addWidget(lon1);*/
 
 
     }
@@ -398,7 +412,7 @@ fenetre::fenetre():flag_dock(false)
         int d = dd1->value();
         int e = mm1->value();
         int f = ss1->value();
-        int g = d2->value();
+        int g   = d2->value();
         int h = m2->value();
         int i = s2->value();
         int j = dd2->value();
