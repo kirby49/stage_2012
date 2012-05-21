@@ -335,7 +335,6 @@ void carte::parcoursImageAffichage(){
 void carte::sauvegardeItineraire(const QPoint &p){
     pile.push(p);
 
-
 }
 
 //première version :
