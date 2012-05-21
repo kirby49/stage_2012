@@ -21,6 +21,7 @@ carte::carte():point_click(0,0),point_depart(0,0),coul(255255255),nbpoint(0),fla
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
     QObject::connect(this, SIGNAL(signalDessinerChemin(QPoint)),this, SLOT(dessinerChemin(QPoint)));
     QObject::connect(this, SIGNAL(changeRes2(QPoint)),this, SLOT(attributCouleur(QPoint)));
+    QObject::connect(this, SIGNAL(changeRes2(QPoint)),this, SLOT(sauvegardeItineraire(QPoint)));
     QObject::connect(this,SIGNAL(SignalFlag(QPoint)),this,SLOT(placerFlag1(QPoint)));
     QObject::connect(this,SIGNAL(SignalFlag(QPoint)),this,SLOT(placerFlag2(QPoint)));
 }
@@ -114,6 +115,8 @@ void carte::afficherCarte(QString chemin){
     hauteur=imageCarte->height();
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
+    //pile.QStack;
+
 
 
     p1=new QImage("gps2.png");
@@ -301,6 +304,14 @@ void carte::parcoursImageAffichage(){
              //imageCarte->setPixel(QPoint(i,j),coul);
          }
      }
+
+}
+
+void carte::sauvegardeItineraire(const QPoint &p){
+    pile.push(p);
+    while (!pile.isEmpty())
+           { std::cout << pile.top().x()<<"+"<<pile.top().y() << std::endl;
+           }
 
 }
 

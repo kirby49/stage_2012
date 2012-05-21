@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'carte.h'
 **
-** Created: Mon May 21 10:30:52 2012
+** Created: Mon May 21 10:57:32 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_carte[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-      18,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -46,11 +46,12 @@ static const uint qt_meta_data_carte[] = {
      177,   19,    6,    6, 0x0a,
      200,   19,    6,    6, 0x0a,
      224,   19,    6,    6, 0x0a,
-     244,   19,    6,    6, 0x0a,
-     270,  264,    6,    6, 0x0a,
-     300,  264,    6,    6, 0x0a,
-     332,  264,    6,    6, 0x0a,
-     357,  264,    6,    6, 0x0a,
+     253,   19,    6,    6, 0x0a,
+     273,   19,    6,    6, 0x0a,
+     299,  293,    6,    6, 0x0a,
+     329,  293,    6,    6, 0x0a,
+     361,  293,    6,    6, 0x0a,
+     386,  293,    6,    6, 0x0a,
 
        0        // eod
 };
@@ -62,9 +63,10 @@ static const char qt_meta_stringdata_carte[] = {
     "SignalFlag(QPoint)\0augmenter_zoom()\0"
     "diminuer_zoom()\0fermerProjet()\0"
     "setNbpoint()\0dessinerChemin(QPoint)\0"
-    "attributCouleur(QPoint)\0placerFlag1(QPoint)\0"
-    "placerFlag2(QPoint)\0event\0"
-    "mousePressEvent(QMouseEvent*)\0"
+    "attributCouleur(QPoint)\0"
+    "sauvegardeItineraire(QPoint)\0"
+    "placerFlag1(QPoint)\0placerFlag2(QPoint)\0"
+    "event\0mousePressEvent(QMouseEvent*)\0"
     "mouseReleaseEvent(QMouseEvent*)\0"
     "wheelEvent(QWheelEvent*)\0"
     "paintEvent(QPaintEvent*)\0"
@@ -111,15 +113,16 @@ int carte::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 9: setNbpoint(); break;
         case 10: dessinerChemin((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
         case 11: attributCouleur((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 12: placerFlag1((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 13: placerFlag2((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
-        case 14: mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 15: mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
-        case 16: wheelEvent((*reinterpret_cast< QWheelEvent*(*)>(_a[1]))); break;
-        case 17: paintEvent((*reinterpret_cast< QPaintEvent*(*)>(_a[1]))); break;
+        case 12: sauvegardeItineraire((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 13: placerFlag1((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 14: placerFlag2((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 15: mousePressEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 16: mouseReleaseEvent((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 17: wheelEvent((*reinterpret_cast< QWheelEvent*(*)>(_a[1]))); break;
+        case 18: paintEvent((*reinterpret_cast< QPaintEvent*(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 18;
+        _id -= 19;
     }
     return _id;
 }
