@@ -136,20 +136,22 @@ void carte::exporter_gpx(QString str)
     QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
     QString fin = "</trkseg>\n</trk>\n</gpx>";
     QString points;
-
-    while(pile.isempty())
+    int i=0;
+    while(!pile.isEmpty())
     {
-
+    QPoint var = pile.pop();
+    point_gps p = pt_gps(point1_gps,point2_gps,var);
+    points =" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
+    i++;
     }
-
-
 
     QFile file(str);
     if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
          QTextStream out(&file);
-         out << entete << fin;
+         out << entete<< points << fin;
     } else QMessageBox::critical(this, "Attention : ", trUtf8("Impossible d'enregistrer le fichier à cet emplacement. Merci de choisir un emplacement valide."));
 }
+
 
 void carte::zoom(float valeur){
     echelle = (valeur * echelle);
@@ -332,9 +334,7 @@ void carte::parcoursImageAffichage(){
 
 void carte::sauvegardeItineraire(const QPoint &p){
     pile.push(p);
-    while (!pile.isEmpty())
-           { std::cout << pile.top().x()<<"+"<<pile.top().y() << std::endl;
-           }
+
 
 }
 
