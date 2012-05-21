@@ -88,8 +88,7 @@ public:
     double H(coord_decimal pt, coord_decimal pt1,double air);
     */
     point_gps pt_gps (QPoint a, QPoint b,QPoint c);
-
-
+    void exporter_gpx(QString str);
 
 
 

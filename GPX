@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<gpx version="1.1"
+	creator="Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN">
+    <trk>
+	<name>Tracking GPS</name>
+	<trkseg>
+	<trkpt	lat="" lon=""><cmt>Point de depart</cmt></trkpt>
+	<trkpt	lat="" lon=""><cmt>Point suivant</cmt></trkpt>
+	...	
+	<trkpt	lat="" lon=""><cmt>Point final</cmt></trkpt>
+    	</trkseg>
+   </trk>
+</gpx>

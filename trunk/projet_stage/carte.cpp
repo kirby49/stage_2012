@@ -128,6 +128,24 @@ void carte::afficherCarte(QString chemin){
     }
 }
 
+void carte::exporter_gpx(QString str)
+{
+
+    QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
+    QString fin = "</trkseg>\n</trk>\n</gpx>";
+    QString points;
+
+
+
+
+
+    QFile file(str);
+    if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+         QTextStream out(&file);
+         out << entete << fin;
+    } else QMessageBox::critical(this, "Attention : ", trUtf8("Impossible d'enregistrer le fichier à cet emplacement. Merci de choisir un emplacement valide."));
+}
+
 void carte::zoom(float valeur){
     echelle = (valeur * echelle);
     valeurZoom->setText(QString::number(echelle) );
@@ -528,7 +546,6 @@ void carte::setNbpoint()
     nbpoint=0;
     update();
 }
-
 
 
 
