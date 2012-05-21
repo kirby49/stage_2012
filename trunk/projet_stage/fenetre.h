@@ -41,16 +41,18 @@ private:
     //degree/minute/seconde
     QSpinBox *d1;
     QSpinBox *m1;
-    QSpinBox *s1;
+    QDoubleSpinBox *s1;
     QSpinBox *d2;
     QSpinBox *m2;
-    QSpinBox *s2;
+    QDoubleSpinBox *s2;
     QSpinBox *dd1;
     QSpinBox *mm1;
-    QSpinBox *ss1;
+    QDoubleSpinBox *ss1;
     QSpinBox *dd2;
     QSpinBox *mm2;
-    QSpinBox *ss2;
+    QDoubleSpinBox *ss2;
+    //Status bar
+    QStatusBar *SB;
     //carte
     carte* image;
     //couleur

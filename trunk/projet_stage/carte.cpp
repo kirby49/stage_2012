@@ -45,9 +45,7 @@ coord_decimal carte::getCoordDec() {return dec;}
 
 coord_decimal carte::getCoordDec1() {return dec1;}
 
-coord_sexagesimal carte::getCoordSeg() {return sexa;}
 
-coord_sexagesimal carte::getCoordSeg1() {return sexa1;}
 
 //mutateur
 void carte::setCartedessiner(bool choix) {carteDessiner= choix;}
@@ -62,9 +60,10 @@ void carte::setPoint1(QPoint p) {point1_gps=p;}
 
 void carte::setPoint2(QPoint p) {point2_gps=p;}
 
-void carte::setCoordDec(float la,float lo,float la1,float lo1)
+void carte::setCoordDec(double la,double lo,double la1,double lo1)
 {
     if ((la!=0)||(lo!=0)||(la1!=0)||(lo1!=0)) {
+        std::cout<<"lat : "<<dec.toSexaLa(la).toStdString()<<"long : "<<dec.toSexaLo(lo).toStdString()<<std::endl;
             dec.setLatitude(la);
             dec.setLongitude(lo);
 
@@ -76,22 +75,13 @@ void carte::setCoordDec(float la,float lo,float la1,float lo1)
 
 }
 
-void carte::setCoordSeg(int d1, int m1,int s1,int dd1, int mm1,int ss1,int d2, int m2, int s2,int dd2, int mm2, int ss2)
+void carte::setCoordSeg(int d1, int m1,double s1,int dd1, int mm1,double ss1,int d2, int m2, double s2,int dd2, int mm2, double ss2)
 {
-    if ((d1!=0)&&(m1!=0)&&(s1!=0)&&(dd1!=0)&&(mm1!=0)&&(ss1!=0)&&(d2!=0)&&(m2!=0)&&(s2!=0)&&(dd2!=0)&&(mm2!=0)&&(ss2!=0)) {
-            sexa.setDegree(d1);
-            sexa.setDegree1(dd1);
-            sexa.setMinute(m1);
-            sexa.setMinute1(mm1);
-            sexa.setSeconde(s1);
-            sexa.setSeconde1(ss1);
-
-            sexa1.setDegree(d2);
-            sexa1.setDegree1(dd2);
-            sexa1.setMinute(m2);
-            sexa1.setMinute1(mm2);
-            sexa1.setSeconde(s2);
-            sexa1.setSeconde1(ss2);
+    if ((d1!=0)||(m1!=0)||(s1!=0)||(dd1!=0)||(mm1!=0)||(ss1!=0)||(d2!=0)||(m2!=0)||(s2!=0)||(dd2!=0)||(mm2!=0)||(ss2!=0)) {
+             dec.toDecLa(d1,m1,s1);
+             dec.toDecLo(dd1,mm1,ss1);
+             dec1.toDecLa(d2,m2,s2);
+             dec1.toDecLo(dd2,mm2,ss2);
     } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 }
 
@@ -128,6 +118,7 @@ void carte::afficherCarte(QString chemin){
 
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
+
     //std::cout<<"hauteur : "<<hauteur<<std::endl;
     //std::cout<<"largeur : "<<largeur<<std::endl;
     update();
@@ -179,7 +170,7 @@ void carte::dessinerChemin(const QPoint &p){
          (resultat.y()>=0)&&
          (resultat.y()<=hauteur))
    {
-      std::cout<<"resultat: "<<resultat.x()<<" "<<resultat.y()<<std::endl;
+      //std::cout<<"resultat: "<<resultat.x()<<" "<<resultat.y()<<std::endl;
 
       point_release.setX(resultat.x()+(resultat.x()-point_click.x()));
       point_release.setY(resultat.y()+(resultat.y()-point_click.y()));
@@ -204,7 +195,7 @@ QPoint carte::directionChemin(){
     else if (ancienneOrientation==QPoint(0,-etendueZone)) choix=2;
         else if (ancienneOrientation==QPoint(etendueZone,0)) choix=3;
             else if (ancienneOrientation==QPoint(0,etendueZone)) choix=4;
-        std::cout<<"ancienne DIrection: "<<ancienneOrientation.x()<<"  "<<ancienneOrientation.y()<<std::endl;
+        //std::cout<<"ancienne DIrection: "<<ancienneOrientation.x()<<"  "<<ancienneOrientation.y()<<std::endl;
 
     switch (choix){
     //gauche
@@ -216,7 +207,7 @@ QPoint carte::directionChemin(){
                 int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
                 int nouvelleOrientation=maximum(gauche,maximum(haut,bas));
 
-                std::cout<<"nouvelle DIrection: "<<nouvelleOrientation<<std::endl;
+                //std::cout<<"nouvelle DIrection: "<<nouvelleOrientation<<std::endl;
                 if (nouvelleOrientation>margeErreur){
                      //std::cout<<"nouvelle DIrection2: "<<nouvelleOrientation <<std::endl;
                    // return QPoint(point_click.x()-etendueZone,point_click.y());
@@ -260,7 +251,7 @@ QPoint carte::directionChemin(){
                 int haut=(tracerZone(QPoint(point_click.x(),point_click.y()-etendueZone),coul));
                 int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
                 int nouvelleOrientation=maximum(droite,maximum(haut,bas));
-               std::cout<<"nouvelle DIrection 5: "<<nouvelleOrientation <<std::endl;
+               // std::cout<<"nouvelle DIrection 5: "<<nouvelleOrientation <<std::endl;
                 if (nouvelleOrientation>margeErreur){
                      if (nouvelleOrientation == haut) return QPoint(point_click.x(),point_click.y()-etendueZone);
                          else if (nouvelleOrientation == droite) return QPoint(point_click.x()+etendueZone,point_click.y());
@@ -282,7 +273,7 @@ QPoint carte::directionChemin(){
                 int bas=(tracerZone(QPoint(point_click.x(),point_click.y()+etendueZone),coul));
                 int nouvelleOrientation=maximum(bas,maximum(gauche,droite));
 
-std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
+//std::cout<<"nouvelle DIrection 7: "<<nouvelleOrientation <<std::endl;
                 if (nouvelleOrientation>margeErreur){
                     if (nouvelleOrientation == gauche) return QPoint(point_click.x()-etendueZone,point_click.y());
                          else if (nouvelleOrientation == droite) return QPoint(point_click.x()+etendueZone,point_click.y());
@@ -409,16 +400,16 @@ point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
     point_gps res;
     double x1 = (b.x()-a.x());
     double y1 = (b.y()-a.y());
-
+    //std::cout<<" x1 "<<x1<<" y1 "<<y1<<std::endl;
     double x2 = (c.x()-a.x());
     double y2 = (c.y()-a.y());
-
+    //std::cout<<" x2 "<<x2<<" y2 "<<y2<<std::endl;
     double y_gps = (dec1.getLatitude()-dec.getLatitude());
     double x_gps = (dec1.getLongitude()-dec.getLongitude());
-
+    //std::cout<<" x_gps "<<x_gps<<" y_gps "<<y_gps<<std::endl;
     double var = ((x2*x_gps)/x1);
     double var2 = ((y2*y_gps)/y1);
-
+    //std::cout<<" var "<<var<<" var2 "<<var2<<std::endl;
     double res_x = dec.getLongitude()+var;
     double res_y = dec.getLatitude()+var2;
 
@@ -491,7 +482,7 @@ void carte::fermerProjet(){
 void carte::placerFlag1(const QPoint &p)
 {
     if (nbpoint==0){
-
+        point1=p;
         int x = (p.x()-4);
         int y = (p.y()-(p1->height()));
         QPoint pt(x,y);
@@ -507,6 +498,7 @@ void carte::placerFlag1(const QPoint &p)
 void carte::placerFlag2(const QPoint &p)
 {
     if (nbpoint==1){
+        point2=p;
         int x = (p.x()-4);
         int y = (p.y()-(p2->height()));
         std::cout<<"image 2 : "<<x<<" "<<y<<std::endl;
@@ -535,6 +527,7 @@ void carte::paintEvent(QPaintEvent *event)
     if ((carteDessiner)&&(flags==1)){
         QPainter painter(this);
         QPoint point (0,0);
+
         //painter.drawImage(point,*imageCarte);
         painter.drawImage(point,*imageAffichage);
         //painter.drawImage(point,*tracerChemin);
@@ -562,7 +555,10 @@ void carte::paintEvent(QPaintEvent *event)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-    std::cout<<"click : "<<event->x()<<" "<<event->y()<<std::endl;
+    //dec.toSexagesimal();
+    //std::cout<<"dec to sexa : "<<<<" "<<event->y()<<std::endl;
+    std::cout<<"sexa to dec : "<<event->x()<<" "<<event->y()<<std::endl;
+    //std::cout<<"click : "<<event->x()<<" "<<event->y()<<std::endl;
     if ((carteDessiner)&&(flags==1)){
            if (event->button() == Qt::LeftButton)
             {
