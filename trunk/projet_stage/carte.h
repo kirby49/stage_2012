@@ -34,6 +34,7 @@ private:
     coord_decimal dec1;
     QStack<QPoint>pile;
     bool carteDessiner;
+    bool coord_gps;
     float echelle;
     int nbpoint;
     int hauteur;
