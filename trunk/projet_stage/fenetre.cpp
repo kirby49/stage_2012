@@ -313,8 +313,10 @@ fenetre::fenetre():flag_dock(false)
      /********************************************************************/
                                 //LAYOUTS
     mainLayout= new QHBoxLayout(w);
+                                        //scroll= new QScrollArea;
+                                        //scroll->setWidget(image);
     mainLayout->addWidget(image);
-
+                                         //mainLayout->addWidget(scroll);
 
 
 

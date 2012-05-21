@@ -14,8 +14,9 @@ private:
 
     QImage* imageCarte;
     QImage* tracerChemin;
-    QImage* couche1;
-    QImage* couche2;
+    QImage* imageAffichage;
+    QImage* copieTailleNormale;
+
     QImage* p1;
     QImage* p2;
     QMouseEvent *event;
@@ -69,6 +70,7 @@ public:
     int maximum(int a, int b);
     int minimum(int a, int b);
     int tracerZone(const QPoint &p, const QRgb &color);
+    void parcoursImageAffichage();
     QPoint directionChemin();
 
 

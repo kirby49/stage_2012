@@ -57,6 +57,8 @@ private:
     carte* image;
     //couleur
     QString couleur;
+    //scroll
+    //QScrollArea* scroll;
 
 
 
