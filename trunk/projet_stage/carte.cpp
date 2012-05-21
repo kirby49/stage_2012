@@ -132,7 +132,10 @@ void carte::exporter_gpx(QString str)
     QString fin = "</trkseg>\n</trk>\n</gpx>";
     QString points;
 
+    while(pile.isempty())
+    {
 
+    }
 
 
 

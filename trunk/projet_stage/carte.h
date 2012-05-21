@@ -33,6 +33,7 @@ private:
     coord_decimal dec;
     coord_decimal dec1;
     bool carteDessiner;
+    bool coord_gps;
     float echelle;
     int nbpoint;
     int hauteur;
