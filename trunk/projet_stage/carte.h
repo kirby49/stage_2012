@@ -32,6 +32,7 @@ private:
     QLabel* valeurZoom;
     coord_decimal dec;
     coord_decimal dec1;
+    QStack<QPoint>pile;
     bool carteDessiner;
     bool coord_gps;
     float echelle;
@@ -109,6 +110,7 @@ public slots:
     void setNbpoint ();
     void dessinerChemin(const QPoint &p);
     void attributCouleur(const QPoint &p);
+    void sauvegardeItineraire(const QPoint &p);
     void placerFlag1(const QPoint &p);
     void placerFlag2(const QPoint &p);
     void mousePressEvent(QMouseEvent *event);
