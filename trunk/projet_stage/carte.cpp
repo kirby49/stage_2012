@@ -329,9 +329,9 @@ void carte::parcoursImageAffichage(){
 
 void carte::sauvegardeItineraire(const QPoint &p){
     pile.push(p);
-    while (!pile.isEmpty())
+   /* while (!pile.isEmpty())
            { std::cout << pile.top().x()<<"+"<<pile.top().y() << std::endl;
-           }
+           }*/
 
 }
 
