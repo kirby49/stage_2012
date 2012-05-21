@@ -115,7 +115,9 @@ void carte::afficherCarte(QString chemin){
     hauteur=imageCarte->height();
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
-    //pile.QStack;
+    while(!pile.isEmpty()){
+        pile.pop();
+    }
 
 
 
