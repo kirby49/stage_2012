@@ -324,6 +324,7 @@ fenetre::fenetre():flag_dock(false)
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
+     QObject::connect(exp,SIGNAL(triggered()),this,SLOT(export_projet()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
      QObject::connect(dock, SIGNAL(close()),this, SLOT(afficher_dock()));// a reprendre
 
@@ -367,6 +368,15 @@ fenetre::fenetre():flag_dock(false)
            image->setFlags(1);
            image->afficherCarte(fichier);
 
+    }
+
+    void fenetre::export_projet()
+    {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),
+                                   "/home/SansTitre.gpx",
+                                   tr("Fichier (*.gpx)"));
+        std::cout<<fileName.toStdString()<<std::endl;
+        image->exporter_gpx(fileName);
     }
 
     void fenetre::setCouleur()
