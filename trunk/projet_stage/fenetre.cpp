@@ -297,7 +297,7 @@ fenetre::fenetre():flag_dock(false)
     VdockLayout3->addLayout(VdockLayout1);
     VdockLayout3->addStretch();
     VdockLayout3->addLayout(VdockLayout2);
-    VdockLayout3->addStretch();*
+    VdockLayout3->addStretch();
 
     QPushButton *expo = new QPushButton(trUtf8("Export en format .gpx"));
     VdockLayout3->addWidget(expo);
