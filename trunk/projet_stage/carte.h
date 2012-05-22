@@ -14,6 +14,7 @@ private:
 
     QImage* imageCarte;
     QImage* tracerChemin;
+    QImage* tracerChemin2;
     QImage* imageAffichage;
     QImage* copieTailleNormale;
 

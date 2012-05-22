@@ -115,6 +115,7 @@ void carte::afficherCarte(QString chemin){
     hauteur=imageCarte->height();
     carteDessiner=true;
     tracerChemin=new QImage(largeur,hauteur,QImage::Format_ARGB32);
+    tracerChemin2=new QImage(largeur,hauteur,QImage::Format_ARGB32);
     while(!pile.isEmpty()){
         pile.pop();
     }
@@ -458,16 +459,16 @@ void carte::augmenter_zoom(){
     std::cout<<"zoom in"<<std::endl;
     //zoom(1.25);
     echelle*=1.25;
-    /*QImage newImage= (copieTailleNormale->scaled(largeur*echelle,hauteur*echelle));
+    QImage newImage= (copieTailleNormale->scaled(largeur*echelle,hauteur*echelle));
     //QImage newImage2= (imageAffichage->scaled(largeur*echelle,hauteur*echelle));
-    //QImage newImage3= (tracerChemin->scaled(largeur*echelle,hauteur*echelle));
+    QImage newImage3= (tracerChemin2->scaled(largeur*echelle,hauteur*echelle));
 
 
-    imageCarte=new QImage(newImage);
+    imageAffichage=new QImage(newImage);
     //imageAffichage=new QImage(newImage2);
-    //tracerChemin=new QImage(newImage3);
+    tracerChemin=new QImage(newImage3);
     largeur=imageCarte->width();
-    hauteur=imageCarte->height();*/
+    hauteur=imageCarte->height();
     update();
 }
 
@@ -475,15 +476,15 @@ void carte::diminuer_zoom(){
     std::cout<<"zoom out"<<std::endl;
     //zoom(0.8);
     echelle*=0.8;
-   /* QImage newImage= (copieTailleNormale->scaled(largeur*echelle,hauteur*echelle));
+    QImage newImage= (copieTailleNormale->scaled(largeur*echelle,hauteur*echelle));
     //QImage newImage2= (imageAffichage->scaled(largeur*echelle,hauteur*echelle));
-    //QImage newImage3= (tracerChemin->scaled(largeur*echelle,hauteur*echelle));
+    QImage newImage3= (tracerChemin2->scaled(largeur*echelle,hauteur*echelle));
 
-    imageCarte=new QImage(newImage);
+    imageAffichage=new QImage(newImage);
     //imageAffichage=new QImage(newImage2);
-    //tracerChemin=new QImage(newImage3);
+    tracerChemin=new QImage(newImage3);
     largeur=imageCarte->width();
-    hauteur=imageCarte->height();*/
+    hauteur=imageCarte->height();
     update();
 }
 
@@ -561,8 +562,9 @@ void carte::paintEvent(QPaintEvent *event)
         QPoint point (0,0);
 
         //painter.drawImage(point,*imageCarte);
+
         painter.drawImage(point,*imageAffichage);
-        //painter.drawImage(point,*tracerChemin);
+        painter.drawImage(point,*tracerChemin);
         point_gps p = pt_gps(point1_gps,point2_gps,point_depart);
         std::cout<<"point : "<<point_depart.x()<<" "<<point_depart.y()<<" coord gps :"<<p.X()<<" "<<p.Y()<<std::endl;
     }
@@ -687,7 +689,8 @@ int carte::tracerZone(const QPoint &p,const QRgb &color){
             if((i<=largeur)&&(i>=0)&&(j>=0)&&(j<=hauteur)){
             if ( comparerCouleurAvecMarge(color,imageAffichage->pixel(QPoint(i,j)))) {
                 imageAffichage->setPixel(QPoint(i,j),255255255);
-                tracerChemin->setPixel(QPoint(i,j),255255255);
+                tracerChemin->setPixel(QPoint(i,j),0xFF00FF00);
+                tracerChemin2->setPixel(QPoint(i,j),0xFF00FF00);
                 nbPixel++;
             }
             }
