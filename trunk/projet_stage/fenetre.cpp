@@ -326,10 +326,10 @@ fenetre::fenetre():flag_dock(false)
 
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
-     QObject::connect(exp,SIGNAL(triggered()),this,SLOT(export_projet()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     QObject::connect(dock, SIGNAL(close()),this, SLOT(afficher_dock()));// a reprendre
-
+     QObject::connect(dock, SIGNAL(closeEvent()),this, SLOT(afficher_dock()));// a reprendre
+     QObject::connect(save_as,SIGNAL(triggered()),this,SLOT(svg_as()));
+     QObject::connect(save,SIGNAL(triggered()),this,SLOT(svg()));
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
      QObject::connect(gestionnaire, SIGNAL(clicked()),this, SLOT(afficher_dock()));
@@ -339,6 +339,7 @@ fenetre::fenetre():flag_dock(false)
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
 
      QObject::connect(reinit, SIGNAL(clicked()),image, SLOT(setNbpoint()));
+     QObject::connect(exp,SIGNAL(triggered()),image,SLOT(exporter_gpx()));
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
@@ -358,28 +359,22 @@ fenetre::fenetre():flag_dock(false)
            //MessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
 
            // QMessageBox::information(this, "Fichier", "Vous avez selectionne :\n" + fichier);
-           save->setEnabled(true);
+        image->afficherCarte(fichier);
+        if (image->test_carte()==true){
            save_as->setEnabled(true);
+           save->setEnabled(true);
            effacer->setEnabled(true);
            zoom_in->setEnabled(true);
            zoom_out->setEnabled(true);
            affich_dock->setEnabled(true);
-           exp->setEnabled(true);
            dock->setVisible(false);
            gestionnaire->setEnabled(true);
+
            image->setFlags(1);
-           image->afficherCarte(fichier);
+        }
 
     }
 
-    void fenetre::export_projet()
-    {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),
-                                   "/home/SansTitre.gpx",
-                                   tr("Fichier (*.gpx)"));
-        std::cout<<fileName.toStdString()<<std::endl;
-        image->exporter_gpx(fileName);
-    }
 
     void fenetre::setCouleur()
     {
@@ -401,7 +396,10 @@ fenetre::fenetre():flag_dock(false)
        double d = lo1->value();
        //std::cout<<"latitude "<<a<<""<<b<<std::endl;
        //std::cout<<"longitude "<<c<<""<<d<<std::endl;
-       image->setCoordDec(a,b,c,d);
+       if ((a!=0)||(a!=0)||(b!=0)||(c!=0)) {
+            exp->setEnabled(true);
+            image->setCoordDec(a,b,c,d);
+       } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
        /*SB->setVisible(true);
        QLabel *lat = new QLabel (SB);
        lat->
@@ -430,8 +428,10 @@ fenetre::fenetre():flag_dock(false)
         int j = dd2->value();
         int k = mm2->value();
         int l = ss2->value();
-
-        image->setCoordSeg(a,b,c,d,e,f,g,h,i,j,k,l);
+        if ((a!=0)||(b!=0)||(c!=0)||(d!=0)||(e!=0)||(f!=0)||(g!=0)||(h!=0)||(i!=0)||(j!=0)||(k!=0)||(l!=0)) {
+             exp->setEnabled(true);
+             image->setCoordSeg(a,b,c,d,e,f,g,h,i,j,k,l);
+        } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
 
     }
 
@@ -440,6 +440,7 @@ fenetre::fenetre():flag_dock(false)
         affich_dock->setEnabled(true);
         dock->setVisible(false);
         image->setFlags(1);
+
 
     }
 
@@ -462,3 +463,14 @@ fenetre::fenetre():flag_dock(false)
     }
 
 
+    void fenetre::svg()
+    {
+        image->sauvegarde_sous();
+
+    }
+
+    void fenetre::svg_as()
+    {
+        image->setTest_enregistrer(false);
+        image->sauvegarde_sous();
+    }
