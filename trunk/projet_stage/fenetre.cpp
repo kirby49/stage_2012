@@ -1,5 +1,4 @@
 #include "fenetre.h"
-#include "math.h"
 #include "iostream"
 
 
@@ -46,7 +45,7 @@ fenetre::fenetre():flag_dock(false)
      menuEdition = menuBar()->addMenu("&Edition");
 
      //export
-     exp = menuEdition->addAction("Export aux format GPX");
+     exp = menuEdition->addAction("Export aux format .gpx");
      exp->setShortcut(QKeySequence("Ctrl+E"));
      exp->setEnabled(false);
 
@@ -298,8 +297,10 @@ fenetre::fenetre():flag_dock(false)
     VdockLayout3->addLayout(VdockLayout1);
     VdockLayout3->addStretch();
     VdockLayout3->addLayout(VdockLayout2);
-    VdockLayout3->addStretch();
+    VdockLayout3->addStretch();*
 
+    QPushButton *expo = new QPushButton(trUtf8("Export en format .gpx"));
+    VdockLayout3->addWidget(expo);
     QPushButton *reinit = new QPushButton(trUtf8("réinitialiser"));
     VdockLayout3->addWidget(reinit);
     contenuDock->setLayout(VdockLayout3);
@@ -340,6 +341,7 @@ fenetre::fenetre():flag_dock(false)
 
      QObject::connect(reinit, SIGNAL(clicked()),image, SLOT(setNbpoint()));
      QObject::connect(exp,SIGNAL(triggered()),image,SLOT(exporter_gpx()));
+     QObject::connect(expo,SIGNAL(triggered()),image,SLOT(exporter_gpx()));
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
