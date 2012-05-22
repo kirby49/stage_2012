@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(5)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -156,7 +156,7 @@ void carte::exporter_gpx()
     i++;
     }
 
-    str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";
+    str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
 
     QFile file(str);
     if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
@@ -169,24 +169,23 @@ void carte::exporter_gpx()
 void carte::sauvegarde_sous()
 {
     if (enregistrer==false){
-        source = QFileDialog::getExistingDirectory(this);//QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),QString(),trUtf8("Fichier (*.xml)"));
+        source = QFileDialog::getExistingDirectory(this,trUtf8("Sauvegarder le projet "),"/home", QFileDialog::ShowDirsOnly);//QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),QString(),trUtf8("Fichier (*.xml)"));
         QStack<QPoint> tmp = pile;
         if (source=="") enregistrer = false;
         else {
-            source=source+"/projet_gpx-"+QDate::currentDate().toString()+".xml";
+            source=source+"/projet_gpx-"+QDateTime::currentDateTime().toString()+".xml";//voir comment mieux utiliser le chemin voir a créer un dossier
             QFile file(source);
 
             if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
                  QTextStream out(&file);
                  out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-                 out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
+                 out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
+                 out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLatitude())+"\n</lon>\n";
+                 out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                  while(!tmp.isEmpty())
                  {
                        QPoint p = tmp.pop();
-                       out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
-                       point_gps pt = pt_gps(point1_gps,point2_gps,p);
-                       out<<"<lat> "+QString::number(pt.X())+"\n</lat>\n<lon> "+QString::number(pt.Y())+"\n</lon>\n";
-
+                       out<<"<point>\n"<<p.x()<<"\n"<<p.y()<<"\n</point>\n";
                  }
             }
             enregistrer = true;
@@ -198,15 +197,50 @@ void carte::sauvegarde_sous()
                 if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
                      QTextStream out(&file);
                      out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-                     out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
+                     out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
+                     out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLongitude())+"\n</lon>\n";
+                     out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                      while(!tmp.isEmpty())
                      {
                            QPoint p = tmp.pop();
-                           out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
+                           out<<"<point>\n"<<p.x()<<"\n"<<p.y()<<"\n</point>\n";
                      }
 
                 }
             }
+}
+void carte::charger()
+{
+    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+    QFile file(fichier);
+
+    if (file.open(QFile::ReadOnly| QIODevice::Text | QIODevice::Truncate)) {
+         QTextStream in(&file);
+         int i = 0;
+         /*QString ligne = readline(1);//attention vérifié si part de 1 ou de 0
+             if (compare(ligne,"<md5sum> ",...::insensitive)==0) {
+                 QString md5s = in.readline(2);
+                 if (md5s==md5) {
+                    QString lat,lat1,lon,lon1;
+                    lat= in.readline(5);
+                    lon= in.readline(7);
+                    lat1= in.readline(9);
+                    lon1=in.readline(11)
+
+                    if (compare())
+                        while(!EOF)//pas la bonne méthode prend fonction fin fichier qt
+                        {
+
+                        }
+
+
+
+
+                 } else QMessageBox::critical(this, "Attention", trUtf8("L'image chargée n'est pas la même que celle du projet sauvegarder. Merci de charger celle qui convient."));
+         }*/
+
+
+    }
 }
 
 void carte::zoom(float valeur){
@@ -393,98 +427,9 @@ void carte::sauvegardeItineraire(const QPoint &p){
 
 }
 
-//première version :
-/*
-double carte::longueur(QPoint pt, QPoint pt1)
-
-{
-
-double res1 = ((pt1.x()-pt.x())*(pt1.x()-pt.x()));
-double res2 = ((pt1.y()-pt.y())*(pt1.y()-pt.y()));
-double res3 = res1 + res2;
-
-double resultat = qSqrt(res3);
-return resultat;
-}
-
-double carte::angleA(QPoint a, QPoint b, QPoint c)
-{
-    double ab,bc,ac,res;
-    ab=longueur(a,b);
-    bc=longueur(b,c);
-    ac=longueur(a,c);
-
-    res = acos( ((ab*ab)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
-    return res;
-
-}
-
-double carte::angleB(QPoint a, QPoint b, QPoint c)
-{
-    double ab,bc,ac;
-    ab=longueur(a,b);
-    bc=longueur(b,c);
-    ac=longueur(a,c);
-    double res = acos( ((ab*ab)+(bc*bc)-(ac*ac))/(2*(ab)*(bc)));
-    return res;
-}
-
-double carte::angleC(QPoint a, QPoint b, QPoint c)
-{
-    double ab,bc,ac;
-    ab=longueur(a,b);
-    bc=longueur(b,c);
-    ac=longueur(a,c);
-
-    bool res = acos( ((ab*ac)+(ac*ac)-(bc*bc))/(2*(bc)*(ac)));
-    return res;
-}
-
-double carte::aire(QPoint a, QPoint b, QPoint c)
-{
-    double ab,bc,ac,ai;
-    ab=longueur(a,b);
-    bc=longueur(b,c);
-    ac=longueur(a,c);
-
-    int s = ((ab+ac+bc)/2);
-    ai = qSqrt(s*((s-ab)*(s-bc)*(s-ac)));
-    return ai;
-}
-
-double carte::H(coord_decimal pt, coord_decimal pt1, double a)
-{
-    double b,h;
-    QPoint p,p1;
-
-    p.setX(pt.getLatitude());
-    p.setY(pt.getLongitude());
-    p1.setX(pt1.getLatitude());
-    p1.setY(pt1.getLongitude());
-
-    b=longueur(p,p1);
-    h=((2*a)/b);
-    return h;
-
-}*/
-
 point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
 {
-    //première version :
-   /* QPoint p;
-    double angle, cos_angle, h, ai, x, y, ac, ab;
-    ai = aire(a,b,c);
-    h= H(dec,dec1,ai);
-    angle = angleC(a,b,c);
-    cos_angle=cos(angle);
-    ac=cos_angle*h;
-    ab=(((ac)*(ac))-((h)*(h)));
-    x=((dec.getLatitude())+ab);
-    y=((dec.getLongitude())+ac);
 
-    p.setX(x);
-    p.setY(y);
-    return p;*/
 
     point_gps res;
     double x1 = (b.x()-a.x());

@@ -95,6 +95,7 @@ public:
     point_gps pt_gps (QPoint a, QPoint b,QPoint c);
 
     void sauvegarde_sous();
+    void charger();
 
     bool test_carte();
 
