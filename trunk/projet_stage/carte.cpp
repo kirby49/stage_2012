@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(5)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(5)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -47,6 +47,7 @@ coord_decimal carte::getCoordDec1() {return dec1;}
 bool carte::test_carte() {return carteDessiner;}
 
 bool carte::test_enregistrer() { return enregistrer;}
+
 
 //mutateur
 void carte::setCartedessiner(bool choix) {carteDessiner= choix;}
@@ -169,23 +170,26 @@ void carte::sauvegarde_sous()
     if (enregistrer==false){
         source = QFileDialog::getExistingDirectory(this);//QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),QString(),trUtf8("Fichier (*.xml)"));
         QStack<QPoint> tmp = pile;
-        source=source+"/projet_gpx-"+QDate::currentDate().toString()+".xml";
-        QFile file(source);
+        if (source=="") enregistrer = false;
+        else {
+            source=source+"/projet_gpx-"+QDate::currentDate().toString()+".xml";
+            QFile file(source);
 
-        if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
-             QTextStream out(&file);
-             out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-             out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
-             while(!tmp.isEmpty())
-             {
-                   QPoint p = tmp.pop();
-                   out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
-                   point_gps pt = pt_gps(point1_gps,point2_gps,p);
-                   out<<"<lat> "+QString::number(pt.X())+"\n</lat>\n<lon> "+QString::number(pt.Y())+"\n</lon>\n";
+            if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
+                 QTextStream out(&file);
+                 out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+                 out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
+                 while(!tmp.isEmpty())
+                 {
+                       QPoint p = tmp.pop();
+                       out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
+                       point_gps pt = pt_gps(point1_gps,point2_gps,p);
+                       out<<"<lat> "+QString::number(pt.X())+"\n</lat>\n<lon> "+QString::number(pt.Y())+"\n</lon>\n";
 
-             }
+                 }
+            }
+            enregistrer = true;
         }
-        enregistrer = true;
     } else if (enregistrer==true){
 
                 QStack<QPoint> tmp = pile;

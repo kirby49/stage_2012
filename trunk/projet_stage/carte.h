@@ -91,6 +91,12 @@ public:
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
 
+    point_gps pt_gps (QPoint a, QPoint b,QPoint c);
+
+    void sauvegarde_sous();
+
+    bool test_carte();
+
     bool test_enregistrer();
     void setTest_enregistrer(bool b);
     /*
@@ -102,9 +108,7 @@ public:
     double aire(QPoint a, QPoint b, QPoint c);
     double H(coord_decimal pt, coord_decimal pt1,double air);
     */
-    point_gps pt_gps (QPoint a, QPoint b,QPoint c);
-    void sauvegarde_sous();
-    bool test_carte();
+
 
 
 signals:
