@@ -1,10 +1,10 @@
 #include "carte.h"
 #include "iostream"
-#include "math.h"
+
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),coul(255255255),nbpoint(0),flags(0)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(5)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -13,9 +13,7 @@ carte::carte():point_click(0,0),point_depart(0,0),coul(255255255),nbpoint(0),fla
     imageCarte = new QImage();
     imageAffichage= new QImage();
     tracerChemin= new QImage();
-    copieTailleNormale= new QImage();
-    etendueZone=5;
-    carteDessiner=false;
+    copieTailleNormale= new QImage(); 
 
     QObject::connect(this, SIGNAL(ChangeZoomIn()),this, SLOT(augmenter_zoom()));
     QObject::connect(this, SIGNAL(ChangeZoom()),this, SLOT(diminuer_zoom()));
@@ -46,7 +44,9 @@ coord_decimal carte::getCoordDec() {return dec;}
 
 coord_decimal carte::getCoordDec1() {return dec1;}
 
+bool carte::test_carte() {return carteDessiner;}
 
+bool carte::test_enregistrer() { return enregistrer;}
 
 //mutateur
 void carte::setCartedessiner(bool choix) {carteDessiner= choix;}
@@ -63,7 +63,7 @@ void carte::setPoint2(QPoint p) {point2_gps=p;}
 
 void carte::setCoordDec(double la,double lo,double la1,double lo1)
 {
-    if ((la!=0)||(lo!=0)||(la1!=0)||(lo1!=0)) {
+
         std::cout<<"lat : "<<dec.toSexaLa(la).toStdString()<<"long : "<<dec.toSexaLo(lo).toStdString()<<std::endl;
             dec.setLatitude(la);
             dec.setLongitude(lo);
@@ -71,19 +71,16 @@ void carte::setCoordDec(double la,double lo,double la1,double lo1)
             dec1.setLatitude(la1);
             dec1.setLongitude(lo1);
 
-    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
-
 
 }
 
 void carte::setCoordSeg(int d1, int m1,double s1,int dd1, int mm1,double ss1,int d2, int m2, double s2,int dd2, int mm2, double ss2)
 {
-    if ((d1!=0)||(m1!=0)||(s1!=0)||(dd1!=0)||(mm1!=0)||(ss1!=0)||(d2!=0)||(m2!=0)||(s2!=0)||(dd2!=0)||(mm2!=0)||(ss2!=0)) {
-             dec.toDecLa(d1,m1,s1);
-             dec.toDecLo(dd1,mm1,ss1);
-             dec1.toDecLa(d2,m2,s2);
-             dec1.toDecLo(dd2,mm2,ss2);
-    } else QMessageBox::critical(this, "Attention", trUtf8("Vous devez entrer des coordonnées"));
+  dec.toDecLa(d1,m1,s1);
+  dec.toDecLo(dd1,mm1,ss1);
+  dec1.toDecLa(d2,m2,s2);
+  dec1.toDecLo(dd2,mm2,ss2);
+
 }
 
 //fonctions
@@ -119,7 +116,12 @@ void carte::afficherCarte(QString chemin){
         pile.pop();
     }
 
-
+    QFile image (chemin);
+    if (image.open(QFile::ReadOnly)) {
+        QByteArray contenuFichier = image.readAll();
+        QByteArray hashData = QCryptographicHash::hash(contenuFichier,QCryptographicHash::Md5);
+        md5= hashData.toHex();
+    }
 
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
@@ -130,20 +132,24 @@ void carte::afficherCarte(QString chemin){
     }
 }
 
-void carte::exporter_gpx(QString str)
+void carte::exporter_gpx()
 {
-
+    QString str = QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/SansTitre.gpx",tr("Fichier (*.gpx)"));
     QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
     QString fin = "</trkseg>\n</trk>\n</gpx>";
     QString points;
     int i=0;
-    while(!pile.isEmpty())
+    QStack<QPoint> tmp = pile;
+
+    while(!tmp.isEmpty())
     {
-    QPoint var = pile.pop();
+    QPoint var = tmp.pop();
     point_gps p = pt_gps(point1_gps,point2_gps,var);
     points =" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
     i++;
     }
+
+
 
     QFile file(str);
     if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
@@ -152,6 +158,42 @@ void carte::exporter_gpx(QString str)
     } else QMessageBox::critical(this, "Attention : ", trUtf8("Impossible d'enregistrer le fichier à cet emplacement. Merci de choisir un emplacement valide."));
 }
 
+
+void carte::sauvegarde_sous()
+{
+    if (enregistrer==false){
+        source = QFileDialog::getSaveFileName(this, tr("Sauvegarder le projet "),"/home/Sauvegarde.xml",tr("Fichier (*.xml)"));
+        QStack<QPoint> tmp = pile;
+        QFile file(source);
+
+        if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
+             QTextStream out(&file);
+             out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+             out<<"<md5sum>"<<md5<<"</md5sum>\n";
+             while(!tmp.isEmpty())
+             {
+                   QPoint p = tmp.pop();
+                   out<<"<point>"<<p.x()<<" "<<p.y()<<"</point>\n";
+             }
+        }
+        enregistrer = true;
+    } else if (enregistrer==true){
+
+                QStack<QPoint> tmp = pile;
+                QFile file(source);
+                if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
+                     QTextStream out(&file);
+                     out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+                     out<<"<md5sum>"<<md5<<"</md5sum>\n";
+                     while(!tmp.isEmpty())
+                     {
+                           QPoint p = tmp.pop();
+                           out<<"<point>"<<p.x()<<" "<<p.y()<<"</point>\n";
+                     }
+
+                }
+            }
+}
 
 void carte::zoom(float valeur){
     echelle = (valeur * echelle);

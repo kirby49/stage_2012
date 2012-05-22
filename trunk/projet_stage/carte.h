@@ -16,10 +16,11 @@ private:
     QImage* tracerChemin;
     QImage* imageAffichage;
     QImage* copieTailleNormale;
-
     QImage* p1;
     QImage* p2;
+
     QMouseEvent *event;
+
     QPoint point_click;
     QPoint point_depart;
     QPoint point_release;
@@ -28,14 +29,25 @@ private:
     QPoint point2_gps;
     QPoint point2;
     QPoint res;
+
     QRgb coul;
+
     QLabel* valeurZoom;
+
     coord_decimal dec;
     coord_decimal dec1;
+
     QStack<QPoint>pile;
+
+    QString md5;
+    QString source;
+
     bool carteDessiner;
     bool coord_gps;
+    bool enregistrer;
+
     float echelle;
+
     int nbpoint;
     int hauteur;
     int largeur;
@@ -79,6 +91,7 @@ public:
     int getFlags();
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
 
+    bool test_enregistrer();
     /*
     double longueur(QPoint pt, QPoint pt1);
     double angleA(QPoint a, QPoint b, QPoint c);
@@ -89,8 +102,8 @@ public:
     double H(coord_decimal pt, coord_decimal pt1,double air);
     */
     point_gps pt_gps (QPoint a, QPoint b,QPoint c);
-    void exporter_gpx(QString str);
-
+    void sauvegarde_sous();
+    bool test_carte();
 
 
 signals:
@@ -117,6 +130,8 @@ public slots:
     void mouseReleaseEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
     void paintEvent(QPaintEvent *event);
+    void exporter_gpx();
+
 
 };
 
