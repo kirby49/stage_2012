@@ -92,6 +92,7 @@ public:
     void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
 
     bool test_enregistrer();
+    void setTest_enregistrer(bool b);
     /*
     double longueur(QPoint pt, QPoint pt1);
     double angleA(QPoint a, QPoint b, QPoint c);

@@ -327,8 +327,8 @@ fenetre::fenetre():flag_dock(false)
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     QObject::connect(dock, SIGNAL(close()),this, SLOT(afficher_dock()));// a reprendre
-     QObject::connect(save_as,SIGNAL(triggered()),this,SLOT(svg()));
+     QObject::connect(dock, SIGNAL(closeEvent()),this, SLOT(afficher_dock()));// a reprendre
+     QObject::connect(save_as,SIGNAL(triggered()),this,SLOT(svg_as()));
      QObject::connect(save,SIGNAL(triggered()),this,SLOT(svg()));
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
@@ -467,4 +467,10 @@ fenetre::fenetre():flag_dock(false)
     {
         image->sauvegarde_sous();
 
+    }
+
+    void fenetre::svg_as()
+    {
+        image->setTest_enregistrer(false);
+        image->sauvegarde_sous();
     }

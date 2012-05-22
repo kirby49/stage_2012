@@ -77,6 +77,7 @@ public slots:
     void valider_sexa();
     void ignor();
     void afficher_dock();
+    void svg_as();
     void svg();
 
 

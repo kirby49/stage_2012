@@ -83,6 +83,11 @@ void carte::setCoordSeg(int d1, int m1,double s1,int dd1, int mm1,double ss1,int
 
 }
 
+void carte::setTest_enregistrer(bool b)
+{
+   enregistrer=b;
+}
+
 //fonctions
 void carte::afficherCarte(QString chemin){
 
@@ -134,10 +139,10 @@ void carte::afficherCarte(QString chemin){
 
 void carte::exporter_gpx()
 {
-    QString str = QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/SansTitre.gpx",tr("Fichier (*.gpx)"));
+    QString str = QFileDialog::getExistingDirectory(this);// QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/SansTitre.gpx",tr("Fichier (*.gpx)"));
     QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
     QString fin = "</trkseg>\n</trk>\n</gpx>";
-    QString points;
+    QString points = "";
     int i=0;
     QStack<QPoint> tmp = pile;
 
@@ -145,11 +150,11 @@ void carte::exporter_gpx()
     {
     QPoint var = tmp.pop();
     point_gps p = pt_gps(point1_gps,point2_gps,var);
-    points =" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
+    points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
     i++;
     }
 
-
+    str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";
 
     QFile file(str);
     if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
@@ -162,18 +167,22 @@ void carte::exporter_gpx()
 void carte::sauvegarde_sous()
 {
     if (enregistrer==false){
-        source = QFileDialog::getSaveFileName(this, tr("Sauvegarder le projet "),"/home/Sauvegarde.xml",tr("Fichier (*.xml)"));
+        source = QFileDialog::getExistingDirectory(this);//QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),QString(),trUtf8("Fichier (*.xml)"));
         QStack<QPoint> tmp = pile;
+        source=source+"/projet_gpx-"+QDate::currentDate().toString()+".xml";
         QFile file(source);
 
         if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
              QTextStream out(&file);
              out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-             out<<"<md5sum>"<<md5<<"</md5sum>\n";
+             out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
              while(!tmp.isEmpty())
              {
                    QPoint p = tmp.pop();
-                   out<<"<point>"<<p.x()<<" "<<p.y()<<"</point>\n";
+                   out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
+                   point_gps pt = pt_gps(point1_gps,point2_gps,p);
+                   out<<"<lat> "+QString::number(pt.X())+"\n</lat>\n<lon> "+QString::number(pt.Y())+"\n</lon>\n";
+
              }
         }
         enregistrer = true;
@@ -184,11 +193,11 @@ void carte::sauvegarde_sous()
                 if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
                      QTextStream out(&file);
                      out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-                     out<<"<md5sum>"<<md5<<"</md5sum>\n";
+                     out<<"<md5sum> "<<md5<<"\n</md5sum>\n";
                      while(!tmp.isEmpty())
                      {
                            QPoint p = tmp.pop();
-                           out<<"<point>"<<p.x()<<" "<<p.y()<<"</point>\n";
+                           out<<"<point> "<<p.x()<<" "<<p.y()<<"\n</point>\n";
                      }
 
                 }
