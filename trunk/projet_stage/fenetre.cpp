@@ -24,7 +24,7 @@ fenetre::fenetre():flag_dock(false)
     menuFichier = menuBar()->addMenu("&Fichier");
 
     //ouvrir
-    QAction *ouvrir = menuFichier->addAction("Ouvrir");
+    QAction *ouvrir = menuFichier->addAction("Ouvrir un projet");
     ouvrir->setShortcut(QKeySequence("Ctrl+O"));
     ouvrir->setIcon(QIcon("ouvrir1.png"));
     //Enregistrer sous
@@ -57,13 +57,13 @@ fenetre::fenetre():flag_dock(false)
      //zoom avant
      zoom_in = menuAffichage->addAction("Zoom avant");
      zoom_in->setShortcut(QKeySequence("Ctrl+W"));
-     zoom_in->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
+     zoom_in->setToolTip(trUtf8("La molette de la souris peut-être aussi utilisée"));
      zoom_in->setEnabled(false);
      zoom_in->setIcon(QIcon("zoom+.png"));
      //zoom arriere
      zoom_out = menuAffichage->addAction("Zoom arriere");
      zoom_out->setShortcut(QKeySequence("Ctrl+alt+W"));
-     zoom_out->setToolTip(trUtf8("La molette de la souris peut etre aussi utilisee"));
+     zoom_out->setToolTip(trUtf8("La molette de la souris peut-être aussi utilisée"));
      zoom_out->setEnabled(false);
      zoom_out->setIcon(QIcon("zoom-.png"));
      //afficher le dock
