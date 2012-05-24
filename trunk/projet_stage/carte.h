@@ -29,7 +29,6 @@ private:
     QPoint point1;
     QPoint point2_gps;
     QPoint point2;
-    QPoint res;
 
     QRgb coul;
 

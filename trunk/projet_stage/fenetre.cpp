@@ -95,6 +95,7 @@ fenetre::fenetre():flag_dock(false)
      toolbar->addAction(effacer);
      effacer->setEnabled(false);
      effacer->setIcon(QIcon("fermer2.png"));
+     toolbar->addSeparator();
 
      //Zoom
      toolbar->addAction(zoom_in);
@@ -147,7 +148,7 @@ fenetre::fenetre():flag_dock(false)
 
     //zone coordonnées décimales
 
-    QLabel *titre = new QLabel (trUtf8("<font color=\"red\">En décimal :</font>"));
+    QLabel *titre = new QLabel (trUtf8("<font color=\"red\">En décimales :</font>"));
     VdockLayout1->addWidget(titre);
     QLabel *dd = new QLabel (trUtf8("<font color=\"green\">Premier point :</font>"));
     VdockLayout1->addWidget(dd);
@@ -199,7 +200,7 @@ fenetre::fenetre():flag_dock(false)
     VdockLayout1->addWidget(valider1);
 
     //zone coordonnées sexgésimales
-    QLabel *titre2 = new QLabel (trUtf8("<font color=\"red\">En sexagésimal :</font>"));
+    QLabel *titre2 = new QLabel (trUtf8("<font color=\"red\">En sexagésimales :</font>"));
     VdockLayout2->addWidget(titre2);
 
     QLabel *DMS1 = new QLabel (trUtf8("<font color=\"green\">Premier point en degrée minute seconde :</font>"));

@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -168,7 +168,7 @@ void carte::exporter_gpx()
     while(!tmp.isEmpty())
     {
     QPoint var = tmp.pop();
-    point_gps p = pt_gps(point1_gps,point2_gps,var);
+    point_gps p = pt_gps(point1,point2,var);
     points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
     i++;
     }
@@ -199,6 +199,10 @@ void carte::sauvegarde_sous()
                  out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
                  out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
                  out<<"<image>\n"<<source_chemin<<"\n</image>\n";
+                 out<<"<point icone>\n"<<point1_gps.x()<<"\n"<<point1_gps.y()<<"\n</point icone>\n";
+                 out<<"<point click icone>\n"<<point1.x()<<"\n"<<point1.y()<<"\n</point click icone>\n";
+                 out<<"<point1 icone>\n"<<point2_gps.x()<<"\n"<<point2_gps.y()<<"\n</point1 icone>\n";
+                 out<<"<point1 click icone>\n"<<point2.x()<<"\n"<<point2.y()<<"\n</point1 click icone>\n";
                  out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLongitude())+"\n</lon>\n";
                  out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                  while(!tmp.isEmpty())
@@ -224,6 +228,10 @@ void carte::sauvegarde_sous()
                      out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
                      out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
                      out<<"<image>\n"<<source_chemin<<"\n</image>\n";
+                     out<<"<point icone>\n"<<point1_gps.x()<<"\n"<<point1_gps.y()<<"\n</point icone>\n";
+                     out<<"<point click icone>\n"<<point1.x()<<"\n"<<point1.y()<<"\n</point click icone>\n";
+                     out<<"<point1 icone>\n"<<point2_gps.x()<<"\n"<<point2_gps.y()<<"\n</point1 icone>\n";
+                     out<<"<point1 click icone>\n"<<point2.x()<<"\n"<<point2.y()<<"\n</point1 click icone>\n";
                      out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLongitude())+"\n</lon>\n";
                      out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                      while(!tmp.isEmpty())
@@ -462,6 +470,36 @@ void carte::charger()
                    if(ligne=="<lon>") dec.setLongitude(liste.at(j+1).toDouble());
                    if(ligne=="<lat1>") dec1.setLatitude(liste.at(j+1).toDouble());
                    if(ligne=="<lon1>") dec1.setLongitude(liste.at(j+1).toDouble());
+                   if (ligne=="<point icone>") {
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+
+                        point1_gps=p;
+                    }
+                   if (ligne=="<point1 icone>") {
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+
+                        point2_gps=p;
+                    }
+                   if (ligne=="<point click icone>") {
+
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+
+                        point1=p;
+                    }
+                   if (ligne=="<point1 click icone>") {
+                        std::cout<<"point :"<<liste.at(j+1).toStdString()<<std::endl;
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+
+                        point2=p;
+                    }
                    if (ligne=="<point>") {
                         std::cout<<"point :"<<liste.at(j+1).toStdString()<<std::endl;
                         QPoint p;
@@ -485,6 +523,7 @@ void carte::charger()
 
     file.close();
     }
+    nbpoint=2;
     qDebug()<<tmp.at(0)<<" tmp1 : "<<tmp1.at(0);
 
     while(!tmp.isEmpty()){
@@ -603,7 +642,7 @@ void carte::placerFlag1(const QPoint &p)
         QPoint pt(x,y);
         std::cout<<"image 1 : "<<x<<" "<<y<<std::endl;
         nbpoint++;
-        setPoint1(pt);
+        point1_gps=pt;
 
         update();
     }
@@ -619,7 +658,7 @@ void carte::placerFlag2(const QPoint &p)
         std::cout<<"image 2 : "<<x<<" "<<y<<std::endl;
         QPoint pt(x,y);
         nbpoint++;
-        setPoint2(pt);
+        point2_gps=pt;
 
         update();
 
