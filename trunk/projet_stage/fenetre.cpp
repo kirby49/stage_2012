@@ -203,7 +203,7 @@ fenetre::fenetre():flag_dock(false)
     QLabel *titre2 = new QLabel (trUtf8("<font color=\"red\">En sexagésimales :</font>"));
     VdockLayout2->addWidget(titre2);
 
-    QLabel *DMS1 = new QLabel (trUtf8("<font color=\"green\">Premier point en degrée minute seconde :</font>"));
+    QLabel *DMS1 = new QLabel (trUtf8("<font color=\"green\">Premier point en degrés minutes secondes :</font>"));
     VdockLayout2->addWidget(DMS1);
 
     d1 = new QSpinBox(dock);
@@ -250,7 +250,7 @@ fenetre::fenetre():flag_dock(false)
     VdockLayout2->addWidget(lon2);
     VdockLayout2->addLayout(HdockLayout2);
 
-    QLabel *DMS2 = new QLabel (trUtf8("<font color=\"green\">Deuxième point en degrée minute seconde :</font>"));
+    QLabel *DMS2 = new QLabel (trUtf8("<font color=\"green\">Deuxième point en degrés minutes secondes :</font>"));
     VdockLayout2->addWidget(DMS2);
 
 
