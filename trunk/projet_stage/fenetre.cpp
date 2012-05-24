@@ -27,6 +27,11 @@ fenetre::fenetre():flag_dock(false)
     QAction *ouvrir = menuFichier->addAction("Ouvrir un projet");
     ouvrir->setShortcut(QKeySequence("Ctrl+O"));
     ouvrir->setIcon(QIcon("ouvrir1.png"));
+
+    //Charger
+    charge = menuFichier->addAction("Charger un projet");
+    charge->setShortcut(QKeySequence("Ctrl+C"));
+
     //Enregistrer sous
     save_as = menuFichier->addAction("Sauvegarder le projet sous");
     save_as->setEnabled(false);
@@ -125,6 +130,7 @@ fenetre::fenetre():flag_dock(false)
                                  //DOCK
 
     dock = new QDockWidget(trUtf8("Gestion des coordonnées :"), this);
+    dock->setFeatures(QDockWidget::DockWidgetMovable);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
     QWidget * contenuDock = new QWidget;
@@ -329,16 +335,18 @@ fenetre::fenetre():flag_dock(false)
      QObject::connect(quitter, SIGNAL(triggered()), qApp, SLOT(quit()));
      QObject::connect(ouvrir, SIGNAL(triggered()),this, SLOT(telechargerImage()));
      QObject::connect(affich_dock, SIGNAL(triggered()),this, SLOT(afficher_dock()));
-     QObject::connect(dock, SIGNAL(closeEvent()),this, SLOT(afficher_dock()));// a reprendre
      QObject::connect(save_as,SIGNAL(triggered()),this,SLOT(svg_as()));
      QObject::connect(save,SIGNAL(triggered()),this,SLOT(svg()));
+     QObject::connect(charge, SIGNAL(triggered()),this, SLOT(charger()));
+
      QObject::connect(valider1, SIGNAL(clicked()),this, SLOT(valider_dec()));
      QObject::connect(valider2, SIGNAL(clicked()),this, SLOT(valider_sexa()));
      QObject::connect(gestionnaire, SIGNAL(clicked()),this, SLOT(afficher_dock()));
 
-     QObject::connect(effacer, SIGNAL(triggered()),image, SLOT(fermerProjet()));
+     QObject::connect(effacer, SIGNAL(triggered()),this, SLOT(fermerProjet()));
      QObject::connect(zoom_in, SIGNAL(triggered()),image, SLOT(augmenter_zoom()));
      QObject::connect(zoom_out, SIGNAL(triggered()),image, SLOT(diminuer_zoom()));
+
 
      QObject::connect(reinit, SIGNAL(clicked()),image, SLOT(setNbpoint()));
      QObject::connect(exp,SIGNAL(triggered()),image,SLOT(exporter_gpx()));
@@ -346,8 +354,6 @@ fenetre::fenetre():flag_dock(false)
 
      QObject::connect(image, SIGNAL(ChangeRes()),this, SLOT(setCouleur()));
 }
-
-
 
 
     /********************************************************************/
@@ -372,7 +378,6 @@ fenetre::fenetre():flag_dock(false)
            affich_dock->setEnabled(true);
            dock->setVisible(false);
            gestionnaire->setEnabled(true);
-
            image->setFlags(1);
         }
 
@@ -478,4 +483,60 @@ fenetre::fenetre():flag_dock(false)
     {
         image->setTest_enregistrer(false);
         image->sauvegarde_sous();
+    }
+
+    void fenetre::charger()
+    {
+        image->charger();
+        if (image->test_carte()==true){
+           save_as->setEnabled(true);
+           save->setEnabled(true);
+           effacer->setEnabled(true);
+           zoom_in->setEnabled(true);
+           zoom_out->setEnabled(true);
+           affich_dock->setEnabled(true);
+           dock->setVisible(false);
+           gestionnaire->setEnabled(true);
+           la->setValue(image->getCoordDec().getLatitude());
+           lo->setValue(image->getCoordDec().getLongitude());
+           la1->setValue(image->getCoordDec1().getLatitude());
+           lo1->setValue(image->getCoordDec1().getLongitude());
+        }
+    }
+
+    void fenetre::fermerProjet()
+    {
+        image->fermerProjet();
+        image->setTest_carte(false);
+        save_as->setEnabled(false);
+        save->setEnabled(false);
+        effacer->setEnabled(false);
+        zoom_in->setEnabled(false);
+        zoom_out->setEnabled(false);
+        affich_dock->setEnabled(false);
+        dock->setVisible(false);
+        gestionnaire->setEnabled(false);
+        couleur= "background-color: rgb(255,255,255);";
+        label->setStyleSheet(couleur);
+
+        la->setValue(0);
+        lo->setValue(0);
+        la1->setValue(0);
+        lo1->setValue(0);
+
+        d1->setValue(0);
+        m1->setValue(0);
+        s1->setValue(0);
+        dd1->setValue(0);
+        mm1->setValue(0);
+        ss1->setValue(0);
+        d2->setValue(0);
+        m2->setValue(0);
+        s2->setValue(0);
+        dd2->setValue(0);
+        mm2->setValue(0);
+        ss2->setValue(0);
+
+        image->setFlags(0);
+        update();
     }

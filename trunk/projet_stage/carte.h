@@ -39,9 +39,11 @@ private:
     coord_decimal dec1;
 
     QStack<QPoint>pile;
+    QStack<QPoint>pile_release;
 
     QString md5;
     QString source;
+    QString source_chemin;
 
     bool carteDessiner;
     bool coord_gps;
@@ -95,12 +97,14 @@ public:
     point_gps pt_gps (QPoint a, QPoint b,QPoint c);
 
     void sauvegarde_sous();
-    void charger();
 
     bool test_carte();
-
+    void setTest_carte(bool b);
     bool test_enregistrer();
     void setTest_enregistrer(bool b);
+
+    void calcul_md5(QString src);
+    void charger();
     /*
     double longueur(QPoint pt, QPoint pt1);
     double angleA(QPoint a, QPoint b, QPoint c);

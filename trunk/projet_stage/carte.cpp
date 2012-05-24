@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),res(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -89,9 +89,25 @@ void carte::setTest_enregistrer(bool b)
    enregistrer=b;
 }
 
-//fonctions
-void carte::afficherCarte(QString chemin){
+void carte::setTest_carte(bool b)
+{
+    carteDessiner=b;
+}
 
+//fonctions
+void carte::calcul_md5(QString src)
+{
+    QFile image (src);
+    if (image.open(QFile::ReadOnly)) {
+        QByteArray contenuFichier = image.readAll();
+        QByteArray hashData = QCryptographicHash::hash(contenuFichier,QCryptographicHash::Md5);
+        md5= hashData.toHex();
+    }
+}
+
+
+void carte::afficherCarte(QString chemin){
+    source_chemin= chemin;
     if (!chemin.isNull()) {
     echelle= 1.0;
     imageCarte= new QImage(chemin);
@@ -123,12 +139,11 @@ void carte::afficherCarte(QString chemin){
         pile.pop();
     }
 
-    QFile image (chemin);
-    if (image.open(QFile::ReadOnly)) {
-        QByteArray contenuFichier = image.readAll();
-        QByteArray hashData = QCryptographicHash::hash(contenuFichier,QCryptographicHash::Md5);
-        md5= hashData.toHex();
+    while(!pile_release.isEmpty()){
+        pile_release.pop();
     }
+
+    calcul_md5(chemin);
 
     p1=new QImage("gps2.png");
     p2=new QImage("gps2.png");
@@ -136,12 +151,14 @@ void carte::afficherCarte(QString chemin){
     //std::cout<<"hauteur : "<<hauteur<<std::endl;
     //std::cout<<"largeur : "<<largeur<<std::endl;
     update();
+
     }
+
 }
 
 void carte::exporter_gpx()
 {
-    QString str = QFileDialog::getExistingDirectory(this);// QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/SansTitre.gpx",tr("Fichier (*.gpx)"));
+    QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDate::currentDate().toString()+".gpx",tr("Fichier (*.gpx)"));
     QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
     QString fin = "</trkseg>\n</trk>\n</gpx>";
     QString points = "";
@@ -156,7 +173,7 @@ void carte::exporter_gpx()
     i++;
     }
 
-    str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
+    //str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
 
     QFile file(str);
     if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
@@ -169,85 +186,58 @@ void carte::exporter_gpx()
 void carte::sauvegarde_sous()
 {
     if (enregistrer==false){
-        source = QFileDialog::getExistingDirectory(this,trUtf8("Sauvegarder le projet "),"/home", QFileDialog::ShowDirsOnly);//QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),QString(),trUtf8("Fichier (*.xml)"));
+        source = QFileDialog::getSaveFileName(this, trUtf8("Sauvegarder le projet "),"/home/projet_gpx-"+QDateTime::currentDateTime().toString()+".xml",trUtf8("Fichier (*.xml)"));
         QStack<QPoint> tmp = pile;
+        QStack<QPoint> tmp1 = pile_release;
         if (source=="") enregistrer = false;
         else {
-            source=source+"/projet_gpx-"+QDateTime::currentDateTime().toString()+".xml";//voir comment mieux utiliser le chemin voir a créer un dossier
+           // source=source+"/projet_gpx-"+QDateTime::currentDateTime().toString()+".xml";//voir comment mieux utiliser le chemin voir a créer un dossier
             QFile file(source);
 
             if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
                  QTextStream out(&file);
                  out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
                  out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
-                 out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLatitude())+"\n</lon>\n";
+                 out<<"<image>\n"<<source_chemin<<"\n</image>\n";
+                 out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLongitude())+"\n</lon>\n";
                  out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                  while(!tmp.isEmpty())
                  {
                        QPoint p = tmp.pop();
                        out<<"<point>\n"<<p.x()<<"\n"<<p.y()<<"\n</point>\n";
+                       QPoint p1 = tmp1.pop();
+                       out<<"<point release>\n"<<p1.x()<<"\n"<<p1.y()<<"\n</point realease>\n";
+
                  }
+                 file.close();
             }
             enregistrer = true;
-            file.close();
+
         }
     } else if (enregistrer==true){
 
                 QStack<QPoint> tmp = pile;
+                QStack<QPoint> tmp1 = pile_release;
                 QFile file(source);
                 if (file.open(QFile::WriteOnly| QIODevice::Text | QIODevice::Truncate)) {
                      QTextStream out(&file);
                      out<<"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
                      out<<"<md5sum>\n"<<md5<<"\n</md5sum>\n";
+                     out<<"<image>\n"<<source_chemin<<"\n</image>\n";
                      out<<"<lat>\n"+QString::number(dec.getLatitude())+"\n</lat>\n<lon>\n"+QString::number(dec.getLongitude())+"\n</lon>\n";
                      out<<"<lat1>\n"+QString::number(dec1.getLatitude())+"\n</lat1>\n<lon1>\n"+QString::number(dec1.getLongitude())+"\n</lon1>\n";
                      while(!tmp.isEmpty())
                      {
                            QPoint p = tmp.pop();
                            out<<"<point>\n"<<p.x()<<"\n"<<p.y()<<"\n</point>\n";
+                           QPoint p1 = tmp1.pop();
+                           out<<"<point release>\n"<<p1.x()<<"\n"<<p1.y()<<"\n</point realease>\n";
                      }
-
+                    file.close();
                 }
-                file.close();
+
             }
 
-}
-void carte::charger()
-{
-    QString fichier = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
-    QFile file(fichier);
-
-    if (file.open(QFile::ReadOnly| QIODevice::Text | QIODevice::Truncate)) {
-         QTextStream in(&file);
-
-         /*QString ligne = in.readLine(1);//attention vérifié si part de 1 ou de 0
-             if (compare(ligne,"<md5sum> ",Qt::CaseInsensitive)==0) {
-                 QString md5s = in.readline(2);
-                 if (compare() {
-                    dec.setLatitude= QString::number(in.readLine(5));
-                    dec.setLongitude= QString::number(in.readLine(8));
-                    dec1.setLatitude= QString::number(in.readLine(11));
-                    dec1.setLongitude= QString::number(in.readLine(14));
-                    //attention penser a l'implémentation d'un commentaire sur une route
-
-                    QString point = read
-                    if (compare(,,Qt::CaseInsensitive)){
-
-                        while(!in.atEnd())
-                        {
-
-                        }
-
-                    }
-
-
-                 } else QMessageBox::critical(this, "Attention", trUtf8("L'image chargée n'est pas la même que celle du projet sauvegarder. Merci de charger celle qui convient."));
-         }*/
-
-
-    }
-
-    file.close();
 }
 
 void carte::zoom(float valeur){
@@ -259,11 +249,13 @@ void carte::zoom(float valeur){
 
 void carte::dessinerChemin(const QPoint &p){
 
+    qDebug()<<"dessiner chemin";
     //parcours entier de la carte
     //parcoursImageAffichage();
 
     // capture point de release souris
     point_release=p;
+    pile_release.push(p);
 
      // tracer départ du chemin
     tracerZone(point_click,coul);
@@ -434,6 +426,81 @@ void carte::sauvegardeItineraire(const QPoint &p){
 
 }
 
+void carte::charger()
+{
+
+    QString fichier = QFileDialog::getOpenFileName(this, "Charger un projet", "/home", "Fichier (*.xml)");
+    QFile file(fichier);
+    QStack<QPoint> tmp;
+    QStack<QPoint> tmp1;
+    if (file.open(QFile::ReadOnly| QIODevice::Text | QIODevice::Truncate)) {
+         flags=1;
+         QTextStream in(&file);
+         QStringList liste;
+         QString ligne;
+         QString src;
+         while(!in.atEnd()){
+           ligne = in.readLine();
+           liste+=ligne;
+           }
+
+         bool valid = file.exists(liste.at(5));
+         if (!valid) { src = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Images (*.png *.gif *.jpg *.jpeg)");
+
+         } else src = liste.at(5);
+
+
+         calcul_md5(src);
+         QString md5s = liste.at(2);
+         std::cout<<"md5 :"<<md5.toStdString()<<" md5s :"<<md5s.toStdString()<<std::endl;
+         if (md5==md5s) {
+               for(int j=0;j<liste.size();j++) {
+                   ligne = liste.at(j);
+                   if(ligne=="<image>") afficherCarte(src);
+
+                   if(ligne=="<lat>") dec.setLatitude(liste.at(j+1).toDouble());
+                   if(ligne=="<lon>") dec.setLongitude(liste.at(j+1).toDouble());
+                   if(ligne=="<lat1>") dec1.setLatitude(liste.at(j+1).toDouble());
+                   if(ligne=="<lon1>") dec1.setLongitude(liste.at(j+1).toDouble());
+                   if (ligne=="<point>") {
+                        std::cout<<"point :"<<liste.at(j+1).toStdString()<<std::endl;
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+                        std::cout<<"point click :"<<p.x()<<""<<p.y()<<std::endl;
+                        tmp.push(p);
+                    }
+                   if (ligne=="<point release>") {
+                        QPoint p;
+                        p.setX(liste.at(j+1).toInt());
+                        p.setY(liste.at(j+2).toInt());
+                        std::cout<<"point release:"<<p.x()<<""<<p.y()<<std::endl;
+                        tmp1.push(p);
+                    }
+                   std::cout<<"affichage :"<<liste.at(j).toStdString()<<std::endl;
+               }
+              // std::cout<<"lat : "<<dec.getLatitude()<<" lon : "<<dec.getLongitude()<<std::endl;
+               // std::cout<<"lat : "<<dec1.getLatitude()<<" lon : "<<dec1.getLongitude()<<std::endl;
+         } else QMessageBox::critical(this, "Attention", trUtf8("L'image chargée n'est pas la même que celle du projet sauvegarder. Merci de charger celle qui convient."));
+
+    file.close();
+    }
+    qDebug()<<tmp.at(0)<<" tmp1 : "<<tmp1.at(0);
+
+    while(!tmp.isEmpty()){
+        if (!tmp1.isEmpty()) {
+            point_click = tmp.pop();
+            attributCouleur(point_click);
+            sauvegardeItineraire(point_click);
+            dessinerChemin(tmp1.pop());
+
+         } else QMessageBox::critical(this, "Attention", trUtf8("Le fichier est corrompu !"));
+
+    }
+    if (!tmp1.isEmpty()) dessinerChemin(tmp1.pop());
+
+}
+
 point_gps carte::pt_gps(QPoint a, QPoint b, QPoint c)
 {
 
@@ -500,7 +567,7 @@ void carte::attributCouleur(const QPoint &p){
     setPoint(p);
     pt = imageCarte->pixel(p);
     point_depart=p;
-    setCouleur(pt);
+    coul=pt;
 }
 
 void carte::fermerProjet(){
@@ -512,12 +579,19 @@ void carte::fermerProjet(){
   tracerChemin= new QImage(newImage);
   imageAffichage=new QImage(newImage);
   copieTailleNormale=new QImage(newImage);
+
   p1= new QImage();
   p2= new QImage();
   setFlags(0);
-  update();
+  dec.setLatitude(0);
+  dec.setLongitude(0);
+  dec1.setLatitude(0);
+  dec1.setLongitude(0);
 
-;
+  update();
+// penser a remettre la couleur a blanc
+
+
 }
 
 void carte::placerFlag1(const QPoint &p)
@@ -596,9 +670,7 @@ void carte::paintEvent(QPaintEvent *event)
 
 void carte::mousePressEvent(QMouseEvent *event)
 {
-    //dec.toSexagesimal();
-    //std::cout<<"dec to sexa : "<<<<" "<<event->y()<<std::endl;
-    std::cout<<"sexa to dec : "<<event->x()<<" "<<event->y()<<std::endl;
+
     //std::cout<<"click : "<<event->x()<<" "<<event->y()<<std::endl;
     if ((carteDessiner)&&(flags==1)){
            if (event->button() == Qt::LeftButton)
