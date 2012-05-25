@@ -92,7 +92,7 @@ public:
 
 
     int getFlags();
-    void setFlags(int f);//permet de donner un ordre d'exécution au logiciel un déroulé des données: 0 pour le lancement, 2 pour la saisie des points gps, 1 pour la construction du chemin
+    void setFlags(int f);
 
     point_gps pt_gps (QPoint a, QPoint b,QPoint c);
 
@@ -105,16 +105,6 @@ public:
 
     void calcul_md5(QString src);
     void charger();
-    /*
-    double longueur(QPoint pt, QPoint pt1);
-    double angleA(QPoint a, QPoint b, QPoint c);
-    double angleB(QPoint a, QPoint b, QPoint c);
-    double angleC(QPoint a, QPoint b, QPoint c);
-    //double pointX(double x, double ac, double ab, double )
-    double aire(QPoint a, QPoint b, QPoint c);
-    double H(coord_decimal pt, coord_decimal pt1,double air);
-    */
-
 
 
 signals:
