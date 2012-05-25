@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),nbpoint(0),flags(0),etendueZone(10)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),tracer(false),nbpoint(0),flags(0),etendueZone(10)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -158,28 +158,30 @@ void carte::afficherCarte(QString chemin){
 
 void carte::exporter_gpx()
 {
-    QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDate::currentDate().toString()+".gpx",tr("Fichier (*.gpx)"));
-    QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
-    QString fin = "</trkseg>\n</trk>\n</gpx>";
-    QString points = "";
-    int i=0;
-    QStack<QPoint> tmp = pile;
+    if (tracer==true) {
+        QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDate::currentDate().toString()+".gpx",tr("Fichier (*.gpx)"));
+        QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
+        QString fin = "</trkseg>\n</trk>\n</gpx>";
+        QString points = "";
+        int i=0;
+        QStack<QPoint> tmp = pile;
 
-    while(!tmp.isEmpty())
-    {
-    QPoint var = tmp.pop();
-    point_gps p = pt_gps(point1,point2,var);
-    points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
-    i++;
-    }
+        while(!tmp.isEmpty())
+        {
+        QPoint var = tmp.pop();
+        point_gps p = pt_gps(point1,point2,var);
+        points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
+        i++;
+        }
 
-    //str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
+        //str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
 
-    QFile file(str);
-    if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
-         QTextStream out(&file);
-         out << entete<< points << fin;
-    } else QMessageBox::critical(this, "Attention : ", trUtf8("Impossible d'enregistrer le fichier à cet emplacement. Merci de choisir un emplacement valide."));
+        QFile file(str);
+        if (file.open(QFile::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+             QTextStream out(&file);
+             out << entete<< points << fin;
+        } else QMessageBox::critical(this, "Attention : ", trUtf8("Impossible d'enregistrer le fichier à cet emplacement. Merci de choisir un emplacement valide."));
+    } else QMessageBox::critical(this, "Attention : ", trUtf8("Un chemin doit-être d'abord tracé."));
 }
 
 
@@ -264,6 +266,7 @@ void carte::dessinerChemin(const QPoint &p){
     // capture point de release souris
     point_release=p;
     pile_release.push(p);
+    tracer=true;
 
      // tracer départ du chemin
     tracerZone(point_click,coul);
@@ -618,7 +621,7 @@ void carte::fermerProjet(){
   tracerChemin= new QImage(newImage);
   imageAffichage=new QImage(newImage);
   copieTailleNormale=new QImage(newImage);
-
+  tracer=false;
   p1= new QImage();
   p2= new QImage();
   setFlags(0);

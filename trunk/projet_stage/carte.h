@@ -47,6 +47,7 @@ private:
     bool carteDessiner;
     bool coord_gps;
     bool enregistrer;
+    bool tracer;
 
     float echelle;
 
