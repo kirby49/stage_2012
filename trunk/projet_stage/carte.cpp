@@ -160,7 +160,7 @@ void carte::exporter_gpx()
 {
     if (tracer==true) {
         QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDate::currentDate().toString()+".gpx",tr("Fichier (*.gpx)"));
-        QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Tracking GPS</name>\n<trkseg>\n";
+        QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Hicker Path</name>\n<trkseg>\n";
         QString fin = "</trkseg>\n</trk>\n</gpx>";
         QString points = "";
         int i=0;
@@ -170,7 +170,7 @@ void carte::exporter_gpx()
         {
         QPoint var = tmp.pop();
         point_gps p = pt_gps(point1,point2,var);
-        points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";
+        points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";// attention à reprendre pas sur du resultat
         i++;
         }
 
