@@ -159,19 +159,26 @@ void carte::afficherCarte(QString chemin){
 void carte::exporter_gpx()
 {
     if (tracer==true) {
-        QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDate::currentDate().toString()+".gpx",tr("Fichier (*.gpx)"));
+        QString str =  QFileDialog::getSaveFileName(this, tr("Exporter le projet en .gpx"),"/home/Export_gpx"+QDateTime::currentDateTime().toString()+".gpx",tr("Fichier (*.gpx)"));
         QString entete = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<gpx version=\"1.1\"creator=\"Projet Stage RAKOTONIARY SOMBI @ BEILLEAU QUENTIN\">\n<trk>\n<name>Hicker Path</name>\n<trkseg>\n";
         QString fin = "</trkseg>\n</trk>\n</gpx>";
         QString points = "";
         int i=0;
-        QStack<QPoint> tmp = pile;
+        QStack<QPoint> tmp;
+
+        while(!pile.isEmpty())
+        {
+            tmp.push(pile.pop());
+
+        }
+
 
         while(!tmp.isEmpty())
         {
-        QPoint var = tmp.pop();
-        point_gps p = pt_gps(point1,point2,var);
-        points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";// attention à reprendre pas sur du resultat
-        i++;
+            QPoint var = tmp.pop();
+            point_gps p = pt_gps(point1,point2,var);
+            points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";// attention à reprendre pas sur du resultat
+            i++;
         }
 
         //str = str+"/Export_gpx"+QDate::currentDate().toString()+".gpx";//voir comment mieux utiliser le chemin voir a créer un dossier
@@ -624,6 +631,12 @@ void carte::fermerProjet(){
   tracer=false;
   p1= new QImage();
   p2= new QImage();
+  QPoint pt(0,0);
+  point1_gps=pt;
+  point2_gps=pt;
+  point1=pt;
+  point2=pt;
+  nbpoint=0;
   setFlags(0);
   dec.setLatitude(0);
   dec.setLongitude(0);
