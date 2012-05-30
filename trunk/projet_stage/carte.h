@@ -48,6 +48,7 @@ private:
     bool coord_gps;
     bool enregistrer;
     bool tracer;
+    bool point_valider;
 
     float echelle;
 
@@ -102,6 +103,10 @@ public:
     void setTest_carte(bool b);
     bool test_enregistrer();
     void setTest_enregistrer(bool b);
+    bool test_trace();
+    void setTest_trace(bool b);
+    bool test_point_valider();
+    void setPoint_valider(bool b);
 
     void calcul_md5(QString src);
     void charger();

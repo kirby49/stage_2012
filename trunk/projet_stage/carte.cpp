@@ -4,7 +4,7 @@
 
 
 //constructeur
-carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),tracer(false),nbpoint(0),flags(0),etendueZone(10)
+carte::carte():point_click(0,0),point_depart(0,0),point_release(0,0),point1_gps(0,0),point1(0,0),point2_gps(0,0),point2(0,0),coul(255255255),md5(""),source(""),source_chemin(""),carteDessiner(false),coord_gps(false),enregistrer(false),tracer(false), point_valider(false), nbpoint(0),flags(0),etendueZone(10)
 {
 
     //largeur= QApplication::desktop()->width()-100;
@@ -48,6 +48,10 @@ bool carte::test_carte() {return carteDessiner;}
 
 bool carte::test_enregistrer() { return enregistrer;}
 
+bool carte::test_trace() { return tracer;}
+
+bool carte::test_point_valider() { return point_valider;}
+
 
 //mutateur
 void carte::setCartedessiner(bool choix) {carteDessiner= choix;}
@@ -84,15 +88,13 @@ void carte::setCoordSeg(int d1, int m1,double s1,int dd1, int mm1,double ss1,int
 
 }
 
-void carte::setTest_enregistrer(bool b)
-{
-   enregistrer=b;
-}
+void carte::setTest_enregistrer(bool b) {  enregistrer=b;}
 
-void carte::setTest_carte(bool b)
-{
-    carteDessiner=b;
-}
+void carte::setTest_carte(bool b){ carteDessiner=b;}
+
+void carte::setTest_trace(bool b){tracer=b;}
+
+void carte::setPoint_valider(bool b){point_valider=b;}
 
 //fonctions
 void carte::calcul_md5(QString src)
@@ -177,7 +179,7 @@ void carte::exporter_gpx()
         {
             QPoint var = tmp.pop();
             point_gps p = pt_gps(point1,point2,var);
-            points =points+" <trkpt lat="+QString::number(p.X())+" lon="+QString::number(p.Y())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";// attention à reprendre pas sur du resultat
+            points =points+" <trkpt lat="+QString::number(p.Y())+" lon="+QString::number(p.X())+"><cmt>Point "+QString::number(i)+"</cmt></trkpt>\n";// attention à reprendre pas sur du resultat
             i++;
         }
 
@@ -472,6 +474,8 @@ void carte::charger()
          QString md5s = liste.at(2);
          std::cout<<"md5 :"<<md5.toStdString()<<" md5s :"<<md5s.toStdString()<<std::endl;
          if (md5==md5s) {
+               point_valider=true;
+               tracer=true;
                for(int j=0;j<liste.size();j++) {
                    ligne = liste.at(j);
                    if(ligne=="<image>") afficherCarte(src);
@@ -629,6 +633,9 @@ void carte::fermerProjet(){
   imageAffichage=new QImage(newImage);
   copieTailleNormale=new QImage(newImage);
   tracer=false;
+  carteDessiner=false;
+  enregistrer=false;
+  point_valider=false;
   p1= new QImage();
   p2= new QImage();
   QPoint pt(0,0);
